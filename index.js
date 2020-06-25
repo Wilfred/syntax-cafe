@@ -2,7 +2,7 @@ let P = require("parsimmon");
 
 const parser = P.createLanguage({
   Value: function(r) {
-    return P.alt(r.Number, r.Symbol, r.String, r.List);
+    return P.alt(r.Number, r.Symbol, r.String, r.List).trim(r._);
   },
   Number: function() {
     return P.regexp(/[0-9]+/).map(Number);

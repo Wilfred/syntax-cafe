@@ -1,6 +1,7 @@
 let P = require("parsimmon");
 
 const parser = P.createLanguage({
+  Program: r => r.Value.many().node("Program"),
   Value: function(r) {
     return P.alt(r.Number, r.Symbol, r.String, r.List).trim(r._);
   },
@@ -26,7 +27,7 @@ const parser = P.createLanguage({
 const inputNode = document.getElementById("input");
 
 setInterval(function() {
-  const result = parser.Value.parse(inputNode.value);
+  const result = parser.Program.parse(inputNode.value);
   document.getElementById("output").textContent = JSON.stringify(
     result,
     null,

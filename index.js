@@ -1,9 +1,12 @@
 let P = require("parsimmon");
 
 const parser = P.createLanguage({
-  Program: r => r.Value.many().node("Program"),
+  Program: r =>
+    r.Value.sepBy(r._)
+      .trim(r._)
+      .node("Program"),
   Value: function(r) {
-    return P.alt(r.Number, r.Symbol, r.String, r.List).trim(r._);
+    return P.alt(r.Number, r.Symbol, r.String, r.List);
   },
   Number: function() {
     return P.regexp(/[0-9]+/).map(Number);

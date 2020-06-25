@@ -27,5 +27,9 @@ const inputNode = document.getElementById("input");
 
 setInterval(function() {
   const result = parser.Value.parse(inputNode.value);
-  document.getElementById("output").textContent = JSON.stringify(result);
+  document.getElementById("output").textContent = JSON.stringify(
+    result,
+    null,
+    "  "
+  );
 }, 300);

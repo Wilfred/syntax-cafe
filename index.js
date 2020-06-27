@@ -1,45 +1,12 @@
 const P = require("parsimmon");
 const CodeMirror = require("codemirror");
+const buildParser = require("./parsing").buildParser;
 
 require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
 require("codemirror/addon/mode/simple");
 
 const COMMENT_REGEXP = /\s*;[^\n]*\s*/;
-
-function buildParser(commentRegexp) {
-  return P.createLanguage({
-    Program: r =>
-      r.Value.sepBy(r._)
-        .trim(r._)
-        .node("Program"),
-    Value: function(r) {
-      return P.alt(r.Number, r.Symbol, r.String, r.List);
-    },
-    Number: function() {
-      return P.regexp(/[0-9]+/).map(Number);
-    },
-    Symbol: function() {
-      return P.regexp(/[a-z]+/);
-    },
-    String: function() {
-      return P.regexp(/"((?:\\.|.)*?)"/, 1);
-    },
-    List: function(r) {
-      return P.string("(")
-        .then(r._)
-        .then(r.Value.sepBy(r._))
-        .skip(P.string(")"));
-    },
-    Comment: () => P.regexp(commentRegexp),
-    _: function(r) {
-      return P.alt(
-        P.seq(P.optWhitespace, r.Comment, P.optWhitespace),
-        P.optWhitespace
-      );
-    }
-  });
-}
 
 function defineLangplzMode(commentRegexp) {
   CodeMirror.defineSimpleMode("langplz", {

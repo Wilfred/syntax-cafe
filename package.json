@@ -8,7 +8,7 @@
     "start": "parcel index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Wilfred Hughes",
   "license": "ISC",
   "dependencies": {
     "bulma": "^0.9.0",

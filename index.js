@@ -8,7 +8,7 @@ require("codemirror/addon/mode/simple");
 const COMMENT_REGEXP = /\s*;[^\n]*\s*/;
 
 function buildParser(commentRegexp) {
-  const parser = P.createLanguage({
+  return P.createLanguage({
     Program: r =>
       r.Value.sepBy(r._)
         .trim(r._)

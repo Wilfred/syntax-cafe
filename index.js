@@ -3,6 +3,7 @@ const CodeMirror = require("codemirror");
 
 require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
+require("codemirror/addon/mode/simple");
 
 const parser = P.createLanguage({
   Program: r =>
@@ -36,11 +37,20 @@ const parser = P.createLanguage({
   }
 });
 
+// TODO: recycle from grammar above.
+CodeMirror.defineSimpleMode("langplz", {
+  start: [
+    { regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string" },
+    { regex: /;.*/, token: "comment" }
+  ]
+});
+
 const inputNode = document.getElementById("input");
 const editor = CodeMirror.fromTextArea(inputNode, {
   lineNumbers: true,
   styleActiveLine: true,
   matchBrackets: true,
+  mode: "langplz",
   theme: "material-palenight"
 });
 

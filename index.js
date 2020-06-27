@@ -22,8 +22,12 @@ const parser = P.createLanguage({
       .then(r.Value.sepBy(r._))
       .skip(P.string(")"));
   },
-  _: function() {
-    return P.optWhitespace;
+  Comment: () => P.regexp(/\s*;[^\n]*\s*/),
+  _: function(r) {
+    return P.alt(
+      P.seq(P.optWhitespace, r.Comment, P.optWhitespace),
+      P.optWhitespace
+    );
   }
 });
 

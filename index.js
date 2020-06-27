@@ -1,4 +1,8 @@
 const P = require("parsimmon");
+const CodeMirror = require("codemirror");
+
+require("codemirror/addon/selection/active-line");
+require("codemirror/addon/edit/matchbrackets");
 
 const parser = P.createLanguage({
   Program: r =>
@@ -32,9 +36,15 @@ const parser = P.createLanguage({
 });
 
 const inputNode = document.getElementById("input");
+const editor = CodeMirror.fromTextArea(inputNode, {
+  lineNumbers: true,
+  styleActiveLine: true,
+  matchBrackets: true,
+  theme: "material-palenight"
+});
 
 setInterval(() => {
-  const s = inputNode.value;
+  const s = editor.getValue();
   const result = parser.Program.parse(s);
   if (!result.status) {
     document.getElementById("output").textContent = P.formatError(s, result);

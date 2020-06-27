@@ -41,24 +41,33 @@ function buildParser(commentRegexp) {
   });
 }
 
-CodeMirror.defineSimpleMode("langplz", {
-  start: [
-    { regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string" },
-    { regex: COMMENT_REGEXP, token: "comment" }
-  ]
-});
+function defineLangplzMode(commentRegexp) {
+  CodeMirror.defineSimpleMode("langplz", {
+    start: [
+      { regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string" },
+      { regex: commentRegexp, token: "comment" }
+    ]
+  });
+}
 
 const inputNode = document.getElementById("input");
+const commentNode = document.getElementById("comment");
+
 const editor = CodeMirror.fromTextArea(inputNode, {
   lineNumbers: true,
   styleActiveLine: true,
   matchBrackets: true,
-  mode: "langplz",
   theme: "material-palenight"
 });
 
 setInterval(() => {
-  const parser = buildParser(COMMENT_REGEXP);
+  let commentPrefixChar = commentNode.value;
+  let commentRegexp = new RegExp("\\s*" + commentPrefixChar + "[^\n]*\\s*");
+
+  defineLangplzMode(commentRegexp);
+  editor.setOption("mode", "langplz");
+
+  const parser = buildParser(commentRegexp);
   const s = editor.getValue();
   const result = parser.Program.parse(s);
   if (!result.status) {

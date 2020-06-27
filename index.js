@@ -1,4 +1,4 @@
-let P = require("parsimmon");
+const P = require("parsimmon");
 
 const parser = P.createLanguage({
   Program: r =>
@@ -33,7 +33,7 @@ const parser = P.createLanguage({
 
 const inputNode = document.getElementById("input");
 
-setInterval(function() {
+setInterval(() => {
   const s = inputNode.value;
   const result = parser.Program.parse(s);
   if (!result.status) {

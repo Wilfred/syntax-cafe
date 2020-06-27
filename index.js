@@ -6,8 +6,6 @@ require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
 require("codemirror/addon/mode/simple");
 
-const COMMENT_REGEXP = /\s*;[^\n]*\s*/;
-
 function defineLangplzMode(commentRegexp) {
   CodeMirror.defineSimpleMode("langplz", {
     start: [

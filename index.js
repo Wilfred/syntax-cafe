@@ -5,43 +5,46 @@ require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
 require("codemirror/addon/mode/simple");
 
-const parser = P.createLanguage({
-  Program: r =>
-    r.Value.sepBy(r._)
-      .trim(r._)
-      .node("Program"),
-  Value: function(r) {
-    return P.alt(r.Number, r.Symbol, r.String, r.List);
-  },
-  Number: function() {
-    return P.regexp(/[0-9]+/).map(Number);
-  },
-  Symbol: function() {
-    return P.regexp(/[a-z]+/);
-  },
-  String: function() {
-    return P.regexp(/"((?:\\.|.)*?)"/, 1);
-  },
-  List: function(r) {
-    return P.string("(")
-      .then(r._)
-      .then(r.Value.sepBy(r._))
-      .skip(P.string(")"));
-  },
-  Comment: () => P.regexp(/\s*;[^\n]*\s*/),
-  _: function(r) {
-    return P.alt(
-      P.seq(P.optWhitespace, r.Comment, P.optWhitespace),
-      P.optWhitespace
-    );
-  }
-});
+const COMMENT_REGEXP = /\s*;[^\n]*\s*/;
 
-// TODO: recycle from grammar above.
+function buildParser(commentRegexp) {
+  const parser = P.createLanguage({
+    Program: r =>
+      r.Value.sepBy(r._)
+        .trim(r._)
+        .node("Program"),
+    Value: function(r) {
+      return P.alt(r.Number, r.Symbol, r.String, r.List);
+    },
+    Number: function() {
+      return P.regexp(/[0-9]+/).map(Number);
+    },
+    Symbol: function() {
+      return P.regexp(/[a-z]+/);
+    },
+    String: function() {
+      return P.regexp(/"((?:\\.|.)*?)"/, 1);
+    },
+    List: function(r) {
+      return P.string("(")
+        .then(r._)
+        .then(r.Value.sepBy(r._))
+        .skip(P.string(")"));
+    },
+    Comment: () => P.regexp(commentRegexp),
+    _: function(r) {
+      return P.alt(
+        P.seq(P.optWhitespace, r.Comment, P.optWhitespace),
+        P.optWhitespace
+      );
+    }
+  });
+}
+
 CodeMirror.defineSimpleMode("langplz", {
   start: [
     { regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string" },
-    { regex: /;.*/, token: "comment" }
+    { regex: COMMENT_REGEXP, token: "comment" }
   ]
 });
 
@@ -55,6 +58,7 @@ const editor = CodeMirror.fromTextArea(inputNode, {
 });
 
 setInterval(() => {
+  const parser = buildParser(COMMENT_REGEXP);
   const s = editor.getValue();
   const result = parser.Program.parse(s);
   if (!result.status) {

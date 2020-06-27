@@ -34,10 +34,15 @@ const parser = P.createLanguage({
 const inputNode = document.getElementById("input");
 
 setInterval(function() {
-  const result = parser.Program.parse(inputNode.value);
-  document.getElementById("output").textContent = JSON.stringify(
-    result,
-    null,
-    "  "
-  );
+  const s = inputNode.value;
+  const result = parser.Program.parse(s);
+  if (!result.status) {
+    document.getElementById("output").textContent = P.formatError(s, result);
+  } else {
+    document.getElementById("output").textContent = JSON.stringify(
+      result.value,
+      null,
+      "  "
+    );
+  }
 }, 300);

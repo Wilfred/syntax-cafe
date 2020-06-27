@@ -23,6 +23,7 @@ const parser = P.createLanguage({
   },
   List: function(r) {
     return P.string("(")
+      .then(r._)
       .then(r.Value.sepBy(r._))
       .skip(P.string(")"));
   },

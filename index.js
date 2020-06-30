@@ -25,6 +25,8 @@ const editor = CodeMirror.fromTextArea(inputNode, {
   theme: "material-palenight"
 });
 
+let markers = [];
+
 setInterval(() => {
   let commentPrefixChar = commentNode.value;
   let commentRegexp = new RegExp("\\s*" + commentPrefixChar + "[^\n]*\\s*");
@@ -35,7 +37,23 @@ setInterval(() => {
   const parser = buildParser(commentRegexp);
   const s = editor.getValue();
   const result = parser.Program.parse(s);
+
+  markers.forEach(m => {
+    m.clear();
+  });
+  markers = [];
+
   if (!result.status) {
+    let pos = { line: result.index.line - 1, ch: result.index.column - 1 };
+    let endPos = { line: result.index.line - 1, ch: result.index.column };
+
+    const m = editor.markText(pos, endPos, {
+      className: "syntax-error",
+      title: "foo",
+      css: "border-bottom: 1px dotted red;"
+    });
+    markers.push(m);
+
     document.getElementById("output").textContent = P.formatError(s, result);
   } else {
     document.getElementById("output").textContent = JSON.stringify(

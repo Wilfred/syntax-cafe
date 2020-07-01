@@ -60,9 +60,12 @@ setInterval(() => {
     });
     markers.push(m);
 
-    document.getElementById("output").textContent = P.formatError(s, result);
+    document.getElementById("ast-output").textContent = P.formatError(
+      s,
+      result
+    );
   } else {
-    document.getElementById("output").textContent = JSON.stringify(
+    document.getElementById("ast-output").textContent = JSON.stringify(
       result.value,
       null,
       "  "

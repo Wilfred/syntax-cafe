@@ -1,10 +1,13 @@
+const outputElem = document.getElementById("output");
+
 function print(args) {
-  console.log(args[0]);
+  outputElem.textContent = args[0];
 }
 
 const env = { print: print };
 
 function run(expr) {
+  outputElem.textContent = "";
   if (expr.length === 0) {
     // TODO: error in UI
     console.error("Not a valid expression.");

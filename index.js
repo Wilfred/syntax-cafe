@@ -25,11 +25,15 @@ const editor = CodeMirror.fromTextArea(inputNode, {
   theme: "material-palenight"
 });
 
+function getCommentRegexp() {
+  const commentPrefixChar = commentNode.value;
+  return new RegExp("\\s*" + commentPrefixChar + "[^\n]*\\s*");
+}
+
 let markers = [];
 
 setInterval(() => {
-  let commentPrefixChar = commentNode.value;
-  let commentRegexp = new RegExp("\\s*" + commentPrefixChar + "[^\n]*\\s*");
+  let commentRegexp = getCommentRegexp();
 
   defineLangplzMode(commentRegexp);
   editor.setOption("mode", "langplz");

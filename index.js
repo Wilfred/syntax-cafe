@@ -2,6 +2,7 @@ const P = require("parsimmon");
 const CodeMirror = require("codemirror");
 const escape = require("regexp.escape");
 const buildParser = require("./parsing").buildParser;
+const run = require("./interpreter").run;
 
 require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
@@ -68,3 +69,13 @@ setInterval(() => {
     );
   }
 }, 300);
+
+const runBtn = document.getElementById("run");
+runBtn.onclick = function() {
+  const parser = buildParser(getCommentRegexp());
+  const s = editor.getValue();
+  const result = parser.Program.parse(s);
+
+  // TODO: evaluate a sequence of statements.
+  run(result.value.value[0]);
+};

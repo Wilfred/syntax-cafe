@@ -1,5 +1,6 @@
 const P = require("parsimmon");
 const CodeMirror = require("codemirror");
+const escape = require("regexp.escape");
 const buildParser = require("./parsing").buildParser;
 
 require("codemirror/addon/selection/active-line");
@@ -27,7 +28,7 @@ const editor = CodeMirror.fromTextArea(inputNode, {
 
 function getCommentRegexp() {
   const commentPrefixChar = commentNode.value;
-  return new RegExp("\\s*" + commentPrefixChar + "[^\n]*\\s*");
+  return new RegExp("\\s*" + escape(commentPrefixChar) + "[^\n]*\\s*");
 }
 
 let markers = [];

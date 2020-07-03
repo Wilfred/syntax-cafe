@@ -4,7 +4,7 @@ function print(args) {
   outputElem.textContent = args[0];
 }
 
-const env = { print: print };
+const env = { print };
 
 function run(expr) {
   outputElem.textContent = "";

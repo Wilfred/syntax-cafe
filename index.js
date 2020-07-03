@@ -35,7 +35,7 @@ function getCommentRegexp() {
 let markers = [];
 
 setInterval(() => {
-  let commentRegexp = getCommentRegexp();
+  const commentRegexp = getCommentRegexp();
 
   defineLangplzMode(commentRegexp);
   editor.setOption("mode", "langplz");
@@ -50,8 +50,8 @@ setInterval(() => {
   markers = [];
 
   if (!result.status) {
-    let pos = { line: result.index.line - 1, ch: result.index.column - 1 };
-    let endPos = { line: result.index.line - 1, ch: result.index.column };
+    const pos = { line: result.index.line - 1, ch: result.index.column - 1 };
+    const endPos = { line: result.index.line - 1, ch: result.index.column };
 
     const m = editor.markText(pos, endPos, {
       className: "syntax-error",

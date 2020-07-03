@@ -79,6 +79,5 @@ runBtn.onclick = function() {
   const s = editor.getValue();
   const result = parser.Program.parse(s);
 
-  // TODO: evaluate a sequence of statements.
-  run(result.value.value[0]);
+  run(result.value.value);
 };

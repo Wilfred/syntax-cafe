@@ -21,7 +21,7 @@ module.exports = {
     "no-var": "error",
     "object-shorthand": ["warn", "properties"],
     "prefer-arrow-callback": "error",
-    "prefer-const": "error",
+    "prefer-const": "warn",
     "sort-imports": "warn",
     semi: ["error", "always"]
   }

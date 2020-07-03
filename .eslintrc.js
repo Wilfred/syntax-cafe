@@ -10,7 +10,7 @@ module.exports = {
     es6: true,
     node: true
   },
-  extends: "eslint:recommended",
+  extends: ["eslint:recommended", "plugin:react/recommended"],
   rules: {
     "linebreak-style": ["error", "unix"],
     "no-alert": "warn",

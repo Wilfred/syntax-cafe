@@ -1,8 +1,11 @@
+import React from "react";
+import ReactDOM from "react-dom";
 const P = require("parsimmon");
 const CodeMirror = require("codemirror");
 const escape = require("regexp.escape");
 const buildParser = require("./parsing").buildParser;
 const run = require("./interpreter").run;
+const LexerOptions = require("./LexerOptions");
 
 require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
@@ -16,6 +19,10 @@ function defineLangplzMode(commentRegexp) {
     ]
   });
 }
+
+const App = document.getElementById("app");
+
+ReactDOM.render(<LexerOptions />, App);
 
 const inputNode = document.getElementById("input");
 const commentNode = document.getElementById("comment");

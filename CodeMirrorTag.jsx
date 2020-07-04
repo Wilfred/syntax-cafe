@@ -1,6 +1,7 @@
 import React from "react";
 const commentRegexp = require("./parsing").commentRegexp;
 const CodeMirror = require("codemirror");
+const equal = require("fast-deep-equal");
 
 require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
@@ -22,6 +23,7 @@ class CodeMirrorTag extends React.Component {
     super(props);
     this.textArea = React.createRef();
     this.editor = null;
+    this.marker = null;
   }
   componentDidMount() {
     defineLangplzMode(this.props.commentPrefix);
@@ -34,11 +36,28 @@ class CodeMirrorTag extends React.Component {
     this.editor.on("change", () => {
       this.props.onChange(this.editor.getValue());
     });
+    this.setMarker(this.props.errorRange);
   }
   componentDidUpdate(prevProps) {
     if (prevProps.commentPrefix != this.props.commentPrefix) {
       defineLangplzMode(this.props.commentPrefix);
       this.editor.setOption("mode", "langplz");
+    }
+    if (!equal(prevProps.errorRange, this.props.errorRange)) {
+      this.setMarker(this.props.errorRange);
+    }
+  }
+  setMarker(errorRange) {
+    if (this.marker !== null) {
+      this.marker.clear();
+      this.marker = null;
+    }
+    if (errorRange !== null) {
+      this.marker = this.editor.markText(errorRange[0], errorRange[1], {
+        className: "syntax-error",
+        title: "foo",
+        css: "border-bottom: 2px dotted red;"
+      });
     }
   }
   render() {

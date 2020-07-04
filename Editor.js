@@ -9,6 +9,7 @@ function Editor(props) {
         initialValue={props.value}
         commentPrefix={props.commentPrefix}
         onChange={props.onChange}
+        errorRange={props.errorRange}
       />
     </div>
   );

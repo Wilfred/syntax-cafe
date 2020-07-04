@@ -28,7 +28,7 @@ ReactDOM.render(
   <div>
     <LexerOptions />
     <Editor />
-    <Enjoy />
+    <Enjoy src="(foo bar)" commentPrefix=";" />
   </div>,
   App
 );

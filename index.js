@@ -5,9 +5,7 @@ const CodeMirror = require("codemirror");
 const escape = require("regexp.escape");
 const buildParser = require("./parsing").buildParser;
 const run = require("./interpreter").run;
-const LexerOptions = require("./LexerOptions");
-const Editor = require("./Editor");
-const Enjoy = require("./Enjoy");
+const App = require("./App");
 
 require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
@@ -22,16 +20,9 @@ function defineLangplzMode(commentRegexp) {
   });
 }
 
-const App = document.getElementById("app");
+const appNode = document.getElementById("app");
 
-ReactDOM.render(
-  <div>
-    <LexerOptions />
-    <Editor />
-    <Enjoy src="(foo bar)" commentPrefix=";" />
-  </div>,
-  App
-);
+ReactDOM.render(<App />, appNode);
 
 const inputNode = document.getElementById("input");
 const commentNode = document.getElementById("comment");

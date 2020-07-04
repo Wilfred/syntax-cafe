@@ -5,7 +5,6 @@ const buildParser = require("./parsing").buildParser;
 function getCommentRegexp(prefix) {
   return new RegExp("\\s*" + escape(prefix) + "[^\n]*\\s*");
 }
-const COMMENT_REGEXP = ";";
 
 function Enjoy(props) {
   const parser = buildParser(getCommentRegexp(props.commentPrefix));

@@ -1,11 +1,9 @@
 import React from "react";
 const P = require("parsimmon");
-const buildParser = require("./parsing").buildParser;
 
 function Result(props) {
-  const parser = buildParser(props.commentPrefix);
   const src = props.src;
-  const result = parser.Program.parse(src);
+  const result = props.parser.Program.parse(src);
 
   let parseResult = "";
   let error = null;

@@ -39,7 +39,9 @@ class CodeMirrorTag extends React.Component {
     }
   }
   render() {
-    return <textarea ref={this.textArea}>{this.props.initialValue}</textarea>;
+    return (
+      <textarea ref={this.textArea} defaultValue={this.props.initialValue} />
+    );
   }
 }
 

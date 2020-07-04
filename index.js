@@ -1,90 +1,57 @@
 import React from "react";
 import ReactDOM from "react-dom";
-const P = require("parsimmon");
-const CodeMirror = require("codemirror");
-const escape = require("regexp.escape");
-const buildParser = require("./parsing").buildParser;
-const run = require("./interpreter").run;
 const App = require("./App");
-
-require("codemirror/addon/selection/active-line");
-require("codemirror/addon/edit/matchbrackets");
-require("codemirror/addon/mode/simple");
-
-function defineLangplzMode(commentRegexp) {
-  CodeMirror.defineSimpleMode("langplz", {
-    start: [
-      { regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string" },
-      { regex: commentRegexp, token: "comment" }
-    ]
-  });
-}
 
 const appNode = document.getElementById("app");
 
 ReactDOM.render(<App />, appNode);
 
-const inputNode = document.getElementById("input");
-const commentNode = document.getElementById("comment");
+// let markers = [];
 
-const editor = CodeMirror.fromTextArea(inputNode, {
-  lineNumbers: true,
-  styleActiveLine: true,
-  matchBrackets: true,
-  theme: "material-palenight"
-});
+// setInterval(() => {
+//   const commentRegexp = getCommentRegexp();
 
-function getCommentRegexp() {
-  const commentPrefixChar = commentNode.value;
-  return new RegExp("\\s*" + escape(commentPrefixChar) + "[^\n]*\\s*");
-}
+//   defineLangplzMode(commentRegexp);
+//   editor.setOption("mode", "langplz");
 
-let markers = [];
+//   const parser = buildParser(commentRegexp);
+//   const s = editor.getValue();
+//   const result = parser.Program.parse(s);
 
-setInterval(() => {
-  const commentRegexp = getCommentRegexp();
+//   markers.forEach(m => {
+//     m.clear();
+//   });
+//   markers = [];
 
-  defineLangplzMode(commentRegexp);
-  editor.setOption("mode", "langplz");
+//   if (!result.status) {
+//     const pos = { line: result.index.line - 1, ch: result.index.column - 1 };
+//     const endPos = { line: result.index.line - 1, ch: result.index.column };
 
-  const parser = buildParser(commentRegexp);
-  const s = editor.getValue();
-  const result = parser.Program.parse(s);
+//     const m = editor.markText(pos, endPos, {
+//       className: "syntax-error",
+//       title: "foo",
+//       css: "border-bottom: 1px dotted red;"
+//     });
+//     markers.push(m);
 
-  markers.forEach(m => {
-    m.clear();
-  });
-  markers = [];
+//     document.getElementById("ast-output").textContent = P.formatError(
+//       s,
+//       result
+//     );
+//   } else {
+//     document.getElementById("ast-output").textContent = JSON.stringify(
+//       result.value,
+//       null,
+//       "  "
+//     );
+//   }
+// }, 300);
 
-  if (!result.status) {
-    const pos = { line: result.index.line - 1, ch: result.index.column - 1 };
-    const endPos = { line: result.index.line - 1, ch: result.index.column };
+// const runBtn = document.getElementById("run");
+// runBtn.onclick = function() {
+//   const parser = buildParser(getCommentRegexp());
+//   const s = editor.getValue();
+//   const result = parser.Program.parse(s);
 
-    const m = editor.markText(pos, endPos, {
-      className: "syntax-error",
-      title: "foo",
-      css: "border-bottom: 1px dotted red;"
-    });
-    markers.push(m);
-
-    document.getElementById("ast-output").textContent = P.formatError(
-      s,
-      result
-    );
-  } else {
-    document.getElementById("ast-output").textContent = JSON.stringify(
-      result.value,
-      null,
-      "  "
-    );
-  }
-}, 300);
-
-const runBtn = document.getElementById("run");
-runBtn.onclick = function() {
-  const parser = buildParser(getCommentRegexp());
-  const s = editor.getValue();
-  const result = parser.Program.parse(s);
-
-  run(result.value.value);
-};
+//   run(result.value.value);
+// };

@@ -7,12 +7,16 @@ const INITIAL_PROGRAM = '; Example\n(print "hello")';
 
 function App() {
   const [src, setSrc] = useState(INITIAL_PROGRAM);
+  const [commentPrefix, setCommentPrefix] = useState(";");
 
   return (
     <div>
-      <LexerOptions />
+      <LexerOptions
+        commentPrefix={commentPrefix}
+        setCommentPrefix={setCommentPrefix}
+      />
       <Editor value={src} onChange={setSrc} />
-      <Enjoy src={src} commentPrefix=";" />
+      <Enjoy src={src} commentPrefix={commentPrefix} />
     </div>
   );
 }

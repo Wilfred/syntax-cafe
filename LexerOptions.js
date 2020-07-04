@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-function LexerOptions(_props) {
-  const [prefix, setPrefix] = useState(";");
-
+function LexerOptions(props) {
   return (
     <div className="box">
       <h2 className="title">Choose Ingredients 🥚</h2>
@@ -16,8 +14,8 @@ function LexerOptions(_props) {
             className="input"
             type="text"
             placeholder="Comment character"
-            value={prefix}
-            onChange={e => setPrefix(e.target.value)}
+            value={props.commentPrefix}
+            onChange={e => props.setCommentPrefix(e.target.value)}
           />
         </div>
         <p className="help">Prefix character for single line comments</p>

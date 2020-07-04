@@ -8,6 +8,7 @@ function Editor(props) {
       <CodeMirrorTag
         initialValue={props.value}
         commentPrefix={props.commentPrefix}
+        onChange={props.onChange}
       />
     </div>
   );

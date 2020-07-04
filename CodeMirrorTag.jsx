@@ -31,6 +31,9 @@ class CodeMirrorTag extends React.Component {
       styleActiveLine: true,
       mode: "langplz"
     });
+    this.editor.on("change", () => {
+      this.props.onChange(this.editor.getValue());
+    });
   }
   componentDidUpdate(prevProps) {
     if (prevProps.commentPrefix != this.props.commentPrefix) {

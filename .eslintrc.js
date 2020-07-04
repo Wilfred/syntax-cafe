@@ -28,6 +28,7 @@ module.exports = {
     "object-shorthand": ["warn", "properties"],
     "prefer-arrow-callback": "error",
     "prefer-const": "warn",
+    "react/prop-types": "warn",
     "sort-imports": "warn",
     semi: ["error", "always"]
   }

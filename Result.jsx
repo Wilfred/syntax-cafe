@@ -21,11 +21,11 @@ function Result(props) {
     <div className="box">
       <h2 className="title">Enjoy 🍽️</h2>
 
-      <pre id="output">stdout here</pre>
+      <pre>{props.stdout}</pre>
       {error}
       <pre>{parseResult}</pre>
 
-      <button id="run" className="button">
+      <button onClick={props.onRun} className="button">
         Run It
       </button>
     </div>

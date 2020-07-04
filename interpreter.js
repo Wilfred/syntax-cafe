@@ -1,14 +1,10 @@
-const outputElem = document.getElementById("output");
-
-function print(args) {
-  outputElem.textContent += args[0];
+function print(ctx, args) {
+  ctx.stdout += args[0];
 }
 
 const env = { print };
 
-function run(exprs) {
-  outputElem.textContent = "";
-
+function runWithContext(ctx, exprs) {
   exprs.forEach(expr => {
     if (expr.length === 0) {
       // TODO: error in UI
@@ -25,8 +21,15 @@ function run(exprs) {
     }
 
     // TODO: evaluate other args
-    fn(expr.slice(1));
+    fn(ctx, expr.slice(1));
   });
+}
+
+function run(exprs) {
+  const ctx = { stdout: "" };
+  runWithContext(ctx, exprs);
+
+  return ctx;
 }
 
 module.exports = { run };

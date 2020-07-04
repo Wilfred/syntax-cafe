@@ -1,14 +1,9 @@
 import React from "react";
 const P = require("parsimmon");
 const buildParser = require("./parsing").buildParser;
-const regexpEscape = require("regexp.escape");
-
-function getCommentRegexp(prefix) {
-  return new RegExp("\\s*" + regexpEscape(prefix) + "[^\n]*\\s*");
-}
 
 function Enjoy(props) {
-  const parser = buildParser(getCommentRegexp(props.commentPrefix));
+  const parser = buildParser(props.commentPrefix);
   const src = props.src;
   const result = parser.Program.parse(src);
 

@@ -1,6 +1,13 @@
 const P = require("parsimmon");
+const regexpEscape = require("regexp.escape");
 
-function buildParser(commentRegexp) {
+function commentRegexp(prefix) {
+  return new RegExp("\\s*" + regexpEscape(prefix) + "[^\n]*\\s*");
+}
+
+function buildParser(prefix) {
+  const commentPattern = commentRegexp(prefix);
+
   return P.createLanguage({
     Program: r =>
       r.Value.sepBy(r._)
@@ -24,7 +31,7 @@ function buildParser(commentRegexp) {
         .then(r.Value.sepBy(r._))
         .skip(P.string(")"));
     },
-    Comment: () => P.regexp(commentRegexp),
+    Comment: () => P.regexp(commentPattern),
     _: function(r) {
       return P.alt(
         P.seq(P.optWhitespace, r.Comment, P.optWhitespace),
@@ -34,4 +41,4 @@ function buildParser(commentRegexp) {
   });
 }
 
-module.exports = { buildParser };
+module.exports = { buildParser, commentRegexp };

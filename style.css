@@ -3,3 +3,9 @@ h1.title {
   font-size: 3rem;
   line-height: 0.9;
 }
+
+.notification.is-danger pre {
+  background-color: inherit;
+  color: inherit;
+  padding: 0;
+}

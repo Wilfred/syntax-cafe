@@ -12,9 +12,14 @@ function Enjoy(props) {
   const src = props.src;
   const result = parser.Program.parse(src);
 
-  let parseResult;
+  let parseResult = "";
+  let error = null;
   if (!result.status) {
-    parseResult = P.formatError(src, result);
+    error = (
+      <div className="notification is-danger is-light">
+        <pre>{P.formatError(src, result)}</pre>
+      </div>
+    );
   } else {
     parseResult = JSON.stringify(result.value, null, "  ");
   }
@@ -23,11 +28,13 @@ function Enjoy(props) {
     <div className="box">
       <h2 className="title">Enjoy 🍽️</h2>
 
+      <pre id="output">stdout here</pre>
+      {error}
+      <pre>{parseResult}</pre>
+
       <button id="run" className="button">
         Run It
       </button>
-      <pre id="output">stdout here</pre>
-      <pre id="ast-output">{parseResult}</pre>
     </div>
   );
 }

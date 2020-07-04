@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 const LexerOptions = require("./LexerOptions");
 const Editor = require("./Editor");
-const Enjoy = require("./Enjoy");
+const Result = require("./Result");
 
 const INITIAL_PROGRAM = '; Example\n(print "hello")';
 
@@ -16,7 +16,7 @@ function App() {
         setCommentPrefix={setCommentPrefix}
       />
       <Editor value={src} commentPrefix={commentPrefix} onChange={setSrc} />
-      <Enjoy src={src} commentPrefix={commentPrefix} />
+      <Result src={src} commentPrefix={commentPrefix} />
     </div>
   );
 }

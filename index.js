@@ -7,6 +7,7 @@ const buildParser = require("./parsing").buildParser;
 const run = require("./interpreter").run;
 const LexerOptions = require("./LexerOptions");
 const Editor = require("./Editor");
+const Enjoy = require("./Enjoy");
 
 require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
@@ -27,6 +28,7 @@ ReactDOM.render(
   <div>
     <LexerOptions />
     <Editor />
+    <Enjoy />
   </div>,
   App
 );

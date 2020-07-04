@@ -15,7 +15,7 @@ function App() {
         commentPrefix={commentPrefix}
         setCommentPrefix={setCommentPrefix}
       />
-      <Editor value={src} onChange={setSrc} />
+      <Editor value={src} commentPrefix={commentPrefix} onChange={setSrc} />
       <Enjoy src={src} commentPrefix={commentPrefix} />
     </div>
   );

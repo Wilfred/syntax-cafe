@@ -16,7 +16,6 @@
     "parcel-bundler": "^1.12.4",
     "parsimmon": "^1.13.0",
     "react": "^16.13.1",
-    "react-codemirror2": "^7.2.1",
     "react-dom": "^16.13.1",
     "regexp.escape": "^1.1.0"
   },

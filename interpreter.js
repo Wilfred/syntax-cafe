@@ -39,6 +39,9 @@ function evalExpr(ctx, expr) {
   if (expr.name == "NumberLiteral") {
     return expr;
   }
+  if (expr.name == "BoolLiteral") {
+    return expr;
+  }
 
   if (expr.name !== "List") {
     error(ctx, "Expected a list, but got: " + expr.name);

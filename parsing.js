@@ -31,7 +31,9 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
       return P.alt(
         P.regexp(boolLiteralRegexp(trueLiteral)),
         P.regexp(boolLiteralRegexp(falseLiteral))
-      ).map(s => s == trueLiteral);
+      )
+        .map(s => s == trueLiteral)
+        .node("BoolLiteral");
     },
     Symbol: function() {
       return P.regexp(SYMBOL_REGEXP).node("Symbol");

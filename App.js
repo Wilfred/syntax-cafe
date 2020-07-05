@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+
 import Editor from "./Editor";
 import LexerOptions from "./LexerOptions";
-import Result from "./Result";
 import { buildParser } from "./parsing";
+import Result from "./Result";
 
 const INITIAL_PROGRAM = '; Example\n(print "hello")';
 

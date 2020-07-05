@@ -1,5 +1,6 @@
-import CodeMirrorTag from "./CodeMirrorTag";
 import React from "react";
+
+import CodeMirrorTag from "./CodeMirrorTag";
 
 export default function Editor(props) {
   return (

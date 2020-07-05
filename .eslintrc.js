@@ -15,6 +15,7 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:react-hooks/recommended"
   ],
+  plugins: ["simple-import-sort"],
   rules: {
     "linebreak-style": ["error", "unix"],
     "no-alert": "warn",
@@ -33,7 +34,7 @@ module.exports = {
     "prefer-arrow-callback": "error",
     "prefer-const": "warn",
     "react/prop-types": "warn",
-    "sort-imports": "warn",
+    "simple-import-sort/sort": "warn",
     semi: ["error", "always"]
   }
 };

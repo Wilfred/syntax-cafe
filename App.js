@@ -9,7 +9,10 @@ const INITIAL_PROGRAM = '; Example\n(print "hello")';
 export default function App() {
   const [src, setSrc] = useState(INITIAL_PROGRAM);
   const [commentPrefix, setCommentPrefix] = useState(";");
-  const parser = buildParser(commentPrefix);
+  const [trueLiteral, setTrueLiteral] = useState("true");
+  const [falseLiteral, setFalseLiteral] = useState("false");
+
+  const parser = buildParser(commentPrefix, trueLiteral, falseLiteral);
 
   const result = parser.Program.parse(src);
 
@@ -26,6 +29,10 @@ export default function App() {
       <LexerOptions
         commentPrefix={commentPrefix}
         setCommentPrefix={setCommentPrefix}
+        trueLiteral={trueLiteral}
+        setTrueLiteral={setTrueLiteral}
+        falseLiteral={falseLiteral}
+        setFalseLiteral={setFalseLiteral}
       />
       <Editor
         value={src}

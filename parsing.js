@@ -5,8 +5,12 @@ export function commentRegexp(prefix) {
   return new RegExp("\\s*" + regexpEscape(prefix) + "[^\n]*\\s*");
 }
 
-export function buildParser(prefix) {
-  const commentPattern = commentRegexp(prefix);
+export function boolLiteralRegexp(content) {
+  return new RegExp("\\b" + regexpEscape(content) + "\\b");
+}
+
+export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
+  const commentPattern = commentRegexp(commentPrefix);
 
   return P.createLanguage({
     Program: r =>
@@ -20,7 +24,10 @@ export function buildParser(prefix) {
       return P.regexp(/[0-9]+/).map(Number);
     },
     BoolLiteral: function() {
-      return P.alt(P.string("true"), P.string("false")).map(s => s == "true");
+      return P.alt(
+        P.regexp(boolLiteralRegexp(trueLiteral)),
+        P.regexp(boolLiteralRegexp(falseLiteral))
+      ).map(s => s == trueLiteral);
     },
     Symbol: function() {
       return P.regexp(/[a-z]+/);

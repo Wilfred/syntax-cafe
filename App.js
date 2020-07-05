@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-const LexerOptions = require("./LexerOptions");
-const Editor = require("./Editor");
-const Result = require("./Result");
-const buildParser = require("./parsing").buildParser;
+import Editor from "./Editor";
+import LexerOptions from "./LexerOptions";
+import Result from "./Result";
+import { buildParser } from "./parsing";
 
 const INITIAL_PROGRAM = '; Example\n(print "hello")';
 

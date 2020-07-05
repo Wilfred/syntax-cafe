@@ -1,5 +1,5 @@
+import CodeMirrorTag from "./CodeMirrorTag";
 import React from "react";
-const CodeMirrorTag = require("./CodeMirrorTag");
 
 function Editor(props) {
   return (

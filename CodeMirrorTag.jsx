@@ -1,11 +1,11 @@
-import React from "react";
-const commentRegexp = require("./parsing").commentRegexp;
-const CodeMirror = require("codemirror");
-const equal = require("fast-deep-equal");
+import "codemirror/addon/selection/active-line";
+import "codemirror/addon/edit/matchbrackets";
+import "codemirror/addon/mode/simple";
 
-require("codemirror/addon/selection/active-line");
-require("codemirror/addon/edit/matchbrackets");
-require("codemirror/addon/mode/simple");
+import CodeMirror from "codemirror";
+import React from "react";
+import { commentRegexp } from "./parsing";
+import equal from "fast-deep-equal";
 
 function defineLangplzMode(commentPrefix) {
   CodeMirror.defineSimpleMode("langplz", {

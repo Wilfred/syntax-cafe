@@ -1,5 +1,5 @@
-const P = require("parsimmon");
-const regexpEscape = require("regexp.escape");
+import P from "parsimmon";
+import regexpEscape from "regexp.escape";
 
 function commentRegexp(prefix) {
   return new RegExp("\\s*" + regexpEscape(prefix) + "[^\n]*\\s*");

@@ -1,6 +1,6 @@
+import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom";
-const App = require("./App");
 
 const appNode = document.getElementById("app");
 

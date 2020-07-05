@@ -16,11 +16,13 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
 
   return P.createLanguage({
     Program: r =>
-      r.Value.sepBy(r._)
+      r.Expression.sepBy(r._)
         .trim(r._)
         .node("Program"),
-    Value: function(r) {
-      return P.alt(r.Number, r.BoolLiteral, r.Symbol, r.String, r.List);
+    Expression: function(r) {
+      return P.alt(r.Number, r.BoolLiteral, r.Symbol, r.String, r.List).node(
+        "Expression"
+      );
     },
     Number: function() {
       return P.regexp(/[0-9]+/).map(Number);
@@ -40,7 +42,7 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
     List: function(r) {
       return P.string("(")
         .then(r._)
-        .then(r.Value.sepBy(r._))
+        .then(r.Expression.sepBy(r._))
         .skip(P.string(")"));
     },
     Comment: () => P.regexp(commentPattern),

@@ -26,6 +26,11 @@ function add(ctx, args) {
 
 const env = { print, add };
 
+function error(ctx, msg) {
+  ctx.error = msg;
+  console.error(msg);
+}
+
 function evalExpr(ctx, expr) {
   // TODO: evaluate number literals, bool literals, symbols.
   if (expr.name == "StringLiteral") {
@@ -36,14 +41,12 @@ function evalExpr(ctx, expr) {
   }
 
   if (expr.name !== "List") {
-    ctx.error = "Expected a list, but got: " + expr.name;
-    console.error("Expected a list, but got: " + expr.name);
+    error(ctx, "Expected a list, but got: " + expr.name);
     return null;
   }
 
   if (expr.value.length === 0) {
-    ctx.error = "Not a valid expression.";
-    console.error("Not a valid expression.");
+    error(ctx, "Not a valid expression.");
     return null;
   }
 
@@ -51,8 +54,7 @@ function evalExpr(ctx, expr) {
   const fnName = expr.value[0].value;
   const fn = env[fnName];
   if (fn === undefined) {
-    ctx.error = "No such function: " + fnName;
-    console.error("No such function: " + fnName);
+    error(ctx, "No such function: " + fnName);
     return null;
   }
 

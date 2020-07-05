@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 const P = require("parsimmon");
 
 function Result(props) {
+  const [tab, setTab] = useState("execution");
+
   const src = props.src;
   const result = props.parser.Program.parse(src);
 
@@ -17,17 +19,38 @@ function Result(props) {
     parseResult = JSON.stringify(result.value, null, "  ");
   }
 
+  let body = null;
+  if (tab == "execution") {
+    const output = props.stdout === null ? null : <pre>{props.stdout}</pre>;
+    body = (
+      <>
+        {output}
+        <button onClick={props.onRun} className="button">
+          Run It
+        </button>
+      </>
+    );
+  } else if (tab == "parse-tree") {
+    body = <pre>{parseResult}</pre>;
+  }
+
   return (
     <div className="box">
       <h2 className="title">Enjoy 🍽️</h2>
 
-      <pre>{props.stdout}</pre>
-      {error}
-      <pre>{parseResult}</pre>
+      <div className="tabs">
+        <ul>
+          <li className={tab == "execution" ? "is-active" : ""}>
+            <a onClick={() => setTab("execution")}>Execution</a>
+          </li>
+          <li className={tab == "parse-tree" ? "is-active" : ""}>
+            <a onClick={() => setTab("parse-tree")}>Parse Tree</a>
+          </li>
+        </ul>
+      </div>
 
-      <button onClick={props.onRun} className="button">
-        Run It
-      </button>
+      {error}
+      {body}
     </div>
   );
 }

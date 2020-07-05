@@ -20,9 +20,7 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
         .trim(r._)
         .node("Program"),
     Expression: function(r) {
-      return P.alt(r.Number, r.BoolLiteral, r.Symbol, r.String, r.List).node(
-        "Expression"
-      );
+      return P.alt(r.Number, r.BoolLiteral, r.Symbol, r.StringLiteral, r.List);
     },
     Number: function() {
       return P.regexp(/[0-9]+/).map(Number);
@@ -34,16 +32,17 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
       ).map(s => s == trueLiteral);
     },
     Symbol: function() {
-      return P.regexp(SYMBOL_REGEXP);
+      return P.regexp(SYMBOL_REGEXP).node("Symbol");
     },
-    String: function() {
-      return P.regexp(/"((?:\\.|.)*?)"/, 1);
+    StringLiteral: function() {
+      return P.regexp(/"((?:\\.|.)*?)"/, 1).node("StringLiteral");
     },
     List: function(r) {
       return P.string("(")
         .then(r._)
         .then(r.Expression.sepBy(r._))
-        .skip(P.string(")"));
+        .skip(P.string(")"))
+        .node("List");
     },
     Comment: () => P.regexp(commentPattern),
     _: function(r) {

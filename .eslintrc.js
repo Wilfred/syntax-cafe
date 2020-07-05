@@ -1,3 +1,4 @@
+/* eslint-env node */
 module.exports = {
   parserOptions: {
     sourceType: "module",
@@ -7,8 +8,7 @@ module.exports = {
   },
   env: {
     browser: true,
-    es6: true,
-    node: true
+    es6: true
   },
   extends: [
     "eslint:recommended",

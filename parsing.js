@@ -14,10 +14,13 @@ export function buildParser(prefix) {
         .trim(r._)
         .node("Program"),
     Value: function(r) {
-      return P.alt(r.Number, r.Symbol, r.String, r.List);
+      return P.alt(r.Number, r.BoolLiteral, r.Symbol, r.String, r.List);
     },
     Number: function() {
       return P.regexp(/[0-9]+/).map(Number);
+    },
+    BoolLiteral: function() {
+      return P.alt(P.string("true"), P.string("false")).map(s => s == "true");
     },
     Symbol: function() {
       return P.regexp(/[a-z]+/);

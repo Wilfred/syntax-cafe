@@ -9,3 +9,7 @@ h1.title {
   color: inherit;
   padding: 0;
 }
+
+.CodeMirror {
+  height: 100px;
+}

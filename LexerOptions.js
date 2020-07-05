@@ -1,5 +1,7 @@
 import React from "react";
 
+import RequiredTextInput from "./RequiredTextInput";
+
 export default function LexerOptions(props) {
   return (
     <div className="box">
@@ -8,12 +10,10 @@ export default function LexerOptions(props) {
       <div className="field is-horizontal">
         <label className="field-label">Comment Prefix</label>
         <div className="field-body">
-          <input
-            className="input"
-            type="text"
-            placeholder="E.g. #"
+          <RequiredTextInput
             value={props.commentPrefix}
-            onChange={e => props.setCommentPrefix(e.target.value)}
+            onChange={props.setCommentPrefix}
+            placeholder="E.g. #"
           />
         </div>
       </div>
@@ -22,21 +22,17 @@ export default function LexerOptions(props) {
         <label className="field-label">Booleans</label>
         <div className="field-body">
           <div className="field">
-            <input
-              className="input"
-              type="text"
-              placeholder="E.g. true"
+            <RequiredTextInput
               value={props.trueLiteral}
-              onChange={e => props.setTrueLiteral(e.target.value)}
+              onChange={props.setTrueLiteral}
+              placeholder="E.g. true"
             />
           </div>
           <div className="field">
-            <input
-              className="input"
-              type="text"
-              placeholder="E.g. false"
+            <RequiredTextInput
               value={props.falseLiteral}
-              onChange={e => props.setFalseLiteral(e.target.value)}
+              onChange={props.setFalseLiteral}
+              placeholder="E.g. false"
             />
           </div>
         </div>

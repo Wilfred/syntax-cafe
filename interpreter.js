@@ -5,34 +5,79 @@ function print(ctx, args) {
     ctx.stdout = "";
   }
 
+  // TODO: Check arity.
   ctx.stdout += args[0].value;
+  return null;
 }
 
-const env = { print };
+function add(ctx, args) {
+  if (ctx.stdout === null) {
+    ctx.stdout = "";
+  }
 
-function runWithContext(ctx, exprs) {
-  _.forEach(exprs, expr => {
-    if (expr.value.length === 0) {
-      ctx.error = "Not a valid expression.";
-      return false;
-    }
-
-    // TODO: check it's a symbol.
-    const fnName = expr.value[0].value;
-    const fn = env[fnName];
-    if (fn === undefined) {
-      ctx.error = "No such function: " + fnName;
-      return false;
-    }
-
-    // TODO: evaluate other args
-    fn(ctx, expr.value.slice(1));
+  const total = { value: 0, name: "NumberLiteral" };
+  // TODO: check values are numbers.
+  args.forEach(arg => {
+    total.value += arg.value;
   });
+
+  return total;
+}
+
+const env = { print, add };
+
+function evalExpr(ctx, expr) {
+  // TODO: evaluate number literals, bool literals, symbols.
+  if (expr.name == "StringLiteral") {
+    return expr;
+  }
+  if (expr.name == "NumberLiteral") {
+    return expr;
+  }
+
+  if (expr.name !== "List") {
+    ctx.error = "Expected a list, but got: " + expr.name;
+    console.error("Expected a list, but got: " + expr.name);
+    return null;
+  }
+
+  if (expr.value.length === 0) {
+    ctx.error = "Not a valid expression.";
+    console.error("Not a valid expression.");
+    return null;
+  }
+
+  // TODO: check fnName is a symbol.
+  const fnName = expr.value[0].value;
+  const fn = env[fnName];
+  if (fn === undefined) {
+    ctx.error = "No such function: " + fnName;
+    console.error("No such function: " + fnName);
+    return null;
+  }
+
+  const rawArgs = expr.value.slice(1);
+  const args = rawArgs.map(rawArg => evalExpr(ctx, rawArg));
+
+  return fn(ctx, args);
+}
+function evalExprs(ctx, exprs) {
+  let result = null;
+
+  _.forEach(exprs, expr => {
+    result = evalExpr(ctx, expr);
+
+    if (ctx.error) {
+      return false;
+    }
+  });
+
+  return result;
 }
 
 export function run(exprs) {
   const ctx = { stdout: null, error: null };
-  runWithContext(ctx, exprs);
+  evalExprs(ctx, exprs);
 
   return ctx;
 }

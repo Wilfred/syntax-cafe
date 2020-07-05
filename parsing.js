@@ -23,7 +23,9 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
       return P.alt(r.Number, r.BoolLiteral, r.Symbol, r.StringLiteral, r.List);
     },
     Number: function() {
-      return P.regexp(/[0-9]+/).map(Number);
+      return P.regexp(/[0-9]+/)
+        .map(Number)
+        .node("NumberLiteral");
     },
     BoolLiteral: function() {
       return P.alt(

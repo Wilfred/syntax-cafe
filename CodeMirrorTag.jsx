@@ -4,14 +4,16 @@ import "codemirror/addon/mode/simple";
 
 import CodeMirror from "codemirror";
 import React from "react";
-import { commentRegexp } from "./parsing";
+import { boolLiteralRegexp, commentRegexp } from "./parsing";
 import equal from "fast-deep-equal";
 
-function defineLangplzMode(commentPrefix) {
+function defineLangplzMode(commentPrefix, trueLiteral, falseLiteral) {
   CodeMirror.defineSimpleMode("langplz", {
     start: [
       { regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string" },
-      { regex: commentRegexp(commentPrefix), token: "comment" }
+      { regex: commentRegexp(commentPrefix), token: "comment" },
+      { regex: boolLiteralRegexp(trueLiteral), token: "atom" },
+      { regex: boolLiteralRegexp(falseLiteral), token: "atom" }
     ]
   });
 }
@@ -26,7 +28,11 @@ export default class CodeMirrorTag extends React.Component {
     this.marker = null;
   }
   componentDidMount() {
-    defineLangplzMode(this.props.commentPrefix);
+    defineLangplzMode(
+      this.props.commentPrefix,
+      this.props.trueLiteral,
+      this.props.falseLiteral
+    );
     this.editor = CodeMirror.fromTextArea(this.textArea.current, {
       lineNumbers: true,
       matchBrackets: true,
@@ -39,8 +45,16 @@ export default class CodeMirrorTag extends React.Component {
     this.setMarker(this.props.errorRange);
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.commentPrefix != this.props.commentPrefix) {
-      defineLangplzMode(this.props.commentPrefix);
+    if (
+      prevProps.commentPrefix != this.props.commentPrefix ||
+      prevProps.trueLiteral != this.props.trueLiteral ||
+      prevProps.falseLiteral != this.props.falseLiteral
+    ) {
+      defineLangplzMode(
+        this.props.commentPrefix,
+        this.props.trueLiteral,
+        this.props.falseLiteral
+      );
       this.editor.setOption("mode", "langplz");
     }
     if (!equal(prevProps.errorRange, this.props.errorRange)) {

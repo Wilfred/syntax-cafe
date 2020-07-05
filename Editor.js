@@ -9,6 +9,8 @@ export default function Editor(props) {
       <CodeMirrorTag
         initialValue={props.value}
         commentPrefix={props.commentPrefix}
+        trueLiteral={props.trueLiteral}
+        falseLiteral={props.falseLiteral}
         onChange={props.onChange}
         errorRange={props.errorRange}
       />

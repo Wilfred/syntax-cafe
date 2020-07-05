@@ -38,6 +38,8 @@ export default function App() {
       <Editor
         value={src}
         commentPrefix={commentPrefix}
+        trueLiteral={trueLiteral}
+        falseLiteral={falseLiteral}
         onChange={setSrc}
         errorRange={errorRange}
       />

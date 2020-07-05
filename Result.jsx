@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 const P = require("parsimmon");
+const run = require("./interpreter").run;
 
 function Result(props) {
   const [tab, setTab] = useState("execution");
+  const [evalResult, setEvalResult] = useState(null);
 
   const src = props.src;
   const result = props.parser.Program.parse(src);
@@ -24,8 +26,6 @@ function Result(props) {
     let output = null;
     let evalError = null;
 
-    const evalResult = props.evalResult;
-    console.log(evalResult);
     if (evalResult !== null) {
       if (evalResult.stdout !== null) {
         output = <pre>{evalResult.stdout}</pre>;
@@ -42,7 +42,14 @@ function Result(props) {
       <>
         {evalError}
         {output}
-        <button onClick={props.onRun} className="button">
+        <button
+          onClick={() => {
+            // TODO: don't allow running broken syntax.
+            const ctx = run(result.value.value);
+            setEvalResult(ctx);
+          }}
+          className="button"
+        >
           Run It
         </button>
       </>

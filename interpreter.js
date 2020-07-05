@@ -5,19 +5,20 @@ function print(ctx, args) {
     ctx.stdout = "";
   }
 
-  ctx.stdout += args[0];
+  ctx.stdout += args[0].value;
 }
 
 const env = { print };
 
 function runWithContext(ctx, exprs) {
   _.forEach(exprs, expr => {
-    if (expr.length === 0) {
+    if (expr.value.length === 0) {
       ctx.error = "Not a valid expression.";
       return false;
     }
 
-    const fnName = expr[0];
+    // TODO: check it's a symbol.
+    const fnName = expr.value[0].value;
     const fn = env[fnName];
     if (fn === undefined) {
       ctx.error = "No such function: " + fnName;
@@ -25,7 +26,7 @@ function runWithContext(ctx, exprs) {
     }
 
     // TODO: evaluate other args
-    fn(ctx, expr.slice(1));
+    fn(ctx, expr.value.slice(1));
   });
 }
 

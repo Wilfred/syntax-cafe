@@ -5,11 +5,12 @@ import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
 import Result from "./Result";
 
-const INITIAL_PROGRAM = ' Example\n(print "hello")';
-
 export default function App() {
   const [commentPrefix, setCommentPrefix] = useState(";");
-  const sampleProgram = commentPrefix + INITIAL_PROGRAM;
+  const sampleProgram = `${commentPrefix} A starter to whet your appetite.
+(print "hello world")
+
+${commentPrefix} For the main, a classic fizzbuzz dish.`;
   const [src, setSrc] = useState(sampleProgram);
   const [trueLiteral, setTrueLiteral] = useState("true");
   const [falseLiteral, setFalseLiteral] = useState("false");

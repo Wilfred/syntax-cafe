@@ -61,6 +61,15 @@ export default class CodeMirrorTag extends React.Component {
     if (!equal(prevProps.errorRange, this.props.errorRange)) {
       this.setMarker(this.props.errorRange);
     }
+
+    // Update the contents if the initial value changes and the user
+    // hasn't modified it.
+    if (
+      prevProps.initialValue != this.props.initialValue &&
+      this.editor.getValue() == prevProps.initialValue
+    ) {
+      this.editor.setValue(this.props.initialValue);
+    }
   }
   setMarker(errorRange) {
     if (this.marker !== null) {

@@ -5,11 +5,12 @@ import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
 import Result from "./Result";
 
-const INITIAL_PROGRAM = '; Example\n(print "hello")';
+const INITIAL_PROGRAM = ' Example\n(print "hello")';
 
 export default function App() {
-  const [src, setSrc] = useState(INITIAL_PROGRAM);
   const [commentPrefix, setCommentPrefix] = useState(";");
+  const sampleProgram = commentPrefix + INITIAL_PROGRAM;
+  const [src, setSrc] = useState(sampleProgram);
   const [trueLiteral, setTrueLiteral] = useState("true");
   const [falseLiteral, setFalseLiteral] = useState("false");
 
@@ -36,7 +37,7 @@ export default function App() {
         setFalseLiteral={setFalseLiteral}
       />
       <Editor
-        value={src}
+        value={sampleProgram}
         commentPrefix={commentPrefix}
         trueLiteral={trueLiteral}
         falseLiteral={falseLiteral}

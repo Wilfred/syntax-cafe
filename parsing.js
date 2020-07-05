@@ -1,6 +1,8 @@
 import P from "parsimmon";
 import regexpEscape from "regexp.escape";
 
+export const SYMBOL_REGEXP = /[a-zA-Z]+/;
+
 export function commentRegexp(prefix) {
   return new RegExp("\\s*" + regexpEscape(prefix) + "[^\n]*\\s*");
 }
@@ -30,7 +32,7 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
       ).map(s => s == trueLiteral);
     },
     Symbol: function() {
-      return P.regexp(/[a-z]+/);
+      return P.regexp(SYMBOL_REGEXP);
     },
     String: function() {
       return P.regexp(/"((?:\\.|.)*?)"/, 1);

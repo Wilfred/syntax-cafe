@@ -1,6 +1,6 @@
 import React from "react";
 
-function LexerOptions(props) {
+export default function LexerOptions(props) {
   return (
     <div className="box">
       <h2 className="title">Choose Ingredients 🥚</h2>
@@ -23,5 +23,3 @@ function LexerOptions(props) {
     </div>
   );
 }
-
-module.exports = LexerOptions;

@@ -1,11 +1,11 @@
 import P from "parsimmon";
 import regexpEscape from "regexp.escape";
 
-function commentRegexp(prefix) {
+export function commentRegexp(prefix) {
   return new RegExp("\\s*" + regexpEscape(prefix) + "[^\n]*\\s*");
 }
 
-function buildParser(prefix) {
+export function buildParser(prefix) {
   const commentPattern = commentRegexp(prefix);
 
   return P.createLanguage({
@@ -40,5 +40,3 @@ function buildParser(prefix) {
     }
   });
 }
-
-module.exports = { buildParser, commentRegexp };

@@ -29,11 +29,9 @@ function runWithContext(ctx, exprs) {
   });
 }
 
-function run(exprs) {
+export function run(exprs) {
   const ctx = { stdout: null, error: null };
   runWithContext(ctx, exprs);
 
   return ctx;
 }
-
-module.exports = { run };

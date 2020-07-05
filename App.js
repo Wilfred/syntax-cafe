@@ -6,7 +6,7 @@ import { buildParser } from "./parsing";
 
 const INITIAL_PROGRAM = '; Example\n(print "hello")';
 
-function App() {
+export default function App() {
   const [src, setSrc] = useState(INITIAL_PROGRAM);
   const [commentPrefix, setCommentPrefix] = useState(";");
   const parser = buildParser(commentPrefix);
@@ -37,5 +37,3 @@ function App() {
     </div>
   );
 }
-
-module.exports = App;

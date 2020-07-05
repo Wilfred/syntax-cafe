@@ -18,7 +18,7 @@ function defineLangplzMode(commentPrefix) {
 
 // Wraps a textarea with a CodeMirror attached. I tried the library
 // react-codemirror2, but we need precise control of modes defined.
-class CodeMirrorTag extends React.Component {
+export default class CodeMirrorTag extends React.Component {
   constructor(props) {
     super(props);
     this.textArea = React.createRef();
@@ -66,5 +66,3 @@ class CodeMirrorTag extends React.Component {
     );
   }
 }
-
-module.exports = CodeMirrorTag;

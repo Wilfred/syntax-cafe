@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { formatError } from "parsimmon";
 import { run } from "./interpreter";
 
-function Result(props) {
+export default function Result(props) {
   const [tab, setTab] = useState("execution");
   const [evalResult, setEvalResult] = useState(null);
 
@@ -78,5 +78,3 @@ function Result(props) {
     </div>
   );
 }
-
-module.exports = Result;

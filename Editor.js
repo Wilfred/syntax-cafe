@@ -1,7 +1,7 @@
 import CodeMirrorTag from "./CodeMirrorTag";
 import React from "react";
 
-function Editor(props) {
+export default function Editor(props) {
   return (
     <div className="box">
       <h2 className="title">Write Code 🍳</h2>
@@ -14,5 +14,3 @@ function Editor(props) {
     </div>
   );
 }
-
-module.exports = Editor;

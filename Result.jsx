@@ -3,7 +3,7 @@ import { formatError } from "parsimmon";
 import { run } from "./interpreter";
 
 export default function Result(props) {
-  const [tab, setTab] = useState("execution");
+  let [tab, setTab] = useState("execution");
   const [evalResult, setEvalResult] = useState(null);
 
   const src = props.src;
@@ -17,6 +17,8 @@ export default function Result(props) {
         <pre>{formatError(src, result)}</pre>
       </div>
     );
+    // Always show the parse tree output if we have a parse error.
+    tab = "parse-tree";
   } else {
     parseResult = JSON.stringify(result.value, null, "  ");
   }
@@ -44,7 +46,6 @@ export default function Result(props) {
         {output}
         <button
           onClick={() => {
-            // TODO: don't allow running broken syntax.
             const ctx = run(result.value.value);
             setEvalResult(ctx);
           }}

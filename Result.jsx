@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-const P = require("parsimmon");
-const run = require("./interpreter").run;
+import { formatError } from "parsimmon";
+import { run } from "./interpreter";
 
 function Result(props) {
   const [tab, setTab] = useState("execution");
@@ -14,7 +14,7 @@ function Result(props) {
   if (!result.status) {
     error = (
       <div className="notification is-danger is-light">
-        <pre>{P.formatError(src, result)}</pre>
+        <pre>{formatError(src, result)}</pre>
       </div>
     );
   } else {

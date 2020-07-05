@@ -21,9 +21,26 @@ function Result(props) {
 
   let body = null;
   if (tab == "execution") {
-    const output = props.stdout === null ? null : <pre>{props.stdout}</pre>;
+    let output = null;
+    let evalError = null;
+
+    const evalResult = props.evalResult;
+    console.log(evalResult);
+    if (evalResult !== null) {
+      if (evalResult.stdout !== null) {
+        output = <pre>{evalResult.stdout}</pre>;
+      }
+      if (evalResult.error !== null) {
+        evalError = (
+          <div className="notification is-danger is-light">
+            <pre>{evalResult.error}</pre>
+          </div>
+        );
+      }
+    }
     body = (
       <>
+        {evalError}
         {output}
         <button onClick={props.onRun} className="button">
           Run It

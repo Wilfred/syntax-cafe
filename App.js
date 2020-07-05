@@ -11,7 +11,7 @@ function App() {
   const [src, setSrc] = useState(INITIAL_PROGRAM);
   const [commentPrefix, setCommentPrefix] = useState(";");
   const parser = buildParser(commentPrefix);
-  const [stdout, setStdout] = useState(null);
+  const [evalResult, setEvalResult] = useState(null);
 
   const result = parser.Program.parse(src);
 
@@ -38,11 +38,11 @@ function App() {
       <Result
         src={src}
         parser={parser}
-        stdout={stdout}
+        evalResult={evalResult}
         onRun={() => {
           // TODO: don't allow running broken syntax.
-          let ctx = run(result.value.value);
-          setStdout(ctx.stdout);
+          const ctx = run(result.value.value);
+          setEvalResult(ctx);
         }}
       />
     </div>

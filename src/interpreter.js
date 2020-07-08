@@ -58,6 +58,22 @@ function evalExpr(ctx, expr) {
 
   // TODO: check fnName is a symbol.
   const fnName = expr.value[0].value;
+
+  if (fnName == "if") {
+    // TODO: check arity in interpreter or (better) parser.
+    const condition = evalExpr(ctx, expr.value[1]);
+
+    // TODO: error on non-boolean condition.
+    let nextExpr;
+    if (condition.value) {
+      nextExpr = expr.value[2];
+    } else {
+      nextExpr = expr.value[3];
+    }
+
+    return evalExpr(ctx, nextExpr);
+  }
+
   const fn = env[fnName];
   if (fn === undefined) {
     error(ctx, "No such function: " + fnName);

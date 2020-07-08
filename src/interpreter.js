@@ -28,7 +28,10 @@ const env = { print, add };
 
 function error(ctx, msg) {
   ctx.error = msg;
-  console.error(msg);
+  /* eslint-env node */
+  if (process.env != "TEST") {
+    console.error(msg);
+  }
 }
 
 function evalExpr(ctx, expr) {

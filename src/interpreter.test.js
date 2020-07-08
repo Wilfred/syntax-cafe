@@ -24,3 +24,10 @@ test("Adding literals", () => {
 
   expect(ctx.result.value).toBe(3);
 });
+
+test("Call nonexistent function", () => {
+  const result = parser.Program.parse("(foo)");
+  const ctx = run(result.value.value);
+
+  expect(ctx.error).not.toBeNull();
+});

@@ -82,7 +82,7 @@ function evalExprs(ctx, exprs) {
 
 export function run(exprs) {
   const ctx = { stdout: null, error: null };
-  evalExprs(ctx, exprs);
+  ctx.result = evalExprs(ctx, exprs);
 
   return ctx;
 }

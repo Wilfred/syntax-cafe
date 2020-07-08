@@ -29,7 +29,7 @@ const env = { print, add };
 function error(ctx, msg) {
   ctx.error = msg;
   /* eslint-env node */
-  if (process.env != "TEST") {
+  if (process.env.NODE_ENV != "test") {
     console.error(msg);
   }
 }

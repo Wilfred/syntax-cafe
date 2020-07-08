@@ -30,7 +30,8 @@
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.5",
     "eslint-plugin-simple-import-sort": "^5.0.3",
-    "jest": "^26.1.0"
+    "jest": "^26.1.0",
+    "parcel-plugin-bundle-visualiser": "^1.2.0"
   },
   "babel": {
     "presets": [

@@ -17,3 +17,10 @@ test("String literal evaluation", () => {
 
   expect(ctx.result.value).toBe("foo");
 });
+
+test("Adding literals", () => {
+  const result = parser.Program.parse("(add 1 2)");
+  const ctx = run(result.value.value);
+
+  expect(ctx.result.value).toBe(3);
+});

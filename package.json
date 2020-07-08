@@ -7,6 +7,7 @@
     "lint": "eslint . --ignore-pattern 'dist/*.js' -f codeframe --fix",
     "start": "parcel index.html",
     "build": "parcel build index.html",
+    "deploy": "npm run build && cd dist && surge",
     "test": "jest src --watch"
   },
   "author": "Wilfred Hughes",
@@ -31,7 +32,8 @@
     "eslint-plugin-react-hooks": "^4.0.5",
     "eslint-plugin-simple-import-sort": "^5.0.3",
     "jest": "^26.1.0",
-    "parcel-plugin-bundle-visualiser": "^1.2.0"
+    "parcel-plugin-bundle-visualiser": "^1.2.0",
+    "surge": "^0.21.5"
   },
   "babel": {
     "presets": [

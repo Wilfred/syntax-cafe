@@ -7,7 +7,7 @@
     "lint": "eslint . --ignore-pattern 'dist/*.js' -f codeframe --fix",
     "start": "parcel index.html",
     "build": "parcel build index.html",
-    "test": "jest"
+    "test": "jest src"
   },
   "author": "Wilfred Hughes",
   "license": "ISC",

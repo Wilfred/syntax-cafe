@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint . --ignore-pattern 'dist/*.js' -f codeframe --fix",
     "start": "parcel index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Wilfred Hughes",
   "license": "ISC",
@@ -22,9 +22,23 @@
     "regexp.escape": "^1.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "babel-jest": "^26.1.0",
     "eslint": "^7.3.1",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.5",
-    "eslint-plugin-simple-import-sort": "^5.0.3"
+    "eslint-plugin-simple-import-sort": "^5.0.3",
+    "jest": "^26.1.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
   }
 }

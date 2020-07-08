@@ -25,7 +25,7 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
     Number: function() {
       return P.regexp(/[0-9]+/)
         .map(Number)
-        .node("NumberLiteral");
+        .node("Number");
     },
     BoolLiteral: function() {
       return P.alt(
@@ -33,7 +33,7 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
         P.regexp(boolLiteralRegexp(falseLiteral))
       )
         .map(s => s == trueLiteral)
-        .node("BoolLiteral");
+        .node("Bool");
     },
     Symbol: function() {
       return P.regexp(SYMBOL_REGEXP).node("Symbol");

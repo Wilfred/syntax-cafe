@@ -15,7 +15,7 @@ function add(ctx, args) {
     ctx.stdout = "";
   }
 
-  const total = { value: 0, name: "NumberLiteral" };
+  const total = { value: 0, name: "Number" };
   // TODO: check values are numbers.
   args.forEach(arg => {
     total.value += arg.value;
@@ -32,14 +32,14 @@ function error(ctx, msg) {
 }
 
 function evalExpr(ctx, expr) {
-  // TODO: evaluate number literals, bool literals, symbols.
-  if (expr.name == "StringLiteral") {
+  // TODO: evaluate symbols in an environment.
+  if (expr.name == "String") {
     return expr;
   }
-  if (expr.name == "NumberLiteral") {
+  if (expr.name == "Number") {
     return expr;
   }
-  if (expr.name == "BoolLiteral") {
+  if (expr.name == "Bool") {
     return expr;
   }
 

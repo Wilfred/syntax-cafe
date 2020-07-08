@@ -39,7 +39,7 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
       return P.regexp(SYMBOL_REGEXP).node("Symbol");
     },
     StringLiteral: function() {
-      return P.regexp(/"((?:\\.|.)*?)"/, 1).node("StringLiteral");
+      return P.regexp(/"((?:\\.|.)*?)"/, 1).node("String");
     },
     List: function(r) {
       return P.string("(")

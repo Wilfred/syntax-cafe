@@ -24,8 +24,6 @@ function add(ctx, args) {
   return total;
 }
 
-const env = { print, add };
-
 function error(ctx, msg) {
   ctx.error = msg;
   /* eslint-env node */
@@ -74,7 +72,7 @@ function evalExpr(ctx, expr) {
     return evalExpr(ctx, nextExpr);
   }
 
-  const fn = env[fnName];
+  const fn = ctx.env[fnName];
   if (fn === undefined) {
     error(ctx, "No such function: " + fnName);
     return null;
@@ -100,7 +98,7 @@ function evalExprs(ctx, exprs) {
 }
 
 export function run(exprs) {
-  const ctx = { stdout: null, error: null };
+  const ctx = { stdout: null, error: null, env: { print, add } };
   ctx.result = evalExprs(ctx, exprs);
 
   return ctx;

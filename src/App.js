@@ -43,7 +43,7 @@ export default function App() {
       <div className="box">
         <h2 className="title">Write Code 🍳</h2>
         <CodeMirrorTag
-          initialValue={src}
+          initialValue={sampleProgram(commentPrefix)}
           commentPrefix={commentPrefix}
           trueLiteral={trueLiteral}
           falseLiteral={falseLiteral}

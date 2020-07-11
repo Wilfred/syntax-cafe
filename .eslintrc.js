@@ -32,7 +32,7 @@ module.exports = {
     "no-var": "error",
     "object-shorthand": ["warn", "properties"],
     "prefer-arrow-callback": "error",
-    "prefer-const": "warn",
+    "prefer-const": ["warn", { destructuring: "all" }],
     "react/prop-types": "warn",
     "simple-import-sort/sort": "warn",
     semi: ["error", "always"]

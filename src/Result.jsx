@@ -35,15 +35,15 @@ export default function Result(props) {
       if (evalResult.error !== null) {
         evalError = (
           <div className="notification is-danger is-light">
-            <pre>{evalResult.error}</pre>
+            <pre>💥 {evalResult.error}</pre>
           </div>
         );
       }
     }
     body = (
       <>
-        {evalError}
         {output}
+        {evalError}
         <button
           onClick={() => {
             const ctx = run(result.value.value);

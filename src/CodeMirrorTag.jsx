@@ -14,7 +14,7 @@ function defineLangplzMode(commentPrefix, trueLiteral, falseLiteral) {
       { regex: commentRegexp(commentPrefix), token: "comment" },
       { regex: boolLiteralRegexp(trueLiteral), token: "atom" },
       { regex: boolLiteralRegexp(falseLiteral), token: "atom" },
-      { regex: /(?:if)\b/, token: "keyword" },
+      { regex: /(?:if|while|set)\b/, token: "keyword" },
       { regex: SYMBOL_REGEXP, token: "variable" }
     ]
   });

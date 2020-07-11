@@ -7,7 +7,7 @@
     "lint": "eslint . --ignore-pattern 'dist/*.js' -f codeframe --fix",
     "start": "parcel index.html",
     "build": "parcel build index.html",
-    "deploy": "npm run build && cd dist && surge",
+    "deploy": "rm -r dist && npm run build && surge dist pl-diner.surge.sh",
     "test": "jest src"
   },
   "author": "Wilfred Hughes",

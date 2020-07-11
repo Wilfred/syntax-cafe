@@ -9,7 +9,12 @@ function sampleProgram(commentPrefix) {
   return `${commentPrefix} A starter to whet your appetite.
 (print "hello world")
 
-${commentPrefix} For the main, a classic fizzbuzz dish.`;
+${commentPrefix} For the main, a classic fizzbuzz dish.
+(set i 1)
+(while (lte i 100)
+  (print i)
+  (set i (add i 1)))
+(print "done")`;
 }
 
 export default function App() {

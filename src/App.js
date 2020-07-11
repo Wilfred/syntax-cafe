@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Editor from "./Editor";
+import CodeMirrorTag from "./CodeMirrorTag";
 import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
 import Result from "./Result";
@@ -40,14 +40,17 @@ export default function App() {
         falseLiteral={falseLiteral}
         setFalseLiteral={setFalseLiteral}
       />
-      <Editor
-        value={src}
-        commentPrefix={commentPrefix}
-        trueLiteral={trueLiteral}
-        falseLiteral={falseLiteral}
-        onChange={setSrc}
-        errorRange={errorRange}
-      />
+      <div className="box">
+        <h2 className="title">Write Code 🍳</h2>
+        <CodeMirrorTag
+          initialValue={src}
+          commentPrefix={commentPrefix}
+          trueLiteral={trueLiteral}
+          falseLiteral={falseLiteral}
+          onChange={setSrc}
+          errorRange={errorRange}
+        />
+      </div>
       <Result src={src} parser={parser} />
     </div>
   );

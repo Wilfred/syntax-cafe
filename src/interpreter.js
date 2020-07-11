@@ -1,5 +1,12 @@
 import _ from "lodash";
 
+class EvalError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "EvalError";
+  }
+}
+
 function print(ctx, args) {
   if (ctx.stdout === null) {
     ctx.stdout = "";
@@ -25,11 +32,13 @@ function add(ctx, args) {
 }
 
 function error(ctx, msg) {
-  ctx.error = msg;
   /* eslint-env node */
   if (process.env.NODE_ENV != "test") {
+    // Log on the browser, but don't clutter up test output.
     console.error(msg);
   }
+
+  throw new EvalError(msg);
 }
 
 function evalExpr(ctx, expr) {
@@ -46,19 +55,18 @@ function evalExpr(ctx, expr) {
     const symName = expr.value;
     const symVal = ctx.env[symName];
     if (symVal === undefined) {
-      error(ctx, "Unbound variable: " + symName);
-      return null;
+      error("Unbound variable: " + symName);
     }
     return symVal;
   }
 
   if (expr.name !== "List") {
-    error(ctx, "Expected a list, but got: " + expr.name);
+    error("Expected a list, but got: " + expr.name);
     return null;
   }
 
   if (expr.value.length === 0) {
-    error(ctx, "Not a valid expression.");
+    error("Not a valid expression.");
     return null;
   }
 
@@ -103,8 +111,7 @@ function evalExpr(ctx, expr) {
 
   const fn = ctx.env[fnName];
   if (fn === undefined) {
-    error(ctx, "No such function: " + fnName);
-    return null;
+    error("No such function: " + fnName);
   }
 
   const rawArgs = expr.value.slice(1);
@@ -117,18 +124,18 @@ function evalExprs(ctx, exprs) {
 
   _.forEach(exprs, expr => {
     result = evalExpr(ctx, expr);
-
-    if (ctx.error) {
-      return false;
-    }
   });
 
   return result;
 }
 
 export function run(exprs) {
-  const ctx = { stdout: null, error: null, env: { print, add } };
-  ctx.result = evalExprs(ctx, exprs);
+  const ctx = { result: null, stdout: null, error: null, env: { print, add } };
+  try {
+    ctx.result = evalExprs(ctx, exprs);
+  } catch (e) {
+    ctx.error = e.msg;
+  }
 
   return ctx;
 }

@@ -25,6 +25,21 @@ test("Adding literals", () => {
   expect(ctx.result.value).toBe(3);
 });
 
+test("Unbound variable error", () => {
+  const result = parser.Program.parse("nosuchvar");
+  const ctx = run(result.value.value);
+
+  expect(ctx.error).not.toBeNull();
+});
+
+test("Unbound function in argument", () => {
+  // Error should propagate.
+  const result = parser.Program.parse("(add 1 (nosuchfunc))");
+  const ctx = run(result.value.value);
+
+  expect(ctx.error).not.toBeNull();
+});
+
 test("If expression: true", () => {
   const result = parser.Program.parse("(if true 2 (foo))");
   const ctx = run(result.value.value);

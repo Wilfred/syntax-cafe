@@ -49,11 +49,6 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
         .node("List");
     },
     Comment: () => P.regexp(commentPattern),
-    _: function(r) {
-      return P.alt(
-        P.seq(P.optWhitespace, r.Comment, P.optWhitespace),
-        P.optWhitespace
-      );
-    }
+    _: r => r.Comment.sepBy(P.optWhitespace).trim(P.optWhitespace)
   });
 }

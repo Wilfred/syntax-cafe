@@ -33,7 +33,6 @@ function error(ctx, msg) {
 }
 
 function evalExpr(ctx, expr) {
-  // TODO: evaluate symbols in an environment.
   if (expr.name == "String") {
     return expr;
   }
@@ -42,6 +41,15 @@ function evalExpr(ctx, expr) {
   }
   if (expr.name == "Bool") {
     return expr;
+  }
+  if (expr.name == "Symbol") {
+    const symName = expr.value;
+    const symVal = ctx.env[symName];
+    if (symVal === undefined) {
+      error(ctx, "Unbound variable: " + symName);
+      return null;
+    }
+    return symVal;
   }
 
   if (expr.name !== "List") {
@@ -70,6 +78,15 @@ function evalExpr(ctx, expr) {
     }
 
     return evalExpr(ctx, nextExpr);
+  } else if (fnName == "set") {
+    // TODO: check arity in interpreter or (better) parser.
+    const value = evalExpr(ctx, expr.value[2]);
+
+    // TODO: check that this is a symbol.
+    const sym = expr.value[1].value;
+    ctx.env[sym] = value;
+
+    return null;
   }
 
   const fn = ctx.env[fnName];

@@ -45,3 +45,10 @@ test("Call nonexistent function", () => {
 
   expect(ctx.error).not.toBeNull();
 });
+
+test("Assignment", () => {
+  const result = parser.Program.parse("(set x 1) x");
+  const ctx = run(result.value.value);
+
+  expect(ctx.result.value).toBe(1);
+});

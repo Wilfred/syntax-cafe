@@ -8,7 +8,7 @@
     "start": "parcel index.html",
     "build": "parcel build index.html",
     "deploy": "npm run build && cd dist && surge",
-    "test": "jest src --watch"
+    "test": "jest src"
   },
   "author": "Wilfred Hughes",
   "repository": "https://github.com/Wilfred/language-diner",

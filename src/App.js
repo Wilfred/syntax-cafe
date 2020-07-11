@@ -5,13 +5,16 @@ import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
 import Result from "./Result";
 
-export default function App() {
-  const [commentPrefix, setCommentPrefix] = useState(";");
-  const sampleProgram = `${commentPrefix} A starter to whet your appetite.
+function sampleProgram(commentPrefix) {
+  return `${commentPrefix} A starter to whet your appetite.
 (print "hello world")
 
 ${commentPrefix} For the main, a classic fizzbuzz dish.`;
-  const [src, setSrc] = useState(sampleProgram);
+}
+
+export default function App() {
+  const [commentPrefix, setCommentPrefix] = useState(";");
+  const [src, setSrc] = useState(sampleProgram(commentPrefix));
   const [trueLiteral, setTrueLiteral] = useState("true");
   const [falseLiteral, setFalseLiteral] = useState("false");
 
@@ -38,7 +41,7 @@ ${commentPrefix} For the main, a classic fizzbuzz dish.`;
         setFalseLiteral={setFalseLiteral}
       />
       <Editor
-        value={sampleProgram}
+        value={src}
         commentPrefix={commentPrefix}
         trueLiteral={trueLiteral}
         falseLiteral={falseLiteral}

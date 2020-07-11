@@ -11,6 +11,7 @@
     "test": "jest src --watch"
   },
   "author": "Wilfred Hughes",
+  "repository": "https://github.com/Wilfred/language-diner",
   "license": "ISC",
   "dependencies": {
     "bulma": "^0.9.0",

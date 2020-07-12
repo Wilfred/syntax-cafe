@@ -1,6 +1,14 @@
 /* eslint-env jest */
 import { buildParser } from "./parsing";
 
+test("Boolean literal", () => {
+  const parser = buildParser(";", "true", "false");
+  const result = parser.Program.parse("true");
+
+  const firstExpr = result.value.value[0];
+  expect(firstExpr).toMatchObject({ name: "Bool", value: true });
+});
+
 test("Parse a simple list", () => {
   const parser = buildParser(";", "true", "false");
   const result = parser.Program.parse("(foo true)");

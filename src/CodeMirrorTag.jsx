@@ -4,7 +4,7 @@ import "codemirror/addon/mode/simple";
 
 import CodeMirror from "codemirror";
 import React from "react";
-import { boolLiteralRegexp, commentRegexp, SYMBOL_REGEXP } from "./parsing";
+import { wordRegexp, commentRegexp, SYMBOL_REGEXP } from "./parsing";
 import equal from "fast-deep-equal";
 
 function defineLangplzMode(commentPrefix, trueLiteral, falseLiteral) {
@@ -12,8 +12,8 @@ function defineLangplzMode(commentPrefix, trueLiteral, falseLiteral) {
     start: [
       { regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string" },
       { regex: commentRegexp(commentPrefix), token: "comment" },
-      { regex: boolLiteralRegexp(trueLiteral), token: "atom" },
-      { regex: boolLiteralRegexp(falseLiteral), token: "atom" },
+      { regex: wordRegexp(trueLiteral), token: "atom" },
+      { regex: wordRegexp(falseLiteral), token: "atom" },
       { regex: /(?:if|while|set)\b/, token: "keyword" },
       { regex: SYMBOL_REGEXP, token: "variable" }
     ]

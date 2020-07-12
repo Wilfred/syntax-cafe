@@ -7,7 +7,7 @@ export function commentRegexp(prefix) {
   return new RegExp("\\s*" + regexpEscape(prefix) + "[^\n]*\\s*");
 }
 
-export function boolLiteralRegexp(content) {
+export function wordRegexp(content) {
   return new RegExp("\\b" + regexpEscape(content) + "\\b");
 }
 
@@ -29,8 +29,8 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
     },
     BoolLiteral: function() {
       return P.alt(
-        P.regexp(boolLiteralRegexp(trueLiteral)),
-        P.regexp(boolLiteralRegexp(falseLiteral))
+        P.regexp(wordRegexp(trueLiteral)),
+        P.regexp(wordRegexp(falseLiteral))
       )
         .map(s => s == trueLiteral)
         .node("Bool");

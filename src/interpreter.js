@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 class EvalError extends Error {
   constructor(message) {
     super(message);
@@ -122,7 +120,7 @@ function evalExpr(ctx, expr) {
 function evalExprs(ctx, exprs) {
   let result = null;
 
-  _.forEach(exprs, expr => {
+  exprs.forEach(expr => {
     result = evalExpr(ctx, expr);
   });
 

@@ -11,6 +11,13 @@ test("Boolean literal evaluation", () => {
   expect(ctx.result.value).toBe(true);
 });
 
+test("Multiple expressions", () => {
+  const result = parser.Program.parse("true false");
+  const ctx = run(result.value);
+
+  expect(ctx.result.value).toBe(false);
+});
+
 test("String literal evaluation", () => {
   const result = parser.Program.parse('"foo"');
   const ctx = run(result.value);

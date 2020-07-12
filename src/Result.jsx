@@ -46,7 +46,7 @@ export default function Result(props) {
         {evalError}
         <button
           onClick={() => {
-            const ctx = run(result.value.value);
+            const ctx = run(result.value);
             setEvalResult(ctx);
           }}
           className="button"

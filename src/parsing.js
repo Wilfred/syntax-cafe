@@ -15,10 +15,7 @@ export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
   const commentPattern = commentRegexp(commentPrefix);
 
   return P.createLanguage({
-    Program: r =>
-      r.Expression.sepBy(r._)
-        .trim(r._)
-        .node("Program"),
+    Program: r => r.Expression.sepBy(r._).trim(r._),
     Expression: function(r) {
       return P.alt(r.Number, r.BoolLiteral, r.Symbol, r.StringLiteral, r.List);
     },

@@ -9,6 +9,13 @@ test("Boolean literal", () => {
   expect(firstExpr).toMatchObject({ name: "Bool", value: true });
 });
 
+test("Trailing whitespace should be permitted", () => {
+  const parser = buildParser(";", "true", "false");
+  const result = parser.Program.parse("true \n \n");
+
+  expect(result.status).toBe(true);
+});
+
 test("Parse a simple list", () => {
   const parser = buildParser(";", "true", "false");
   const result = parser.Program.parse("(foo true)");

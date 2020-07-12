@@ -31,7 +31,7 @@ function add(ctx, args) {
   return total;
 }
 
-function error(ctx, msg) {
+function error(msg) {
   /* eslint-env node */
   if (process.env.NODE_ENV != "test") {
     // Log on the browser, but don't clutter up test output.
@@ -134,7 +134,7 @@ export function run(exprs) {
   try {
     ctx.result = evalExprs(ctx, exprs);
   } catch (e) {
-    ctx.error = e.msg;
+    ctx.error = e.message;
   }
 
   return ctx;

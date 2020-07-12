@@ -30,6 +30,7 @@ test("Unbound variable error", () => {
   const ctx = run(result.value.value);
 
   expect(ctx.error).not.toBeNull();
+  expect(ctx.error).toBe("Unbound variable: nosuchvar");
 });
 
 test("Unbound function in argument", () => {

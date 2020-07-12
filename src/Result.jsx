@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { formatError } from "parsimmon";
-import { run } from "./interpreter";
+import { run } from "./interpret";
 
 export default function Result(props) {
   let [tab, setTab] = useState("execution");

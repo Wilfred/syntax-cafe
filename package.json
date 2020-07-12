@@ -4,7 +4,7 @@
   "description": "a programmable programming language",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint . --ignore-pattern 'dist/*.js' -f codeframe --fix",
+    "lint": "eslint . --ext .ts --ignore-pattern 'dist/*.js' -f codeframe",
     "start": "parcel index.html",
     "build": "parcel build index.html",
     "deploy": "rm -r dist && npm run build && surge dist pl-diner.surge.sh",
@@ -21,13 +21,16 @@
     "parsimmon": "^1.13.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "regexp.escape": "^1.1.0"
+    "regexp.escape": "^1.1.0",
+    "typescript": "^3.9.6"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
+    "@typescript-eslint/eslint-plugin": "^3.6.0",
+    "@typescript-eslint/parser": "^3.6.0",
     "babel-jest": "^26.1.0",
-    "eslint": "^7.3.1",
+    "eslint": "^7.4.0",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.5",
     "eslint-plugin-simple-import-sort": "^5.0.3",

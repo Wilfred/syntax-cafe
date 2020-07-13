@@ -33,3 +33,11 @@ test("Comments with ( should take precedence", () => {
   const result = parser.Program.parse("(foo true)\n(foo bar)");
   expect(result.value).toStrictEqual([]);
 });
+
+test("If expression", () => {
+  const parser = buildParser(";", "true", "false");
+  const result = parser.Program.parse("(if true 1 2)");
+
+  const firstExpr = result.value[0];
+  expect(firstExpr).toMatchObject({ name: "If" });
+});

@@ -71,6 +71,19 @@ function evalExpr(ctx: Context, expr: Value): Value {
     }
     return symVal;
   }
+  if (expr.name == "If") {
+    const condition = evalExpr(ctx, expr.value[0]);
+
+    // TODO: error on non-boolean condition.
+    let nextExpr;
+    if (condition.value) {
+      nextExpr = expr.value[1];
+    } else {
+      nextExpr = expr.value[2];
+    }
+
+    return evalExpr(ctx, nextExpr);
+  }
 
   if (expr.name !== "List") {
     error("Expected a list, but got: " + expr.name);
@@ -83,20 +96,7 @@ function evalExpr(ctx: Context, expr: Value): Value {
   // TODO: check fnName is a symbol.
   const fnName: string = expr.value[0].value;
 
-  if (fnName == "if") {
-    // TODO: check arity in interpreter or (better) parser.
-    const condition = evalExpr(ctx, expr.value[1]);
-
-    // TODO: error on non-boolean condition.
-    let nextExpr;
-    if (condition.value) {
-      nextExpr = expr.value[2];
-    } else {
-      nextExpr = expr.value[3];
-    }
-
-    return evalExpr(ctx, nextExpr);
-  } else if (fnName == "set") {
+  if (fnName == "set") {
     // TODO: check arity in interpreter or (better) parser.
     const value = evalExpr(ctx, expr.value[2]);
 

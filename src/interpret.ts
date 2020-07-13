@@ -16,6 +16,8 @@ interface Context {
   result: Value | null;
 }
 
+const NULL_VALUE: Value = { name: "null", value: null };
+
 function print(ctx: Context, args: Array<Value>): Value | null {
   if (ctx.stdout === null) {
     ctx.stdout = "";
@@ -23,7 +25,7 @@ function print(ctx: Context, args: Array<Value>): Value | null {
 
   // TODO: Check arity.
   ctx.stdout += args[0].value;
-  return null;
+  return NULL_VALUE;
 }
 
 function add(ctx: Context, args: Array<Value>): Value {
@@ -40,7 +42,7 @@ function add(ctx: Context, args: Array<Value>): Value {
   return total;
 }
 
-function error(msg): never {
+function error(msg: string): never {
   /* eslint-env node */
   if (process.env.NODE_ENV != "test") {
     // Log on the browser, but don't clutter up test output.
@@ -71,12 +73,10 @@ function evalExpr(ctx: Context, expr: Value): Value {
 
   if (expr.name !== "List") {
     error("Expected a list, but got: " + expr.name);
-    return null;
   }
 
   if (expr.value.length === 0) {
     error("Not a valid expression.");
-    return null;
   }
 
   // TODO: check fnName is a symbol.
@@ -103,7 +103,7 @@ function evalExpr(ctx: Context, expr: Value): Value {
     const sym = expr.value[1].value;
     ctx.env[sym] = value;
 
-    return null;
+    return NULL_VALUE;
   } else if (fnName == "while") {
     // TODO: check arity in interpreter or (better) parser.
     const condition = evalExpr(ctx, expr.value[1]);
@@ -114,7 +114,7 @@ function evalExpr(ctx: Context, expr: Value): Value {
       const body = expr.value.slice(2);
       return evalExprs(ctx, body);
     } else {
-      return null;
+      return NULL_VALUE;
     }
   }
 
@@ -124,12 +124,12 @@ function evalExpr(ctx: Context, expr: Value): Value {
   }
 
   const rawArgs = expr.value.slice(1);
-  const args = rawArgs.map(rawArg => evalExpr(ctx, rawArg));
+  const args = rawArgs.map((rawArg: Value) => evalExpr(ctx, rawArg));
 
   return fn(ctx, args);
 }
 function evalExprs(ctx: Context, exprs: Array<Value>): Value {
-  let result = null;
+  let result = NULL_VALUE;
 
   exprs.forEach(expr => {
     result = evalExpr(ctx, expr);
@@ -139,7 +139,12 @@ function evalExprs(ctx: Context, exprs: Array<Value>): Value {
 }
 
 export function run(exprs: Array<Value>): Context {
-  const ctx = { result: null, stdout: null, error: null, env: { print, add } };
+  const ctx = {
+    result: NULL_VALUE,
+    stdout: null,
+    error: null,
+    env: { print, add }
+  };
   try {
     ctx.result = evalExprs(ctx, exprs);
   } catch (e) {

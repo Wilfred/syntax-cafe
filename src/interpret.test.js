@@ -80,12 +80,12 @@ test("while false", () => {
   const result = parser.Program.parse("(while false)");
   const ctx = run(result.value);
 
-  expect(ctx.result).toBe(null);
+  expect(ctx.result.value).toBe(null);
 });
 
 test("while condition", () => {
   const result = parser.Program.parse("(set x true) (while x (set x false))");
   const ctx = run(result.value);
 
-  expect(ctx.result).toBe(null);
+  expect(ctx.result.value).toBe(null);
 });

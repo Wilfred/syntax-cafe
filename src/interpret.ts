@@ -14,6 +14,7 @@ interface Context {
   stdout: null | string;
   env: Record<string, any>;
   result: Value | null;
+  error: null | string;
 }
 
 const NULL_VALUE: Value = { name: "null", value: null };
@@ -80,7 +81,7 @@ function evalExpr(ctx: Context, expr: Value): Value {
   }
 
   // TODO: check fnName is a symbol.
-  const fnName = expr.value[0].value;
+  const fnName: string = expr.value[0].value;
 
   if (fnName == "if") {
     // TODO: check arity in interpreter or (better) parser.
@@ -139,7 +140,7 @@ function evalExprs(ctx: Context, exprs: Array<Value>): Value {
 }
 
 export function run(exprs: Array<Value>): Context {
-  const ctx = {
+  const ctx: Context = {
     result: NULL_VALUE,
     stdout: null,
     error: null,

@@ -3,9 +3,10 @@ import "codemirror/addon/edit/matchbrackets";
 import "codemirror/addon/mode/simple";
 
 import CodeMirror from "codemirror";
-import React from "react";
-import { wordRegexp, commentRegexp, SYMBOL_REGEXP } from "./parsing";
 import equal from "fast-deep-equal";
+import React from "react";
+
+import { commentRegexp, SYMBOL_REGEXP,wordRegexp } from "./parsing";
 
 function defineLangplzMode(commentPrefix, trueLiteral, falseLiteral) {
   CodeMirror.defineSimpleMode("langplz", {

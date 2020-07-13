@@ -1,5 +1,6 @@
-import React, { useState } from "react";
 import { formatError } from "parsimmon";
+import React, { useState } from "react";
+
 import { run } from "./interpret";
 
 export default function Result(props) {

@@ -3,15 +3,15 @@ import regexpEscape from "regexp.escape";
 
 export const SYMBOL_REGEXP = /[a-zA-Z]+/;
 
-export function commentRegexp(prefix) {
+export function commentRegexp(prefix: string): RegExp {
   return new RegExp("\\s*" + regexpEscape(prefix) + "[^\n]*\\s*");
 }
 
-export function wordRegexp(content) {
+export function wordRegexp(content: string): RegExp {
   return new RegExp("\\b" + regexpEscape(content) + "\\b");
 }
 
-export function buildParser(commentPrefix, trueLiteral, falseLiteral) {
+export function buildParser(commentPrefix: string, trueLiteral: string, falseLiteral: string): P.Language {
   const commentPattern = commentRegexp(commentPrefix);
 
   return P.createLanguage({

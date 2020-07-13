@@ -11,7 +11,11 @@ export function wordRegexp(content: string): RegExp {
   return new RegExp("\\b" + regexpEscape(content) + "\\b");
 }
 
-export function buildParser(commentPrefix: string, trueLiteral: string, falseLiteral: string): P.Language {
+export function buildParser(
+  commentPrefix: string,
+  trueLiteral: string,
+  falseLiteral: string
+): P.Language {
   const commentPattern = commentRegexp(commentPrefix);
 
   return P.createLanguage({

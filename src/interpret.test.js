@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { run } from "./interpreter";
+import { run } from "./interpret";
 import { buildParser } from "./parsing";
 
 const parser = buildParser(";", "true", "false");

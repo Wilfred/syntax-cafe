@@ -22,6 +22,12 @@ test("Parse a simple list", () => {
   expect(result.status).toBe(true);
 });
 
+test("Whitespace inside list", () => {
+  const parser = buildParser(";", "true", "false");
+  const result = parser.Program.parse("(foo )");
+  expect(result.status).toBe(true);
+});
+
 test("Comments with ( should take precedence", () => {
   const parser = buildParser("(", "true", "false");
   const result = parser.Program.parse("(foo true)\n(foo bar)");

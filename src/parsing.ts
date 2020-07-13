@@ -44,8 +44,9 @@ export function buildParser(
     },
     List: function(r) {
       return P.string("(")
-        .then(r._)
+        .skip(r._)
         .then(r.Expression.sepBy(r._))
+        .skip(r._)
         .skip(P.string(")"))
         .node("List");
     },

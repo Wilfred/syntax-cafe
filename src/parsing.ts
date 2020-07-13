@@ -29,7 +29,7 @@ export function buildParser(
         r.StringLiteral,
         r.IfExpression,
         r.List
-      );
+      ).skip(r._);
     },
     Number: function() {
       return P.regexp(/[0-9]+/)
@@ -55,8 +55,7 @@ export function buildParser(
     List: function(r) {
       return P.string("(")
         .skip(r._)
-        .then(r.Expression.sepBy(r._))
-        .skip(r._)
+        .then(r.Expression.many())
         .skip(P.string(")"))
         .node("List");
     },
@@ -67,12 +66,11 @@ export function buildParser(
           .skip(r._)
           .skip(P.string("if"))
           .skip(r._)
-          .then(r.Expression)
-          .skip(r._),
+          .then(r.Expression),
         // then
-        r.Expression.skip(r._),
+        r.Expression,
         // else (required)
-        r.Expression.skip(r._).skip(P.string(")"))
+        r.Expression.skip(P.string(")"))
       ).node("If");
     },
     Comment: () => P.regexp(commentPattern),

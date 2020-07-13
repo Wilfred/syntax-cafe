@@ -1,5 +1,3 @@
 {
-  "compilerOptions": {
-    "typeRoots": ["src/types", "node_modules/@types"]
-  }
+  "compilerOptions": { "esModuleInterop": true, "strict": true }
 }

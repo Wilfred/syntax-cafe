@@ -149,7 +149,11 @@ export function run(exprs: Array<Value>): Context {
   try {
     ctx.result = evalExprs(ctx, exprs);
   } catch (e) {
-    ctx.error = e.message;
+    if (e instanceof EvalError) {
+      ctx.error = e.message;
+    } else {
+      throw e;
+    }
   }
 
   return ctx;

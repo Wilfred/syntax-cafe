@@ -84,6 +84,19 @@ function evalExpr(ctx: Context, expr: Value): Value {
 
     return evalExpr(ctx, nextExpr);
   }
+  if (expr.name == "While") {
+    const condition = evalExpr(ctx, expr.value[0]);
+
+    // TODO: error on non-boolean condition.
+    if (condition.value) {
+      // TODO: add the UI to break from infinite loops.
+      // TODO: actually loop.
+      const body = expr.value[1];
+      return evalExpr(ctx, body);
+    } else {
+      return NULL_VALUE;
+    }
+  }
 
   if (expr.name !== "FunctionCall") {
     error("Expected a function call, but got: " + expr.name);

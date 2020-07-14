@@ -77,10 +77,10 @@ test("Assignment", () => {
 });
 
 test("while false", () => {
-  const result = parser.Program.parse("(while false)");
+  const result = parser.Program.parse("(while false false)");
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(null);
+  expect(ctx.error).toBe(null);
 });
 
 test("while condition", () => {

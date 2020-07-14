@@ -28,6 +28,7 @@ export function buildParser(
         r.Symbol,
         r.StringLiteral,
         r.IfExpression,
+        r.WhileLoop,
         r.FunctionCall
       ).skip(r._);
     },
@@ -46,7 +47,10 @@ export function buildParser(
     },
     Symbol: function() {
       return P.regexp(SYMBOL_REGEXP)
-        .assert((s: string) => s != "if", "a symbol, not a reserved word")
+        .assert(
+          (s: string) => s != "if" && s != "while",
+          "a symbol, not a reserved word"
+        )
         .node("Symbol");
     },
     StringLiteral: function() {
@@ -72,6 +76,18 @@ export function buildParser(
         // else (required)
         r.Expression.skip(P.string(")"))
       ).node("If");
+    },
+    WhileLoop: r => {
+      return P.seq(
+        // condition
+        P.string("(")
+          .skip(r._)
+          .skip(P.string("while"))
+          .skip(r._)
+          .then(r.Expression),
+        // body
+        r.Expression.skip(P.string(")"))
+      ).node("While");
     },
     Comment: () => P.regexp(commentPattern),
     _: r => r.Comment.sepBy(P.optWhitespace).trim(P.optWhitespace)

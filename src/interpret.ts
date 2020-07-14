@@ -85,8 +85,8 @@ function evalExpr(ctx: Context, expr: Value): Value {
     return evalExpr(ctx, nextExpr);
   }
 
-  if (expr.name !== "List") {
-    error("Expected a list, but got: " + expr.name);
+  if (expr.name !== "FunctionCall") {
+    error("Expected a function call, but got: " + expr.name);
   }
 
   if (expr.value.length === 0) {

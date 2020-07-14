@@ -28,7 +28,7 @@ export function buildParser(
         r.Symbol,
         r.StringLiteral,
         r.IfExpression,
-        r.List
+        r.FunctionCall
       ).skip(r._);
     },
     Number: function() {
@@ -52,12 +52,12 @@ export function buildParser(
     StringLiteral: function() {
       return P.regexp(/"((?:\\.|.)*?)"/, 1).node("String");
     },
-    List: function(r) {
+    FunctionCall: function(r) {
       return P.string("(")
         .skip(r._)
         .then(r.Expression.many())
         .skip(P.string(")"))
-        .node("List");
+        .node("FunctionCall");
     },
     IfExpression: r => {
       return P.seq(

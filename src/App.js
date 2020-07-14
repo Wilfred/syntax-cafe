@@ -12,8 +12,9 @@ function sampleProgram(commentPrefix) {
 ${commentPrefix} For the main, a classic fizzbuzz dish.
 (set i 1)
 (while (lte i 100)
-  (print i)
-  (set i (add i 1)))
+  (do
+    (print i)
+    (set i (add i 1))))
 (print "done")`;
 }
 

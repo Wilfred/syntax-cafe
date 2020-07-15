@@ -53,6 +53,10 @@ function error(msg: string): never {
   throw new EvalError(msg);
 }
 
+function isBool(expr: Value): bool {
+  return expr.name == "Bool";
+}
+
 function evalExpr(ctx: Context, expr: Value): Value {
   if (expr.name == "String") {
     return expr;
@@ -74,7 +78,10 @@ function evalExpr(ctx: Context, expr: Value): Value {
   if (expr.name == "If") {
     const condition = evalExpr(ctx, expr.value[0]);
 
-    // TODO: error on non-boolean condition.
+    if (!isBool(condition)) {
+      error("If conditions must be bool, but got " + expr.name);
+    }
+
     let nextExpr;
     if (condition.value) {
       nextExpr = expr.value[1];
@@ -87,7 +94,10 @@ function evalExpr(ctx: Context, expr: Value): Value {
   if (expr.name == "While") {
     const condition = evalExpr(ctx, expr.value[0]);
 
-    // TODO: error on non-boolean condition.
+    if (!isBool(condition)) {
+      error("While conditions must be bool, but got " + expr.name);
+    }
+
     if (condition.value) {
       // TODO: add the UI to break from infinite loops.
       // TODO: actually loop.

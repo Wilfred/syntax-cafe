@@ -53,7 +53,7 @@ function error(msg: string): never {
   throw new EvalError(msg);
 }
 
-function isBool(expr: Value): bool {
+function isBool(expr: Value): boolean {
   return expr.name == "Bool";
 }
 

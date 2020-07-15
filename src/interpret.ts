@@ -75,6 +75,15 @@ function evalExpr(ctx: Context, expr: Value): Value {
     }
     return symVal;
   }
+  if (expr.name == "Assign") {
+    // TODO: access items in AST node by name, not index.
+    const value = evalExpr(ctx, expr.value[1]);
+
+    const sym = expr.value[0].value;
+    ctx.env[sym] = value;
+
+    return NULL_VALUE;
+  }
   if (expr.name == "If") {
     const condition = evalExpr(ctx, expr.value[0]);
 
@@ -118,17 +127,6 @@ function evalExpr(ctx: Context, expr: Value): Value {
 
   // TODO: check fnName is a symbol.
   const fnName: string = expr.value[0].value;
-
-  if (fnName == "set") {
-    // TODO: check arity in interpreter or (better) parser.
-    const value = evalExpr(ctx, expr.value[2]);
-
-    // TODO: check that this is a symbol.
-    const sym = expr.value[1].value;
-    ctx.env[sym] = value;
-
-    return NULL_VALUE;
-  }
 
   const fn = ctx.env[fnName];
   if (fn === undefined) {

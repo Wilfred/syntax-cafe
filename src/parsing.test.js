@@ -41,3 +41,11 @@ test("If expression", () => {
   const firstExpr = result.value[0];
   expect(firstExpr).toMatchObject({ name: "If" });
 });
+
+test("Set expression", () => {
+  const parser = buildParser(";", "true", "false");
+  const result = parser.Program.parse("(set x 1)");
+
+  const firstExpr = result.value[0];
+  expect(firstExpr).toMatchObject({ name: "Assign" });
+});

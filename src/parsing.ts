@@ -27,6 +27,7 @@ export function buildParser(
         r.BoolLiteral,
         r.Symbol,
         r.StringLiteral,
+        r.Assign,
         r.IfExpression,
         r.WhileLoop,
         r.FunctionCall
@@ -48,7 +49,7 @@ export function buildParser(
     Symbol: function() {
       return P.regexp(SYMBOL_REGEXP)
         .assert(
-          (s: string) => s != "if" && s != "while",
+          (s: string) => s != "if" && s != "while" && s != "set",
           "a symbol, not a reserved word"
         )
         .node("Symbol");
@@ -76,6 +77,19 @@ export function buildParser(
         // else (required)
         r.Expression.skip(P.string(")"))
       ).node("If");
+    },
+    Assign: r => {
+      return P.seq(
+        // Variable
+        P.string("(")
+          .skip(r._)
+          .skip(P.string("set"))
+          .skip(r._)
+          .then(r.Symbol)
+          .skip(r._),
+        // Value
+        r.Expression.skip(P.string(")"))
+      ).node("Assign");
     },
     WhileLoop: r => {
       return P.seq(

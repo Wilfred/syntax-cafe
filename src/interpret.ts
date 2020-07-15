@@ -128,18 +128,6 @@ function evalExpr(ctx: Context, expr: Value): Value {
     ctx.env[sym] = value;
 
     return NULL_VALUE;
-  } else if (fnName == "while") {
-    // TODO: check arity in interpreter or (better) parser.
-    const condition = evalExpr(ctx, expr.value[1]);
-
-    // TODO: error on non-boolean condition.
-    if (condition.value) {
-      // TODO: add the UI to break from infinite loops.
-      const body = expr.value.slice(2);
-      return evalExprs(ctx, body);
-    } else {
-      return NULL_VALUE;
-    }
   }
 
   const fn = ctx.env[fnName];

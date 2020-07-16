@@ -76,6 +76,15 @@ test("Assignment", () => {
   expect(ctx.result.value).toBe(1);
 });
 
+test("Comparison", () => {
+  const result = parser.Program.parse("(lte 1 42)");
+  const ctx = run(result.value);
+
+  // TODO: check no errors.
+  // TODO: check name too.
+  expect(ctx.result.value).toBe(true);
+});
+
 test("while false", () => {
   const result = parser.Program.parse("(while false false)");
   const ctx = run(result.value);

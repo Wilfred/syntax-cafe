@@ -49,6 +49,8 @@ export function buildParser(
     Symbol: function() {
       return P.regexp(SYMBOL_REGEXP)
         .assert(
+          // TODO: Submit PR for typing for parsimmon to allow .assert.
+          // TODO: ban local variables called true/false too.
           (s: string) => s != "if" && s != "while" && s != "set",
           "a symbol, not a reserved word"
         )

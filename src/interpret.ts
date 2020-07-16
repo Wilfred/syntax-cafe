@@ -18,6 +18,8 @@ interface Context {
 }
 
 const NULL_VALUE: Value = { name: "null", value: null };
+const TRUE_VALUE: Value = { name: "Bool", value: true };
+const FALSE_VALUE: Value = { name: "Bool", value: true };
 
 function print(ctx: Context, args: Array<Value>): Value | null {
   if (ctx.stdout === null) {
@@ -27,6 +29,14 @@ function print(ctx: Context, args: Array<Value>): Value | null {
   // TODO: Check arity.
   ctx.stdout += args[0].value;
   return NULL_VALUE;
+}
+
+function lte(_ctx: Context, args: Array<Value>): Value {
+  // TODO: Check arity and type.
+  let firstArg = args[0].value;
+  let secondArg = args[0].value;
+
+  return firstArg <= secondArg ? TRUE_VALUE : FALSE_VALUE;
 }
 
 function add(ctx: Context, args: Array<Value>): Value {
@@ -153,7 +163,7 @@ export function run(exprs: Array<Value>): Context {
     result: NULL_VALUE,
     stdout: null,
     error: null,
-    env: { print, add }
+    env: { print, add, lte }
   };
   try {
     ctx.result = evalExprs(ctx, exprs);

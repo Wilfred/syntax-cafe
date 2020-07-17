@@ -42,7 +42,7 @@ function do_(_ctx: Context, args: Array<Value>): Value {
 function lte(_ctx: Context, args: Array<Value>): Value {
   // TODO: Check arity and type.
   let firstArg = args[0].value;
-  let secondArg = args[0].value;
+  let secondArg = args[1].value;
 
   return firstArg <= secondArg ? TRUE_VALUE : FALSE_VALUE;
 }

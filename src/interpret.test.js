@@ -85,6 +85,13 @@ test("Comparison", () => {
   expect(ctx.result.value).toBe(true);
 });
 
+test("Comparison same", () => {
+  const result = parser.Program.parse("(lte 5 5)");
+  const ctx = run(result.value);
+
+  expect(ctx.result.value).toBe(true);
+});
+
 test("Comparison false", () => {
   const result = parser.Program.parse("(lte 2 1)");
   const ctx = run(result.value);

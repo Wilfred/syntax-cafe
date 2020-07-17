@@ -19,7 +19,7 @@ interface Context {
 
 const NULL_VALUE: Value = { name: "null", value: null };
 const TRUE_VALUE: Value = { name: "Bool", value: true };
-const FALSE_VALUE: Value = { name: "Bool", value: true };
+const FALSE_VALUE: Value = { name: "Bool", value: false };
 
 function print(ctx: Context, args: Array<Value>): Value {
   if (ctx.stdout === null) {

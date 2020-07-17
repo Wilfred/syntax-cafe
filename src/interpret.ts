@@ -2,6 +2,9 @@ class EvalError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "EvalError";
+    // Seems to be necessary in browser, although not in
+    // node. Otherwise, we can't catch EvalError with instanceof.
+    Object.setPrototypeOf(this, EvalError.prototype);
   }
 }
 

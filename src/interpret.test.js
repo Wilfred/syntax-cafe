@@ -121,8 +121,10 @@ test("while non-bool", () => {
 });
 
 test("while condition", () => {
-  const result = parser.Program.parse("(set x true) (while x (set x false))");
+  const result = parser.Program.parse(
+    "(set x 0) (while (lte x 3) (set x (add x 1))) x"
+  );
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(null);
+  expect(ctx.result.value).toBe(4);
 });

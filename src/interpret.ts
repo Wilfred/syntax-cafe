@@ -115,20 +115,22 @@ function evalExpr(ctx: Context, expr: Value): Value {
     return evalExpr(ctx, nextExpr);
   }
   if (expr.name == "While") {
-    const condition = evalExpr(ctx, expr.value[0]);
+    const rawCondition = expr.value[0];
+    const rawBody = expr.value[1];
 
-    if (!isBool(condition)) {
-      error("While conditions must be bool, but got " + expr.name);
+    while (true) {
+      const condition = evalExpr(ctx, rawCondition);
+      if (!isBool(condition)) {
+        error("While conditions must be bool, but got " + condition.name);
+      }
+
+      if (condition.value == false) {
+        break;
+      }
+      evalExpr(ctx, rawBody);
     }
 
-    if (condition.value) {
-      // TODO: add the UI to break from infinite loops.
-      // TODO: actually loop.
-      const body = expr.value[1];
-      return evalExpr(ctx, body);
-    } else {
-      return NULL_VALUE;
-    }
+    return NULL_VALUE;
   }
 
   if (expr.name !== "FunctionCall") {

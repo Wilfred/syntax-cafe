@@ -31,6 +31,14 @@ function print(ctx: Context, args: Array<Value>): Value {
   return NULL_VALUE;
 }
 
+function do_(_ctx: Context, args: Array<Value>): Value {
+  if (args.length == 0) {
+    return NULL_VALUE;
+  }
+
+  return args[args.length - 1];
+}
+
 function lte(_ctx: Context, args: Array<Value>): Value {
   // TODO: Check arity and type.
   let firstArg = args[0].value;
@@ -159,7 +167,7 @@ export function run(exprs: Array<Value>): Context {
     result: NULL_VALUE,
     stdout: null,
     error: null,
-    env: { print, add, lte }
+    env: { print, add, lte, do: do_ }
   };
   try {
     ctx.result = evalExprs(ctx, exprs);

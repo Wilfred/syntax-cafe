@@ -85,6 +85,13 @@ test("Comparison", () => {
   expect(ctx.result.value).toBe(true);
 });
 
+test("Do", () => {
+  const result = parser.Program.parse("(do 1 2)");
+  const ctx = run(result.value);
+
+  expect(ctx.result.value).toBe(2);
+});
+
 test("while false", () => {
   const result = parser.Program.parse("(while false false)");
   const ctx = run(result.value);

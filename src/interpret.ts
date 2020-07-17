@@ -39,11 +39,7 @@ function lte(_ctx: Context, args: Array<Value>): Value {
   return firstArg <= secondArg ? TRUE_VALUE : FALSE_VALUE;
 }
 
-function add(ctx: Context, args: Array<Value>): Value {
-  if (ctx.stdout === null) {
-    ctx.stdout = "";
-  }
-
+function add(_ctx: Context, args: Array<Value>): Value {
   const total = { value: 0, name: "Number" };
   // TODO: check values are numbers.
   args.forEach(arg => {

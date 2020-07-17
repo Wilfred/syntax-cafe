@@ -5,24 +5,30 @@ import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
 import Result from "./Result";
 
-function sampleProgram(commentPrefix) {
+function sampleProgram(commentPrefix, trueLiteral, falseLiteral) {
   return `${commentPrefix} A starter to whet your appetite.
 (print "hello world")
 
 ${commentPrefix} For the main, a classic fizzbuzz dish.
-(set i 1)
-(while (lte i 100)
+(set i 0)
+(set underlimit ${trueLiteral})
+(while underlimit
   (do
     (print i)
-    (set i (add i 1))))
+    (print " ")
+    (set i (add i 1))
+    (set underlimit (lte i 20))))
 (print "done")`;
 }
 
 export default function App() {
   const [commentPrefix, setCommentPrefix] = useState(";");
-  const [src, setSrc] = useState(sampleProgram(commentPrefix));
   const [trueLiteral, setTrueLiteral] = useState("true");
   const [falseLiteral, setFalseLiteral] = useState("false");
+
+  const [src, setSrc] = useState(
+    sampleProgram(commentPrefix, trueLiteral, falseLiteral)
+  );
 
   const parser = buildParser(commentPrefix, trueLiteral, falseLiteral);
 
@@ -49,7 +55,7 @@ export default function App() {
       <div className="box">
         <h2 className="title">Write Code 🍳</h2>
         <CodeMirrorTag
-          initialValue={sampleProgram(commentPrefix)}
+          initialValue={sampleProgram(commentPrefix, trueLiteral, falseLiteral)}
           commentPrefix={commentPrefix}
           trueLiteral={trueLiteral}
           falseLiteral={falseLiteral}

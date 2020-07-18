@@ -8,32 +8,37 @@ function expectError(ctx) {
   expect(ctx.error).not.toBeNull();
 }
 
+function expectResult(ctx, value) {
+  expect(ctx.error).toBeNull();
+  expect(ctx.result.value).toBe(value);
+}
+
 test("Boolean literal evaluation", () => {
   const result = PARSER.Program.parse("true");
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(true);
+  expectResult(ctx, true);
 });
 
 test("Multiple expressions", () => {
   const result = PARSER.Program.parse("true false");
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(false);
+  expectResult(ctx, false);
 });
 
 test("String literal evaluation", () => {
   const result = PARSER.Program.parse('"foo"');
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe("foo");
+  expectResult(ctx, "foo");
 });
 
 test("Adding literals", () => {
   const result = PARSER.Program.parse("(add 1 2)");
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(3);
+  expectResult(ctx, 3);
 });
 
 test("Unbound variable error", () => {
@@ -56,14 +61,14 @@ test("If expression: true", () => {
   const result = PARSER.Program.parse("(if true 2 (foo))");
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(2);
+  expectResult(ctx, 2);
 });
 
 test("If expression: false", () => {
   const result = PARSER.Program.parse("(if false (foo) 2)");
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(2);
+  expectResult(ctx, 2);
 });
 
 test("Call nonexistent function", () => {
@@ -77,7 +82,7 @@ test("Assignment", () => {
   const result = PARSER.Program.parse("(set x 1) x");
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(1);
+  expectResult(ctx, 1);
 });
 
 test("Comparison", () => {
@@ -86,28 +91,28 @@ test("Comparison", () => {
 
   // TODO: check no errors.
   // TODO: check name too.
-  expect(ctx.result.value).toBe(true);
+  expectResult(ctx, true);
 });
 
 test("Comparison same", () => {
   const result = PARSER.Program.parse("(lte 5 5)");
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(true);
+  expectResult(ctx, true);
 });
 
 test("Comparison false", () => {
   const result = PARSER.Program.parse("(lte 2 1)");
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(false);
+  expectResult(ctx, false);
 });
 
 test("Do", () => {
   const result = PARSER.Program.parse("(do 1 2)");
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(2);
+  expectResult(ctx, 2);
 });
 
 test("while false", () => {
@@ -130,5 +135,5 @@ test("while condition", () => {
   );
   const ctx = run(result.value);
 
-  expect(ctx.result.value).toBe(4);
+  expectResult(ctx, 4);
 });

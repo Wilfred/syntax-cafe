@@ -161,14 +161,14 @@ function evalExpr(ctx: Context, expr: Value): Value {
   }
 
   // TODO: check fnName is a symbol.
-  const fnName: string = expr.value[0].value;
+  const fnName: string = expr.value.fun.value;
 
   const fn = ctx.env[fnName];
   if (fn === undefined) {
     error("No such function: " + fnName);
   }
 
-  const rawArgs = expr.value.slice(1);
+  const rawArgs = expr.value.args;
   const args = rawArgs.map((rawArg: Value) => evalExpr(ctx, rawArg));
 
   return fn(ctx, args);

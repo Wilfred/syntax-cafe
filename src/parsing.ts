@@ -59,12 +59,14 @@ export function buildParser(
     StringLiteral: function() {
       return P.regexp(/"((?:\\.|.)*?)"/, 1).node("String");
     },
-    FunctionCall: function(r) {
-      return P.string("(")
-        .skip(r._)
-        .then(r.Expression.many())
-        .skip(P.string(")"))
-        .node("FunctionCall");
+    FunctionCall: r => {
+      return P.seqObj(
+        P.string("(").skip(r._),
+        // 'function' and 'arguments' are both reserved words in JS/TS.
+        ["fun", r.Expression],
+        ["args", r.Expression.many()],
+        P.string(")")
+      ).node("FunctionCall");
     },
     IfExpression: r => {
       return P.seq(

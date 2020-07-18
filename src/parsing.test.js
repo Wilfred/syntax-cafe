@@ -7,6 +7,10 @@ function expectParseSuccess(result) {
   expect(result.status).toBe(true);
 }
 
+function expectParseError(result) {
+  expect(result.status).toBe(false);
+}
+
 test("Boolean literal", () => {
   const result = PARSER.Program.parse("true");
 
@@ -18,6 +22,11 @@ test("Trailing whitespace should be permitted", () => {
   const result = PARSER.Program.parse("true \n \n");
 
   expectParseSuccess(result);
+});
+
+test("Empty list should be a parse error", () => {
+  const result = PARSER.Program.parse("()");
+  expectParseError(result);
 });
 
 test("Parse a simple list", () => {

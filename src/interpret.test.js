@@ -85,34 +85,38 @@ test("Assignment", () => {
   expectResult(ctx, 1);
 });
 
-test("Comparison", () => {
-  const result = PARSER.Program.parse("(lte 1 42)");
-  const ctx = run(result.value);
+describe("lte", () => {
+  it("should evaluate 1 <= 2 as true", () => {
+    const result = PARSER.Program.parse("(lte 1 2)");
+    const ctx = run(result.value);
 
-  // TODO: check no errors.
-  // TODO: check name too.
-  expectResult(ctx, true);
-});
+    expectResult(ctx, true);
+  });
 
-test("Comparison same", () => {
-  const result = PARSER.Program.parse("(lte 5 5)");
-  const ctx = run(result.value);
+  it("should evaluate 1 <= 1 as true", () => {
+    const result = PARSER.Program.parse("(lte 1 1)");
+    const ctx = run(result.value);
 
-  expectResult(ctx, true);
-});
+    expectResult(ctx, true);
+  });
+  it("should evaluate 2 <= 1 as false", () => {
+    const result = PARSER.Program.parse("(lte 2 1)");
+    const ctx = run(result.value);
 
-test("Comparison false", () => {
-  const result = PARSER.Program.parse("(lte 2 1)");
-  const ctx = run(result.value);
+    expectResult(ctx, false);
+  });
+  it("should require numbers", () => {
+    const result = PARSER.Program.parse('(lte 1 "foo")');
+    const ctx = run(result.value);
 
-  expectResult(ctx, false);
-});
+    expectError(ctx);
+  });
+  it("should require two argments", () => {
+    const result = PARSER.Program.parse("(lte 1 2 3)");
+    const ctx = run(result.value);
 
-test("Comparison type error", () => {
-  const result = PARSER.Program.parse('(lte 2 "foo")');
-  const ctx = run(result.value);
-
-  expectError(ctx);
+    expectError(ctx);
+  });
 });
 
 test("mod", () => {

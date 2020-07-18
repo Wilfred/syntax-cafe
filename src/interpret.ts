@@ -43,11 +43,20 @@ function do_(_ctx: Context, args: Array<Value>): Value {
 }
 
 function lte(_ctx: Context, args: Array<Value>): Value {
-  // TODO: Check arity and type.
-  let firstArg = args[0].value;
-  let secondArg = args[1].value;
+  if (args.length != 2) {
+    error("lte takes 2 arguments, but got: " + args.length);
+  }
 
-  return firstArg <= secondArg ? TRUE_VALUE : FALSE_VALUE;
+  let firstArg = args[0];
+  let secondArg = args[1];
+
+  if (firstArg.name == "Number" && secondArg.name == "Number") {
+    return firstArg.value <= secondArg.value ? TRUE_VALUE : FALSE_VALUE;
+  }
+
+  error(
+    `Expected number arguments to lte, but got ${firstArg.name} and ${secondArg.name}`
+  );
 }
 
 function equal(_ctx: Context, args: Array<Value>): Value {

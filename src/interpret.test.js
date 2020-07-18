@@ -108,6 +108,13 @@ test("Comparison false", () => {
   expectResult(ctx, false);
 });
 
+test("Comparison type error", () => {
+  const result = PARSER.Program.parse('(lte 2 "foo")');
+  const ctx = run(result.value);
+
+  expectError(ctx);
+});
+
 test("mod", () => {
   const result = PARSER.Program.parse("(mod 13 5)");
   const ctx = run(result.value);

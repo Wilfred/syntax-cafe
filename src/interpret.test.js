@@ -108,6 +108,13 @@ test("Comparison false", () => {
   expectResult(ctx, false);
 });
 
+test("mod", () => {
+  const result = PARSER.Program.parse("(mod 13 5)");
+  const ctx = run(result.value);
+
+  expectResult(ctx, 3);
+});
+
 test("Do", () => {
   const result = PARSER.Program.parse("(do 1 2)");
   const ctx = run(result.value);

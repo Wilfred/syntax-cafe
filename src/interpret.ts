@@ -50,6 +50,14 @@ function lte(_ctx: Context, args: Array<Value>): Value {
   return firstArg <= secondArg ? TRUE_VALUE : FALSE_VALUE;
 }
 
+function equal(_ctx: Context, args: Array<Value>): Value {
+  // TODO: Check arity.
+  let firstArg = args[0].value;
+  let secondArg = args[1].value;
+
+  return firstArg === secondArg ? TRUE_VALUE : FALSE_VALUE;
+}
+
 function mod(_ctx: Context, args: Array<Value>): Value {
   // TODO: Check arity and type.
   let firstArg = args[0].value;
@@ -180,7 +188,7 @@ export function run(exprs: Array<Value>): Context {
     result: NULL_VALUE,
     stdout: null,
     error: null,
-    env: { print, add, lte, mod, do: do_ }
+    env: { print, add, lte, mod, equal, do: do_ }
   };
   try {
     ctx.result = evalExprs(ctx, exprs);

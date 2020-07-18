@@ -115,6 +115,13 @@ test("mod", () => {
   expectResult(ctx, 3);
 });
 
+test("equal", () => {
+  const result = PARSER.Program.parse('(equal "foo" "bar")');
+  const ctx = run(result.value);
+
+  expectResult(ctx, false);
+});
+
 test("Do", () => {
   const result = PARSER.Program.parse("(do 1 2)");
   const ctx = run(result.value);

@@ -60,7 +60,10 @@ function lte(_ctx: Context, args: Array<Value>): Value {
 }
 
 function equal(_ctx: Context, args: Array<Value>): Value {
-  // TODO: Check arity.
+  if (args.length != 2) {
+    error("equal takes 2 arguments, but got: " + args.length);
+  }
+
   let firstArg = args[0].value;
   let secondArg = args[1].value;
 

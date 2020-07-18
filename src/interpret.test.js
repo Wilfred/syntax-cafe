@@ -126,11 +126,25 @@ test("mod", () => {
   expectResult(ctx, 3);
 });
 
-test("equal", () => {
-  const result = PARSER.Program.parse('(equal "foo" "bar")');
-  const ctx = run(result.value);
+describe("equal", () => {
+  it('should treat "foo" === "foo" as true', () => {
+    const result = PARSER.Program.parse('(equal "foo" "foo")');
+    const ctx = run(result.value);
 
-  expectResult(ctx, false);
+    expectResult(ctx, true);
+  });
+  it('should treat "foo" === "bar" as false', () => {
+    const result = PARSER.Program.parse('(equal "foo" "bar")');
+    const ctx = run(result.value);
+
+    expectResult(ctx, false);
+  });
+  it("should require two arguments", () => {
+    const result = PARSER.Program.parse('(equal "foo" "foo" "foo")');
+    const ctx = run(result.value);
+
+    expectError(ctx);
+  });
 });
 
 test("Do", () => {

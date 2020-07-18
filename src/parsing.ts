@@ -36,6 +36,7 @@ export function buildParser(
     Number: function() {
       return P.regexp(/[0-9]+/)
         .map(Number)
+        .desc("number")
         .node("Number");
     },
     BoolLiteral: function() {
@@ -44,6 +45,7 @@ export function buildParser(
         P.regexp(wordRegexp(falseLiteral))
       )
         .map(s => s == trueLiteral)
+        .desc("bool literal")
         .node("Bool");
     },
     Symbol: function() {
@@ -54,10 +56,13 @@ export function buildParser(
           (s: string) => s != "if" && s != "while" && s != "set",
           "a symbol, not a reserved word"
         )
+        .desc("symbol")
         .node("Symbol");
     },
     StringLiteral: function() {
-      return P.regexp(/"((?:\\.|.)*?)"/, 1).node("String");
+      return P.regexp(/"((?:\\.|.)*?)"/, 1)
+        .desc("string literal")
+        .node("String");
     },
     FunctionCall: r => {
       return P.seqObj(
@@ -107,7 +112,7 @@ export function buildParser(
         r.Expression.skip(P.string(")"))
       ).node("While");
     },
-    Comment: () => P.regexp(commentPattern),
+    Comment: () => P.regexp(commentPattern).desc("comment"),
     _: r => r.Comment.sepBy(P.optWhitespace).trim(P.optWhitespace)
   });
 }

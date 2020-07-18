@@ -71,11 +71,20 @@ function equal(_ctx: Context, args: Array<Value>): Value {
 }
 
 function mod(_ctx: Context, args: Array<Value>): Value {
-  // TODO: Check arity and type.
-  let firstArg = args[0].value;
-  let secondArg = args[1].value;
+  if (args.length != 2) {
+    error("mod takes 2 arguments, but got: " + args.length);
+  }
 
-  return { value: firstArg % secondArg, name: "Number" };
+  let firstArg = args[0];
+  let secondArg = args[1];
+
+  if (firstArg.name == "Number" && secondArg.name == "Number") {
+    return { name: "Number", value: firstArg.value % secondArg.value };
+  }
+
+  error(
+    `Expected number arguments to mod, but got ${firstArg.name} and ${secondArg.name}`
+  );
 }
 
 function add(_ctx: Context, args: Array<Value>): Value {

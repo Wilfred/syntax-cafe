@@ -119,11 +119,19 @@ describe("lte", () => {
   });
 });
 
-test("mod", () => {
-  const result = PARSER.Program.parse("(mod 13 5)");
-  const ctx = run(result.value);
+describe("mod", () => {
+  it("should evaluate 13 % 5 as 3", () => {
+    const result = PARSER.Program.parse("(mod 13 5)");
+    const ctx = run(result.value);
 
-  expectResult(ctx, 3);
+    expectResult(ctx, 3);
+  });
+  it("should require number arguments", () => {
+    const result = PARSER.Program.parse("(mod 1 null)");
+    const ctx = run(result.value);
+
+    expectError(ctx);
+  });
 });
 
 describe("equal", () => {

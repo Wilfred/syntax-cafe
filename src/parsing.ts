@@ -1,6 +1,6 @@
+import includes from "array-includes";
 import P from "parsimmon";
 import regexpEscape from "regexp.escape";
-import includes from "array-includes";
 
 export const SYMBOL_REGEXP = /[a-zA-Z]+/;
 
@@ -56,7 +56,7 @@ export function buildParser(
           // TODO: Submit PR for typing for parsimmon to allow .assert.
           (s: string) => {
             const keywords = ["if", "while", "set", "do", "true", "false"];
-            return !keywords.includes(s);
+            return !includes(keywords, s);
           },
           "a symbol, not a reserved word"
         )

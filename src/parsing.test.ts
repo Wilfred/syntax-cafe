@@ -93,12 +93,22 @@ test("If expression", () => {
   }
 });
 
-test("Set expression", () => {
-  const result = PARSER.Program.parse("(set x 1)");
+describe("Assign", () => {
+  it("should parse valid assignments", () => {
+    const result = PARSER.Program.parse("(set x 1)");
 
-  expectParseSuccess(result);
-  if (result.status) {
-    const firstExpr = result.value[0];
-    expect(firstExpr).toMatchObject({ name: "Assign" });
-  }
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "Assign" });
+    }
+  });
+  it("should reject assigning to non-symbols", () => {
+    const result = PARSER.Program.parse("(set 1 1)");
+    expectParseError(result);
+  });
+  it("should reject assigning to boolean constants", () => {
+    const result = PARSER.Program.parse("(set true 1)");
+    expectParseError(result);
+  });
 });

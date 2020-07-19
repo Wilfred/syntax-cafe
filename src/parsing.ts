@@ -1,5 +1,6 @@
 import P from "parsimmon";
 import regexpEscape from "regexp.escape";
+import includes from "array-includes";
 
 export const SYMBOL_REGEXP = /[a-zA-Z]+/;
 
@@ -53,8 +54,10 @@ export function buildParser(
       return P.regexp(SYMBOL_REGEXP)
         .assert(
           // TODO: Submit PR for typing for parsimmon to allow .assert.
-          // TODO: ban local variables called true/false too.
-          (s: string) => s != "if" && s != "while" && s != "set" && s != "do",
+          (s: string) => {
+            const keywords = ["if", "while", "set", "do", "true", "false"];
+            return !keywords.includes(s);
+          },
           "a symbol, not a reserved word"
         )
         .desc("symbol")

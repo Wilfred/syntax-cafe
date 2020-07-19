@@ -40,5 +40,6 @@ module.exports = {
     "simple-import-sort/sort": "warn",
     semi: ["error", "always"],
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
   },
 };

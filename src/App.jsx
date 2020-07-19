@@ -5,7 +5,7 @@ import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
 import Result from "./Result";
 
-function sampleProgram(commentPrefix, trueLiteral, falseLiteral) {
+function sampleProgram(commentPrefix, _trueLiteral, _falseLiteral) {
   return `${commentPrefix} A starter to whet your appetite.
 (print "hello world\\n")
 

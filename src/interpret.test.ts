@@ -65,18 +65,25 @@ test("Unbound function in argument", () => {
   expectError(ctx);
 });
 
-test("If expression: true", () => {
-  const result = PARSER.Program.parse("(if true 2 (foo))");
-  const ctx = run(result.value);
+describe("if", () => {
+  it("should evaluate the first expression on true conditions", () => {
+    const result = PARSER.Program.parse("(if true 2 (foo))");
+    const ctx = run(result.value);
 
-  expectResult(ctx, 2);
-});
+    expectResult(ctx, 2);
+  });
+  it("should evaluate the second expression on false conditions", () => {
+    const result = PARSER.Program.parse("(if false (foo) 2)");
+    const ctx = run(result.value);
 
-test("If expression: false", () => {
-  const result = PARSER.Program.parse("(if false (foo) 2)");
-  const ctx = run(result.value);
+    expectResult(ctx, 2);
+  });
+  it("should error on non boolean inputs", () => {
+    const result = PARSER.Program.parse("(if 123 1 2)");
+    const ctx = run(result.value);
 
-  expectResult(ctx, 2);
+    expectError(ctx);
+  });
 });
 
 test("Call nonexistent function", () => {

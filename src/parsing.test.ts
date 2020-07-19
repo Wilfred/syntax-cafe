@@ -42,6 +42,16 @@ describe("String literals", () => {
   });
 });
 
+test("Block", () => {
+  const result = PARSER.Program.parse("(do (foo) (bar))");
+
+  expectParseSuccess(result);
+  if (result.status) {
+    const firstExpr = result.value[0];
+    expect(firstExpr).toMatchObject({ name: "Block" });
+  }
+});
+
 test("Trailing whitespace should be permitted", () => {
   const result = PARSER.Program.parse("true \n \n");
 

@@ -45,6 +45,11 @@ interface SymbolExpr {
   value: string;
 }
 
+interface BlockExpr {
+  name: "Block";
+  value: { body: Array<Expr> };
+}
+
 interface AssignExpr {
   name: "Assign";
   value: Array<Expr>;
@@ -68,6 +73,7 @@ interface FunctionCallExpr {
 type Expr =
   | Value
   | SymbolExpr
+  | BlockExpr
   | AssignExpr
   | IfExpr
   | WhileExpr
@@ -92,14 +98,6 @@ function print(ctx: Context, args: Array<Value>): NullValue {
   // TODO: Check arity.
   ctx.stdout += args[0].value;
   return NULL_VALUE;
-}
-
-function do_(_ctx: Context, args: Array<Value>): Value {
-  if (args.length == 0) {
-    return NULL_VALUE;
-  }
-
-  return args[args.length - 1];
 }
 
 function lte(_ctx: Context, args: Array<Value>): BoolValue {
@@ -191,6 +189,14 @@ function evalExpr(ctx: Context, expr: Expr): Value {
       error("Unbound variable: " + symName);
     }
     return symVal;
+  }
+  if (expr.name == "Block") {
+    let result: Value = NULL_VALUE;
+    expr.value.body.forEach((expr) => {
+      result = evalExpr(ctx, expr);
+    });
+
+    return result;
   }
   if (expr.name == "Assign") {
     // TODO: access items in AST node by name, not index.
@@ -285,7 +291,6 @@ export function run(exprs: Array<Value>): Context {
       lte: { name: "Function", value: lte },
       mod: { name: "Function", value: mod },
       equal: { name: "Function", value: equal },
-      do: { name: "Function", value: do_ },
     },
   };
   try {

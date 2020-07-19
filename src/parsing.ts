@@ -30,6 +30,7 @@ export function buildParser(
         r.Assign,
         r.IfExpression,
         r.WhileLoop,
+        r.Block,
         r.FunctionCall
       ).skip(r._);
     },
@@ -53,7 +54,7 @@ export function buildParser(
         .assert(
           // TODO: Submit PR for typing for parsimmon to allow .assert.
           // TODO: ban local variables called true/false too.
-          (s: string) => s != "if" && s != "while" && s != "set",
+          (s: string) => s != "if" && s != "while" && s != "set" && s != "do",
           "a symbol, not a reserved word"
         )
         .desc("symbol")
@@ -74,6 +75,14 @@ export function buildParser(
         ["args", r.Expression.many()],
         P.string(")")
       ).node("FunctionCall");
+    },
+    Block: (r) => {
+      return P.seqObj<{ body: Array<any> }>(
+        P.string("(").skip(r._),
+        P.string("do").skip(r._),
+        ["body", r.Expression.many()],
+        P.string(")")
+      ).node("Block");
     },
     IfExpression: (r) => {
       return P.seq(

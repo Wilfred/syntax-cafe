@@ -17,6 +17,23 @@ test("Boolean literal", () => {
   expect(firstExpr).toMatchObject({ name: "Bool", value: true });
 });
 
+describe("String literals", () => {
+  it('Should parse "foo"', () => {
+    const result = PARSER.Program.parse('"foo"');
+
+    expectParseSuccess(result);
+    const firstExpr = result.value[0];
+    expect(firstExpr).toMatchObject({ name: "String", value: "foo" });
+  });
+  it("Should parse escaped newlines", () => {
+    const result = PARSER.Program.parse('"\\n"');
+
+    expectParseSuccess(result);
+    const firstExpr = result.value[0];
+    expect(firstExpr).toMatchObject({ name: "String", value: "\n" });
+  });
+});
+
 test("Trailing whitespace should be permitted", () => {
   const result = PARSER.Program.parse("true \n \n");
 

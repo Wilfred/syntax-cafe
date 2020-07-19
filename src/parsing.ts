@@ -60,7 +60,9 @@ export function buildParser(
         .node("Symbol");
     },
     StringLiteral: function() {
+      // TODO: Only handle specific escapes, not arbitrary \x \y.
       return P.regexp(/"((?:\\.|.)*?)"/, 1)
+        .map(s => s.replace(/\\n/g, "\n"))
         .desc("string literal")
         .node("String");
     },

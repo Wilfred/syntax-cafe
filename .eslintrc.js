@@ -22,6 +22,7 @@ module.exports = {
     "linebreak-style": ["error", "unix"],
     "no-alert": "warn",
     "no-console": ["warn", { allow: ["warn", "error"] }],
+    "no-constant-condition": ["warn", { checkLoops: false }],
     "no-debugger": "warn",
     "no-dupe-else-if": "warn",
     "no-unused-expressions": "warn",
@@ -37,6 +38,7 @@ module.exports = {
     "prefer-const": ["warn", { destructuring: "all" }],
     "react/prop-types": "warn",
     "simple-import-sort/sort": "warn",
-    semi: ["error", "always"]
-  }
+    semi: ["error", "always"],
+    "@typescript-eslint/no-explicit-any": "off",
+  },
 };

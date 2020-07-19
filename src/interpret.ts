@@ -8,30 +8,30 @@ class EvalError extends Error {
   }
 }
 
-interface NumberValue {
+type NumberValue = {
   name: "Number";
   value: number;
-}
+};
 
-interface BoolValue {
+type BoolValue = {
   name: "Bool";
   value: boolean;
-}
+};
 
-interface StringValue {
+type StringValue = {
   name: "String";
   value: string;
-}
+};
 
-interface NullValue {
+type NullValue = {
   name: "null";
   value: null;
-}
+};
 
-interface FunctionValue {
+type FunctionValue = {
   name: "Function";
   value: (ctx: Context, exprs: Array<Value>) => Value;
-}
+};
 
 export type Value =
   | NumberValue
@@ -40,35 +40,35 @@ export type Value =
   | NullValue
   | FunctionValue;
 
-interface SymbolExpr {
+type SymbolExpr = {
   name: "Symbol";
   value: string;
-}
+};
 
-interface BlockExpr {
+type BlockExpr = {
   name: "Block";
   value: { body: Array<Expr> };
-}
+};
 
-interface AssignExpr {
+type AssignExpr = {
   name: "Assign";
   value: { sym: SymbolExpr; value: Expr };
-}
+};
 
-interface IfExpr {
+type IfExpr = {
   name: "If";
   value: Array<Expr>;
-}
+};
 
-interface WhileExpr {
+type WhileExpr = {
   name: "While";
   value: Array<Expr>;
-}
+};
 
-interface FunctionCallExpr {
+type FunctionCallExpr = {
   name: "FunctionCall";
   value: { fun: Expr; args: Array<Expr> };
-}
+};
 
 type Expr =
   | Value
@@ -79,12 +79,12 @@ type Expr =
   | WhileExpr
   | FunctionCallExpr;
 
-export interface Context {
+export type Context = {
   stdout: null | string;
   env: Record<string, Value>;
   result: Value;
   error: null | string;
-}
+};
 
 const NULL_VALUE: NullValue = { name: "null", value: null };
 const TRUE_VALUE: BoolValue = { name: "Bool", value: true };

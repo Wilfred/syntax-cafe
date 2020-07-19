@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 
+const MIN_LENGTH = 1;
+
 // Ensure that inputs are not empty, and only call onChange for valid
 // inputs. Highlight invalid inputs.
 const RequiredTextInput: React.FC<{
-  minLength: number;
   value: string;
   placeholder: string;
   onChange: (_: string) => void;
-}> = ({ minLength, value, placeholder, onChange }) => {
-  minLength = minLength || 1;
+}> = ({ value, placeholder, onChange }) => {
   const [actualValue, setActualValue] = useState(value);
 
   let className = "input";
-  if (actualValue.length < minLength) {
+  if (actualValue.length < MIN_LENGTH) {
     className += " is-danger";
   }
 
@@ -25,7 +25,7 @@ const RequiredTextInput: React.FC<{
       onChange={(e) => {
         const value = e.target.value;
         setActualValue(value);
-        if (value.length >= minLength) {
+        if (value.length >= MIN_LENGTH) {
           onChange(value);
         }
       }}

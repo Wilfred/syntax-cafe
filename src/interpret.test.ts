@@ -1,4 +1,4 @@
-import type { Context, Value } from "./interpret";
+import type { Context } from "./interpret";
 import { run } from "./interpret";
 import { buildParser } from "./parsing";
 

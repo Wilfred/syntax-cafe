@@ -1,13 +1,12 @@
-/* eslint-env jest */
 import { buildParser } from "./parsing";
 
 const PARSER = buildParser(";", "true", "false");
 
-function expectParseSuccess(result) {
+function expectParseSuccess(result: any): void {
   expect(result.status).toBe(true);
 }
 
-function expectParseError(result) {
+function expectParseError(result: any): void {
   expect(result.status).toBe(false);
 }
 

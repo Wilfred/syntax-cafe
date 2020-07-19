@@ -261,9 +261,7 @@ function evalExpr(ctx: Context, expr: Expr): Value {
     error(`Expected a function to call, but got: ${fnValue.name}`);
   }
 
-  const rawArgs = expr.value.args;
-  const args = rawArgs.map((rawArg) => evalExpr(ctx, rawArg));
-
+  const args = expr.value.args.map((rawArg) => evalExpr(ctx, rawArg));
   return fnValue.value(ctx, args);
 }
 function evalExprs(ctx: Context, exprs: Array<Expr>): Value {

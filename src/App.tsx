@@ -5,7 +5,11 @@ import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
 import Result from "./Result";
 
-function sampleProgram(commentPrefix, _trueLiteral, _falseLiteral) {
+function sampleProgram(
+  commentPrefix: string,
+  _trueLiteral: string,
+  _falseLiteral: string
+): string {
   return `${commentPrefix} A starter to whet your appetite.
 (print "hello world\\n")
 
@@ -23,7 +27,7 @@ ${commentPrefix} For the main, a classic fizzbuzz dish.
     (set i (add i 1))))`;
 }
 
-export default function App() {
+const App: React.FC = () => {
   const [commentPrefix, setCommentPrefix] = useState(";");
   const [trueLiteral, setTrueLiteral] = useState("true");
   const [falseLiteral, setFalseLiteral] = useState("false");
@@ -68,4 +72,5 @@ export default function App() {
       <Result src={src} parser={parser} />
     </div>
   );
-}
+};
+export default App;

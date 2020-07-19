@@ -52,7 +52,7 @@ interface WhileExpr {
 
 interface FunctionCallExpr {
   name: "FunctionCall";
-  value: { fun: Value; args: Array<Expr> };
+  value: { fun: Expr; args: Array<Expr> };
 }
 
 type Expr =
@@ -190,8 +190,14 @@ function evalExpr(ctx: Context, expr: Expr): Value {
     // TODO: access items in AST node by name, not index.
     const value = evalExpr(ctx, expr.value[1]);
 
-    const sym = expr.value[0].value;
-    ctx.env[sym] = value;
+    const sym = expr.value[0];
+
+    if (sym.name != "Symbol") {
+      // TODO: change AST so this case is impossible.
+      error("Assignment requires a variable");
+    }
+
+    ctx.env[sym.value] = value;
 
     return NULL_VALUE;
   }
@@ -234,10 +240,13 @@ function evalExpr(ctx: Context, expr: Expr): Value {
     error("Expected a function call, but got: " + expr.name);
   }
 
-  // TODO: check fnName is a symbol or valid callable.
-  const fnName: string = expr.value.fun.value;
+  const fnName = expr.value.fun;
+  if (fnName.name != "Symbol") {
+    // TODO: allow arbitrary callables
+    error("Function calls require a function name");
+  }
 
-  const fn = ctx.env[fnName];
+  const fn = ctx.env[fnName.value];
   if (fn === undefined) {
     error("No such function: " + fnName);
   }

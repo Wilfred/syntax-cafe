@@ -1,5 +1,5 @@
-import { run } from "./interpret";
 import type { Context, Value } from "./interpret";
+import { run } from "./interpret";
 import { buildParser } from "./parsing";
 
 const PARSER = buildParser(";", "true", "false");

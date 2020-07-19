@@ -105,8 +105,8 @@ function lte(_ctx: Context, args: Array<Value>): BoolValue {
     error("lte takes 2 arguments, but got: " + args.length);
   }
 
-  let firstArg = args[0];
-  let secondArg = args[1];
+  const firstArg = args[0];
+  const secondArg = args[1];
 
   if (firstArg.name == "Number" && secondArg.name == "Number") {
     return firstArg.value <= secondArg.value ? TRUE_VALUE : FALSE_VALUE;
@@ -122,8 +122,8 @@ function equal(_ctx: Context, args: Array<Value>): BoolValue {
     error("equal takes 2 arguments, but got: " + args.length);
   }
 
-  let firstArg = args[0].value;
-  let secondArg = args[1].value;
+  const firstArg = args[0].value;
+  const secondArg = args[1].value;
 
   return firstArg === secondArg ? TRUE_VALUE : FALSE_VALUE;
 }
@@ -133,8 +133,8 @@ function mod(_ctx: Context, args: Array<Value>): NumberValue {
     error("mod takes 2 arguments, but got: " + args.length);
   }
 
-  let firstArg = args[0];
-  let secondArg = args[1];
+  const firstArg = args[0];
+  const secondArg = args[1];
 
   if (firstArg.name == "Number" && secondArg.name == "Number") {
     return { name: "Number", value: firstArg.value % secondArg.value };
@@ -150,8 +150,8 @@ function add(_ctx: Context, args: Array<Value>): NumberValue {
     error("add takes 2 arguments, but got: " + args.length);
   }
 
-  let firstArg = args[0];
-  let secondArg = args[1];
+  const firstArg = args[0];
+  const secondArg = args[1];
 
   if (firstArg.name == "Number" && secondArg.name == "Number") {
     return { name: "Number", value: firstArg.value + secondArg.value };

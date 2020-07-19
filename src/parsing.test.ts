@@ -1,4 +1,5 @@
 import P from "parsimmon";
+
 import { buildParser } from "./parsing";
 
 const PARSER = buildParser(";", "true", "false");

@@ -7,18 +7,20 @@ import Result from "./Result";
 
 function sampleProgram(commentPrefix, trueLiteral, falseLiteral) {
   return `${commentPrefix} A starter to whet your appetite.
-(print "hello world")
+(print "hello world\\n")
 
 ${commentPrefix} For the main, a classic fizzbuzz dish.
-(set i 0)
-(set underlimit ${trueLiteral})
-(while underlimit
+(set i 1)
+(while (lte i 20)
   (do
-    (print i)
-    (print " ")
-    (set i (add i 1))
-    (set underlimit (lte i 20))))
-(print "done")`;
+    (if (equal (mod i 15) 0)
+        (print "FizzBuzz\\n")
+      (if (equal (mod i 5) 0)
+          (print "Buzz\\n")
+        (if (equal (mod i 3) 0)
+            (print "Fizz\\n")
+          (do (print i) (print "\\n")))))
+    (set i (add i 1))))`;
 }
 
 export default function App() {

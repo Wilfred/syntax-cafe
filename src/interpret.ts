@@ -28,7 +28,17 @@ interface NullValue {
   value: null;
 }
 
-export type Value = NumberValue | BoolValue | StringValue | NullValue;
+interface FunctionValue {
+  name: "Function";
+  value: (ctx: Context, exprs: Array<Value>) => Value;
+}
+
+export type Value =
+  | NumberValue
+  | BoolValue
+  | StringValue
+  | NullValue
+  | FunctionValue;
 
 interface SymbolExpr {
   name: "Symbol";
@@ -65,7 +75,7 @@ type Expr =
 
 export interface Context {
   stdout: null | string;
-  env: Record<string, any>;
+  env: Record<string, Value>;
   result: Value;
   error: null | string;
 }
@@ -246,15 +256,19 @@ function evalExpr(ctx: Context, expr: Expr): Value {
     error("Function calls require a function name");
   }
 
-  const fn = ctx.env[fnName.value];
-  if (fn === undefined) {
+  const fnValue = ctx.env[fnName.value];
+  if (fnValue === undefined) {
     error("No such function: " + fnName);
+  }
+
+  if (fnValue.name != "Function") {
+    error(`Expected a function to call, but got: ${fnValue.name}`);
   }
 
   const rawArgs = expr.value.args;
   const args = rawArgs.map(rawArg => evalExpr(ctx, rawArg));
 
-  return fn(ctx, args);
+  return fnValue.value(ctx, args);
 }
 function evalExprs(ctx: Context, exprs: Array<Expr>): Value {
   let result: Value = NULL_VALUE;
@@ -271,7 +285,14 @@ export function run(exprs: Array<Value>): Context {
     result: NULL_VALUE,
     stdout: null,
     error: null,
-    env: { print, add, lte, mod, equal, do: do_ }
+    env: {
+      print: { name: "Function", value: print },
+      add: { name: "Function", value: add },
+      lte: { name: "Function", value: lte },
+      mod: { name: "Function", value: mod },
+      equal: { name: "Function", value: equal },
+      do: { name: "Function", value: do_ }
+    }
   };
   try {
     ctx.result = evalExprs(ctx, exprs);

@@ -8,10 +8,60 @@ class EvalError extends Error {
   }
 }
 
-interface Value {
-  name: string;
-  value: any;
+interface NumberValue {
+  name: "Number";
+  value: number;
 }
+
+interface BoolValue {
+  name: "Bool";
+  value: boolean;
+}
+
+interface StringValue {
+  name: "String";
+  value: string;
+}
+
+interface NullValue {
+  name: "null";
+  value: null;
+}
+
+type Value = NumberValue | BoolValue | StringValue | NullValue;
+
+interface SymbolExpr {
+  name: "Symbol";
+  value: string;
+}
+
+interface AssignExpr {
+  name: "Assign";
+  value: Array<Expr>;
+}
+
+interface IfExpr {
+  name: "If";
+  value: Array<Expr>;
+}
+
+interface WhileExpr {
+  name: "While";
+  value: Array<Expr>;
+}
+
+interface FunctionCallExpr {
+  name: "FunctionCall";
+  value: { fun: Value; args: Array<Expr> };
+}
+
+type Expr =
+  | Value
+  | SymbolExpr
+  | AssignExpr
+  | IfExpr
+  | WhileExpr
+  | FunctionCallExpr;
 
 interface Context {
   stdout: null | string;
@@ -20,11 +70,11 @@ interface Context {
   error: null | string;
 }
 
-const NULL_VALUE: Value = { name: "null", value: null };
-const TRUE_VALUE: Value = { name: "Bool", value: true };
-const FALSE_VALUE: Value = { name: "Bool", value: false };
+const NULL_VALUE: NullValue = { name: "null", value: null };
+const TRUE_VALUE: BoolValue = { name: "Bool", value: true };
+const FALSE_VALUE: BoolValue = { name: "Bool", value: false };
 
-function print(ctx: Context, args: Array<Value>): Value {
+function print(ctx: Context, args: Array<Value>): NullValue {
   if (ctx.stdout === null) {
     ctx.stdout = "";
   }
@@ -42,7 +92,7 @@ function do_(_ctx: Context, args: Array<Value>): Value {
   return args[args.length - 1];
 }
 
-function lte(_ctx: Context, args: Array<Value>): Value {
+function lte(_ctx: Context, args: Array<Value>): BoolValue {
   if (args.length != 2) {
     error("lte takes 2 arguments, but got: " + args.length);
   }
@@ -59,7 +109,7 @@ function lte(_ctx: Context, args: Array<Value>): Value {
   );
 }
 
-function equal(_ctx: Context, args: Array<Value>): Value {
+function equal(_ctx: Context, args: Array<Value>): BoolValue {
   if (args.length != 2) {
     error("equal takes 2 arguments, but got: " + args.length);
   }
@@ -70,7 +120,7 @@ function equal(_ctx: Context, args: Array<Value>): Value {
   return firstArg === secondArg ? TRUE_VALUE : FALSE_VALUE;
 }
 
-function mod(_ctx: Context, args: Array<Value>): Value {
+function mod(_ctx: Context, args: Array<Value>): NumberValue {
   if (args.length != 2) {
     error("mod takes 2 arguments, but got: " + args.length);
   }
@@ -87,7 +137,7 @@ function mod(_ctx: Context, args: Array<Value>): Value {
   );
 }
 
-function add(_ctx: Context, args: Array<Value>): Value {
+function add(_ctx: Context, args: Array<Value>): NumberValue {
   if (args.length != 2) {
     error("add takes 2 arguments, but got: " + args.length);
   }
@@ -114,11 +164,11 @@ function error(msg: string): never {
   throw new EvalError(msg);
 }
 
-function isBool(expr: Value): boolean {
+function isBool(expr: Expr): boolean {
   return expr.name == "Bool";
 }
 
-function evalExpr(ctx: Context, expr: Value): Value {
+function evalExpr(ctx: Context, expr: Expr): Value {
   if (expr.name == "String") {
     return expr;
   }
@@ -184,11 +234,7 @@ function evalExpr(ctx: Context, expr: Value): Value {
     error("Expected a function call, but got: " + expr.name);
   }
 
-  if (expr.value.length === 0) {
-    error("Not a valid expression.");
-  }
-
-  // TODO: check fnName is a symbol.
+  // TODO: check fnName is a symbol or valid callable.
   const fnName: string = expr.value.fun.value;
 
   const fn = ctx.env[fnName];
@@ -197,12 +243,12 @@ function evalExpr(ctx: Context, expr: Value): Value {
   }
 
   const rawArgs = expr.value.args;
-  const args = rawArgs.map((rawArg: Value) => evalExpr(ctx, rawArg));
+  const args = rawArgs.map(rawArg => evalExpr(ctx, rawArg));
 
   return fn(ctx, args);
 }
-function evalExprs(ctx: Context, exprs: Array<Value>): Value {
-  let result = NULL_VALUE;
+function evalExprs(ctx: Context, exprs: Array<Expr>): Value {
+  let result: Value = NULL_VALUE;
 
   exprs.forEach(expr => {
     result = evalExpr(ctx, expr);

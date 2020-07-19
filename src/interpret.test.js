@@ -34,11 +34,19 @@ test("String literal evaluation", () => {
   expectResult(ctx, "foo");
 });
 
-test("Adding literals", () => {
-  const result = PARSER.Program.parse("(add 1 2)");
-  const ctx = run(result.value);
+describe("add", () => {
+  it("should evaluate 1 + 2 as 3", () => {
+    const result = PARSER.Program.parse("(add 1 2)");
+    const ctx = run(result.value);
 
-  expectResult(ctx, 3);
+    expectResult(ctx, 3);
+  });
+  it("should require numbers", () => {
+    const result = PARSER.Program.parse('(add 1 "foo")');
+    const ctx = run(result.value);
+
+    expectError(ctx);
+  });
 });
 
 test("Unbound variable error", () => {

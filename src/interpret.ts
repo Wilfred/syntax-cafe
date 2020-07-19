@@ -88,13 +88,20 @@ function mod(_ctx: Context, args: Array<Value>): Value {
 }
 
 function add(_ctx: Context, args: Array<Value>): Value {
-  const total = { value: 0, name: "Number" };
-  // TODO: check values are numbers.
-  args.forEach(arg => {
-    total.value += arg.value;
-  });
+  if (args.length != 2) {
+    error("add takes 2 arguments, but got: " + args.length);
+  }
 
-  return total;
+  let firstArg = args[0];
+  let secondArg = args[1];
+
+  if (firstArg.name == "Number" && secondArg.name == "Number") {
+    return { name: "Number", value: firstArg.value + secondArg.value };
+  }
+
+  error(
+    `Expected number arguments to add, but got ${firstArg.name} and ${secondArg.name}`
+  );
 }
 
 function error(msg: string): never {

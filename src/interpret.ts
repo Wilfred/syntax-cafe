@@ -254,7 +254,7 @@ function evalExpr(ctx: Context, expr: Expr): Value {
 
   const fnValue = ctx.env[fnName.value];
   if (fnValue === undefined) {
-    error("No such function: " + fnName);
+    error(`Unbound variable '${fnName.value}' (expected a function)`);
   }
 
   if (fnValue.name != "Function") {

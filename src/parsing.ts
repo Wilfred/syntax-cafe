@@ -102,16 +102,12 @@ export function buildParser(
       ).node("If");
     },
     Assign: (r) => {
-      return P.seq(
-        // Variable
-        P.string("(")
-          .skip(r._)
-          .skip(P.string("set"))
-          .skip(r._)
-          .then(r.Symbol)
-          .skip(r._),
-        // Value
-        r.Expression.skip(P.string(")"))
+      return P.seqObj<{ sym: any; value: any }>(
+        P.string("(").skip(r._),
+        P.string("set").skip(r._),
+        ["sym", r.Symbol.skip(r._)],
+        ["value", r.Expression],
+        P.string(")")
       ).node("Assign");
     },
     WhileLoop: (r) => {

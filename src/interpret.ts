@@ -52,7 +52,7 @@ interface BlockExpr {
 
 interface AssignExpr {
   name: "Assign";
-  value: Array<Expr>;
+  value: { sym: SymbolExpr; value: Expr };
 }
 
 interface IfExpr {
@@ -199,16 +199,9 @@ function evalExpr(ctx: Context, expr: Expr): Value {
     return result;
   }
   if (expr.name == "Assign") {
-    // TODO: access items in AST node by name, not index.
-    const value = evalExpr(ctx, expr.value[1]);
+    const value = evalExpr(ctx, expr.value.value);
 
-    const sym = expr.value[0];
-
-    if (sym.name != "Symbol") {
-      // TODO: change AST so this case is impossible.
-      error("Assignment requires a variable");
-    }
-
+    const sym = expr.value.sym;
     ctx.env[sym.value] = value;
 
     return NULL_VALUE;

@@ -67,7 +67,7 @@ export function buildParser(
         .node("String");
     },
     FunctionCall: (r) => {
-      return P.seqObj(
+      return P.seqObj<{ fun: any; args: any }>(
         P.string("(").skip(r._),
         // 'function' and 'arguments' are both reserved words in JS/TS.
         ["fun", r.Expression],

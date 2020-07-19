@@ -6,7 +6,7 @@ import CodeMirror from "codemirror";
 import equal from "fast-deep-equal";
 import React from "react";
 
-import { commentRegexp, SYMBOL_REGEXP,wordRegexp } from "./parsing";
+import { commentRegexp, SYMBOL_REGEXP, wordRegexp } from "./parsing";
 
 function defineLangplzMode(commentPrefix, trueLiteral, falseLiteral) {
   CodeMirror.defineSimpleMode("langplz", {
@@ -16,8 +16,8 @@ function defineLangplzMode(commentPrefix, trueLiteral, falseLiteral) {
       { regex: wordRegexp(trueLiteral), token: "atom" },
       { regex: wordRegexp(falseLiteral), token: "atom" },
       { regex: /(?:if|while|set)\b/, token: "keyword" },
-      { regex: SYMBOL_REGEXP, token: "variable" }
-    ]
+      { regex: SYMBOL_REGEXP, token: "variable" },
+    ],
   });
 }
 
@@ -40,7 +40,7 @@ export default class CodeMirrorTag extends React.Component {
       lineNumbers: true,
       matchBrackets: true,
       styleActiveLine: true,
-      mode: "langplz"
+      mode: "langplz",
     });
     this.editor.on("change", () => {
       this.props.onChange(this.editor.getValue());
@@ -82,7 +82,7 @@ export default class CodeMirrorTag extends React.Component {
       this.marker = this.editor.markText(errorRange[0], errorRange[1], {
         className: "syntax-error",
         title: "foo",
-        css: "border-bottom: 2px dotted red;"
+        css: "border-bottom: 2px dotted red;",
       });
     }
   }

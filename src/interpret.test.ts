@@ -175,14 +175,14 @@ test("while false", () => {
   const ctx = run(result.value);
 
   expect(ctx.error).toBe(null);
-});
+}, 1000);
 
 test("while non-bool", () => {
   const result = PARSER.Program.parse("(while 0 false)");
   const ctx = run(result.value);
 
   expect(ctx.error).not.toBe(null);
-});
+}, 1000);
 
 test("while condition", () => {
   const result = PARSER.Program.parse(
@@ -191,4 +191,4 @@ test("while condition", () => {
   const ctx = run(result.value);
 
   expectResult(ctx, 4);
-});
+}, 1000);

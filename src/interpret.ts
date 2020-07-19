@@ -174,10 +174,6 @@ function error(msg: string): never {
   throw new EvalError(msg);
 }
 
-function isBool(expr: Expr): boolean {
-  return expr.name == "Bool";
-}
-
 function evalExpr(ctx: Context, expr: Expr): Value {
   if (expr.name == "String") {
     return expr;
@@ -214,8 +210,8 @@ function evalExpr(ctx: Context, expr: Expr): Value {
   if (expr.name == "If") {
     const condition = evalExpr(ctx, expr.value[0]);
 
-    if (!isBool(condition)) {
-      error("If conditions must be bool, but got " + expr.name);
+    if (condition.name != "Bool") {
+      error("If conditions must be bool, but got " + condition.name);
     }
 
     let nextExpr;
@@ -233,11 +229,11 @@ function evalExpr(ctx: Context, expr: Expr): Value {
 
     while (true) {
       const condition = evalExpr(ctx, rawCondition);
-      if (!isBool(condition)) {
+      if (condition.name != "Bool") {
         error("While conditions must be bool, but got " + condition.name);
       }
 
-      if (condition.value == false) {
+      if (!condition.value) {
         break;
       }
       evalExpr(ctx, rawBody);

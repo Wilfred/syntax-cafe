@@ -28,7 +28,7 @@ interface NullValue {
   value: null;
 }
 
-type Value = NumberValue | BoolValue | StringValue | NullValue;
+export type Value = NumberValue | BoolValue | StringValue | NullValue;
 
 interface SymbolExpr {
   name: "Symbol";
@@ -63,10 +63,10 @@ type Expr =
   | WhileExpr
   | FunctionCallExpr;
 
-interface Context {
+export interface Context {
   stdout: null | string;
   env: Record<string, any>;
-  result: Value | null;
+  result: Value;
   error: null | string;
 }
 

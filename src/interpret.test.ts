@@ -1,14 +1,14 @@
-/* eslint-env jest */
 import { run } from "./interpret";
+import type { Context, Value } from "./interpret";
 import { buildParser } from "./parsing";
 
 const PARSER = buildParser(";", "true", "false");
 
-function expectError(ctx) {
+function expectError(ctx: Context): void {
   expect(ctx.error).not.toBeNull();
 }
 
-function expectResult(ctx, value) {
+function expectResult(ctx: Context, value: any): void {
   expect(ctx.error).toBeNull();
   expect(ctx.result.value).toBe(value);
 }

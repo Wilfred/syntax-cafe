@@ -19,8 +19,8 @@ export function buildParser(
   const commentPattern = commentRegexp(commentPrefix);
 
   return P.createLanguage({
-    Program: r => r.Expression.sepBy(r._).trim(r._),
-    Expression: r => {
+    Program: (r) => r.Expression.sepBy(r._).trim(r._),
+    Expression: (r) => {
       return P.alt(
         r.Number,
         // Bools and keywords must come before general symbols.
@@ -33,22 +33,22 @@ export function buildParser(
         r.FunctionCall
       ).skip(r._);
     },
-    Number: function() {
+    Number: function () {
       return P.regexp(/[0-9]+/)
         .map(Number)
         .desc("number")
         .node("Number");
     },
-    BoolLiteral: function() {
+    BoolLiteral: function () {
       return P.alt(
         P.regexp(wordRegexp(trueLiteral)),
         P.regexp(wordRegexp(falseLiteral))
       )
-        .map(s => s == trueLiteral)
+        .map((s) => s == trueLiteral)
         .desc("bool literal")
         .node("Bool");
     },
-    Symbol: function() {
+    Symbol: function () {
       return P.regexp(SYMBOL_REGEXP)
         .assert(
           // TODO: Submit PR for typing for parsimmon to allow .assert.
@@ -59,14 +59,14 @@ export function buildParser(
         .desc("symbol")
         .node("Symbol");
     },
-    StringLiteral: function() {
+    StringLiteral: function () {
       // TODO: Only handle specific escapes, not arbitrary \x \y.
       return P.regexp(/"((?:\\.|.)*?)"/, 1)
-        .map(s => s.replace(/\\n/g, "\n"))
+        .map((s) => s.replace(/\\n/g, "\n"))
         .desc("string literal")
         .node("String");
     },
-    FunctionCall: r => {
+    FunctionCall: (r) => {
       return P.seqObj(
         P.string("(").skip(r._),
         // 'function' and 'arguments' are both reserved words in JS/TS.
@@ -75,7 +75,7 @@ export function buildParser(
         P.string(")")
       ).node("FunctionCall");
     },
-    IfExpression: r => {
+    IfExpression: (r) => {
       return P.seq(
         // condition
         P.string("(")
@@ -89,7 +89,7 @@ export function buildParser(
         r.Expression.skip(P.string(")"))
       ).node("If");
     },
-    Assign: r => {
+    Assign: (r) => {
       return P.seq(
         // Variable
         P.string("(")
@@ -102,7 +102,7 @@ export function buildParser(
         r.Expression.skip(P.string(")"))
       ).node("Assign");
     },
-    WhileLoop: r => {
+    WhileLoop: (r) => {
       return P.seq(
         // condition
         P.string("(")
@@ -115,6 +115,6 @@ export function buildParser(
       ).node("While");
     },
     Comment: () => P.regexp(commentPattern).desc("comment"),
-    _: r => r.Comment.sepBy(P.optWhitespace).trim(P.optWhitespace)
+    _: (r) => r.Comment.sepBy(P.optWhitespace).trim(P.optWhitespace),
   });
 }

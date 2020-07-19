@@ -15,6 +15,7 @@
   "repository": "https://github.com/Wilfred/language-diner",
   "license": "ISC",
   "dependencies": {
+    "@types/react": "^16.9.43",
     "bulma": "^0.9.0",
     "codemirror": "^5.55.0",
     "fast-deep-equal": "^3.1.3",

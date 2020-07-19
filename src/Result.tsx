@@ -1,14 +1,18 @@
-import { formatError } from "parsimmon";
+import P, { formatError } from "parsimmon";
+
 import React, { useState } from "react";
 
 import { run } from "./interpret";
+import type { Context } from "./interpret";
 
-export default function Result(props) {
+const Result: React.FC<{ src: string; parser: P.Language }> = ({
+  src,
+  parser,
+}) => {
   let [tab, setTab] = useState("execution");
-  const [evalResult, setEvalResult] = useState(null);
+  const [evalResult, setEvalResult] = useState<Context | null>(null);
 
-  const src = props.src;
-  const result = props.parser.Program.parse(src);
+  const result = parser.Program.parse(src);
 
   let parseResult = "";
   let error = null;
@@ -79,4 +83,5 @@ export default function Result(props) {
       {body}
     </div>
   );
-}
+};
+export default Result;

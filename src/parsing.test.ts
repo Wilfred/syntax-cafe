@@ -1,20 +1,24 @@
+import P from "parsimmon";
 import { buildParser } from "./parsing";
 
 const PARSER = buildParser(";", "true", "false");
 
-function expectParseSuccess(result: any): void {
+function expectParseSuccess(result: P.Result<any>): void {
   expect(result.status).toBe(true);
 }
 
-function expectParseError(result: any): void {
+function expectParseError(result: P.Result<any>): void {
   expect(result.status).toBe(false);
 }
 
 test("Boolean literal", () => {
   const result = PARSER.Program.parse("true");
 
-  const firstExpr = result.value[0];
-  expect(firstExpr).toMatchObject({ name: "Bool", value: true });
+  expectParseSuccess(result);
+  if (result.status) {
+    const firstExpr = result.value[0];
+    expect(firstExpr).toMatchObject({ name: "Bool", value: true });
+  }
 });
 
 describe("String literals", () => {
@@ -22,15 +26,19 @@ describe("String literals", () => {
     const result = PARSER.Program.parse('"foo"');
 
     expectParseSuccess(result);
-    const firstExpr = result.value[0];
-    expect(firstExpr).toMatchObject({ name: "String", value: "foo" });
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "String", value: "foo" });
+    }
   });
   it("Should parse escaped newlines", () => {
     const result = PARSER.Program.parse('"\\n"');
 
     expectParseSuccess(result);
-    const firstExpr = result.value[0];
-    expect(firstExpr).toMatchObject({ name: "String", value: "\n" });
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "String", value: "\n" });
+    }
   });
 });
 
@@ -58,21 +66,29 @@ test("Whitespace inside list", () => {
 test("Comments with ( should take precedence", () => {
   const parser = buildParser("(", "true", "false");
   const result = parser.Program.parse("(foo true)\n(foo bar)");
-  expect(result.value).toStrictEqual([]);
+
+  expectParseSuccess(result);
+  if (result.status) {
+    expect(result.value).toStrictEqual([]);
+  }
 });
 
 test("If expression", () => {
   const result = PARSER.Program.parse("(if true 1 2)");
-  expectParseSuccess(result);
 
-  const firstExpr = result.value[0];
-  expect(firstExpr).toMatchObject({ name: "If" });
+  expectParseSuccess(result);
+  if (result.status) {
+    const firstExpr = result.value[0];
+    expect(firstExpr).toMatchObject({ name: "If" });
+  }
 });
 
 test("Set expression", () => {
   const result = PARSER.Program.parse("(set x 1)");
-  expectParseSuccess(result);
 
-  const firstExpr = result.value[0];
-  expect(firstExpr).toMatchObject({ name: "Assign" });
+  expectParseSuccess(result);
+  if (result.status) {
+    const firstExpr = result.value[0];
+    expect(firstExpr).toMatchObject({ name: "Assign" });
+  }
 });

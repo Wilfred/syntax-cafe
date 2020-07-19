@@ -262,14 +262,14 @@ function evalExpr(ctx: Context, expr: Expr): Value {
   }
 
   const rawArgs = expr.value.args;
-  const args = rawArgs.map(rawArg => evalExpr(ctx, rawArg));
+  const args = rawArgs.map((rawArg) => evalExpr(ctx, rawArg));
 
   return fnValue.value(ctx, args);
 }
 function evalExprs(ctx: Context, exprs: Array<Expr>): Value {
   let result: Value = NULL_VALUE;
 
-  exprs.forEach(expr => {
+  exprs.forEach((expr) => {
     result = evalExpr(ctx, expr);
   });
 
@@ -287,8 +287,8 @@ export function run(exprs: Array<Value>): Context {
       lte: { name: "Function", value: lte },
       mod: { name: "Function", value: mod },
       equal: { name: "Function", value: equal },
-      do: { name: "Function", value: do_ }
-    }
+      do: { name: "Function", value: do_ },
+    },
   };
   try {
     ctx.result = evalExprs(ctx, exprs);

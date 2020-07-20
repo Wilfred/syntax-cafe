@@ -130,7 +130,7 @@ describe("If expression", () => {
       falseLiteral: "false",
       blockStyle: "curly",
     });
-    const result = parser.Program.parse("(if true { (foo) } else { (bar) })");
+    const result = parser.Program.parse("if true { (foo) } else { (bar) }");
 
     expectParseSuccess(result);
     if (result.status) {

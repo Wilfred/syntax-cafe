@@ -105,13 +105,13 @@ export function buildParser(opts: {
 
       if (opts.blockStyle == "curly") {
         ifParser = P.seqObj(
-          P.string("(").skip(r._).skip(P.string("if")).skip(r._),
+          P.string("if").skip(r._),
           ["condition", r.Expression],
+          // TODO: require explicit blocks for then/else.
           ["then", r.Expression],
           // TODO: highlight else as a keyword and ban as a variable name.
           P.string("else").skip(r._),
-          ["else", r.Expression],
-          P.string(")")
+          ["else", r.Expression]
         );
       } else {
         ifParser = P.seqObj(

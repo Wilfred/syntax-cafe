@@ -113,14 +113,31 @@ test("Comments with ( should take precedence", () => {
   }
 });
 
-test("If expression", () => {
-  const result = PARSER.Program.parse("(if true 1 2)");
+describe("If expression", () => {
+  it("should parse (if ...)", () => {
+    const result = PARSER.Program.parse("(if true 1 2)");
 
-  expectParseSuccess(result);
-  if (result.status) {
-    const firstExpr = result.value[0];
-    expect(firstExpr).toMatchObject({ name: "If" });
-  }
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "If" });
+    }
+  });
+  it("should parse if {...} else {...}", () => {
+    const parser = buildParser({
+      commentPrefix: ";",
+      trueLiteral: "true",
+      falseLiteral: "false",
+      blockStyle: "curly",
+    });
+    const result = parser.Program.parse("(if true { (foo) } else { (bar) })");
+
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "If" });
+    }
+  });
 });
 
 describe("Assign", () => {

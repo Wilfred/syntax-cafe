@@ -101,13 +101,29 @@ export function buildParser(opts: {
       return blockParser.node("Block");
     },
     IfExpression: (r) => {
-      return P.seqObj<{ condition: any; then: any; else: any }>(
-        P.string("(").skip(r._).skip(P.string("if")).skip(r._),
-        ["condition", r.Expression],
-        ["then", r.Expression],
-        ["else", r.Expression],
-        P.string(")")
-      ).node("If");
+      let ifParser: P.Parser<{ condition: any; then: any; else: any }>;
+
+      if (opts.blockStyle == "curly") {
+        ifParser = P.seqObj(
+          P.string("(").skip(r._).skip(P.string("if")).skip(r._),
+          ["condition", r.Expression],
+          ["then", r.Expression],
+          // TODO: highlight else as a keyword and ban as a variable name.
+          P.string("else").skip(r._),
+          ["else", r.Expression],
+          P.string(")")
+        );
+      } else {
+        ifParser = P.seqObj(
+          P.string("(").skip(r._).skip(P.string("if")).skip(r._),
+          ["condition", r.Expression],
+          ["then", r.Expression],
+          ["else", r.Expression],
+          P.string(")")
+        );
+      }
+
+      return ifParser.node("If");
     },
     Assign: (r) => {
       return P.seqObj<{ sym: any; value: any }>(

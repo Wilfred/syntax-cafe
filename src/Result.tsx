@@ -51,8 +51,10 @@ const Result: React.FC<{ src: string; parser: P.Language }> = ({
         {evalError}
         <button
           onClick={() => {
-            const ctx = run(result.value);
-            setEvalResult(ctx);
+            if (result.status) {
+              const ctx = run(result.value);
+              setEvalResult(ctx);
+            }
           }}
           className="button"
         >

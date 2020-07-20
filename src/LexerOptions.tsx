@@ -9,6 +9,8 @@ const LexerOptions: React.FC<{
   setTrueLiteral: (_: string) => void;
   falseLiteral: string;
   setFalseLiteral: (_: string) => void;
+  blockStyle: string;
+  setBlockStyle: (_: string) => void;
 }> = ({
   commentPrefix,
   setCommentPrefix,
@@ -16,6 +18,8 @@ const LexerOptions: React.FC<{
   setTrueLiteral,
   falseLiteral,
   setFalseLiteral,
+  blockStyle,
+  setBlockStyle,
 }) => {
   return (
     <div className="box">
@@ -49,6 +53,18 @@ const LexerOptions: React.FC<{
               placeholder="E.g. false"
             />
           </div>
+        </div>
+      </div>
+      <div className="field is-horizontal">
+        <label className="field-label">Blocks</label>
+        <div className="field-body">
+          <select
+            value={blockStyle}
+            onChange={(e) => setBlockStyle(e.target.value)}
+          >
+            <option value="do">(do ... )</option>
+            <option value="curly">{"{ ... }"}</option>
+          </select>{" "}
         </div>
       </div>
     </div>

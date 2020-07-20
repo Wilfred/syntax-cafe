@@ -16,6 +16,7 @@ export function buildParser(opts: {
   commentPrefix: string;
   trueLiteral: string;
   falseLiteral: string;
+  blockStyle?: "curly" | "do" | string;
 }): P.Language {
   const commentPattern = commentRegexp(opts.commentPrefix);
 
@@ -80,12 +81,24 @@ export function buildParser(opts: {
       ).node("FunctionCall");
     },
     Block: (r) => {
-      return P.seqObj<{ body: Array<any> }>(
-        P.string("(").skip(r._),
-        P.string("do").skip(r._),
-        ["body", r.Expression.many()],
-        P.string(")")
-      ).node("Block");
+      let blockParser: P.Parser<{ body: Array<any> }>;
+
+      if (opts.blockStyle == "curly") {
+        blockParser = P.seqObj(
+          P.string("{").skip(r._),
+          ["body", r.Expression.many()],
+          P.string("}")
+        );
+      } else {
+        blockParser = P.seqObj(
+          P.string("(").skip(r._),
+          P.string("do").skip(r._),
+          ["body", r.Expression.many()],
+          P.string(")")
+        );
+      }
+
+      return blockParser.node("Block");
     },
     IfExpression: (r) => {
       return P.seq(

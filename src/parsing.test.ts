@@ -47,14 +47,35 @@ describe("String literals", () => {
   });
 });
 
-test("Block", () => {
-  const result = PARSER.Program.parse("(do (foo) (bar))");
+describe("Blocks", () => {
+  it("Should parse (do ... ) blocks", () => {
+    const result = PARSER.Program.parse("(do (foo) (bar))");
 
-  expectParseSuccess(result);
-  if (result.status) {
-    const firstExpr = result.value[0];
-    expect(firstExpr).toMatchObject({ name: "Block" });
-  }
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "Block" });
+    }
+  });
+  it("Should parse { ... } curly blocks", () => {
+    const parser = buildParser({
+      commentPrefix: ";",
+      trueLiteral: "true",
+      falseLiteral: "false",
+      blockStyle: "curly",
+    });
+    const result = parser.Program.parse("{ (foo) (bar) }");
+
+    if (!result.status) {
+      console.warn(P.formatError("{ (foo) (bar) } } ", result));
+    }
+
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "Block" });
+    }
+  });
 });
 
 test("Trailing whitespace should be permitted", () => {

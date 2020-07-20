@@ -32,11 +32,18 @@ const App: React.FC = () => {
   const [trueLiteral, setTrueLiteral] = useState("true");
   const [falseLiteral, setFalseLiteral] = useState("false");
 
+  const [blockStyle, setBlockStyle] = useState("do");
+
   const [src, setSrc] = useState(
     sampleProgram(commentPrefix, trueLiteral, falseLiteral)
   );
 
-  const parser = buildParser({ commentPrefix, trueLiteral, falseLiteral });
+  const parser = buildParser({
+    commentPrefix,
+    trueLiteral,
+    falseLiteral,
+    blockStyle,
+  });
 
   const result = parser.Program.parse(src);
 
@@ -57,6 +64,8 @@ const App: React.FC = () => {
         setTrueLiteral={setTrueLiteral}
         falseLiteral={falseLiteral}
         setFalseLiteral={setFalseLiteral}
+        blockStyle={blockStyle}
+        setBlockStyle={setBlockStyle}
       />
       <div className="box">
         <h2 className="title">Write Code 🍳</h2>

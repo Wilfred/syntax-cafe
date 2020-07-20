@@ -5,12 +5,32 @@ import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
 import Result from "./Result";
 
-function sampleProgram(
-  commentPrefix: string,
-  _trueLiteral: string,
-  _falseLiteral: string
-): string {
-  return `${commentPrefix} A starter to whet your appetite.
+function sampleProgram(commentPrefix: string, blockStyle: string): string {
+  if (blockStyle == "curly") {
+    return `${commentPrefix} A starter to whet your appetite.
+(print "hello world\\n")
+
+${commentPrefix} For the main, a classic fizzbuzz dish.
+(set i 1)
+(while (lte i 20) {
+  if (equal (mod i 15) 0) {
+    (print "FizzBuzz\\n")
+  } else {
+    if (equal (mod i 5) 0) {
+      (print "Buzz\\n")
+    } else {
+      if (equal (mod i 3) 0) {
+        (print "Fizz\\n")
+      } else {
+        (print i)
+        (print "\\n")
+      }
+    }
+  }
+  (set i (add i 1))
+})`;
+  } else {
+    return `${commentPrefix} A starter to whet your appetite.
 (print "hello world\\n")
 
 ${commentPrefix} For the main, a classic fizzbuzz dish.
@@ -25,6 +45,7 @@ ${commentPrefix} For the main, a classic fizzbuzz dish.
             (print "Fizz\\n")
           (do (print i) (print "\\n")))))
     (set i (add i 1))))`;
+  }
 }
 
 const App: React.FC = () => {
@@ -34,9 +55,7 @@ const App: React.FC = () => {
 
   const [blockStyle, setBlockStyle] = useState("do");
 
-  const [src, setSrc] = useState(
-    sampleProgram(commentPrefix, trueLiteral, falseLiteral)
-  );
+  const [src, setSrc] = useState(sampleProgram(commentPrefix, blockStyle));
 
   const parser = buildParser({
     commentPrefix,
@@ -70,7 +89,7 @@ const App: React.FC = () => {
       <div className="box">
         <h2 className="title">Write Code 🍳</h2>
         <CodeMirrorTag
-          initialValue={sampleProgram(commentPrefix, trueLiteral, falseLiteral)}
+          initialValue={sampleProgram(commentPrefix, blockStyle)}
           commentPrefix={commentPrefix}
           trueLiteral={trueLiteral}
           falseLiteral={falseLiteral}

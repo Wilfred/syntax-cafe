@@ -8,7 +8,11 @@ import React from "react";
 
 import { commentRegexp, SYMBOL_REGEXP, wordRegexp } from "./parsing";
 
-function defineLangplzMode(commentPrefix, trueLiteral, falseLiteral) {
+function defineLangplzMode(
+  commentPrefix: string,
+  trueLiteral: string,
+  falseLiteral: string
+): void {
   CodeMirror.defineSimpleMode("langplz", {
     start: [
       { regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string" },
@@ -21,10 +25,27 @@ function defineLangplzMode(commentPrefix, trueLiteral, falseLiteral) {
   });
 }
 
+type Position = {
+  line: number;
+  ch: number;
+};
+
+type Props = {
+  initialValue: string;
+  commentPrefix: string;
+  trueLiteral: string;
+  falseLiteral: string;
+  onChange: (_: string) => void;
+  errorRange: Array<Position> | null;
+};
+
 // Wraps a textarea with a CodeMirror attached. I tried the library
 // react-codemirror2, but we need precise control of modes defined.
-export default class CodeMirrorTag extends React.Component {
-  constructor(props) {
+export default class CodeMirrorTag extends React.Component<Props> {
+  textArea: React.RefObject<any>;
+  editor: CodeMirror.EditorFromTextArea | null;
+  marker: CodeMirror.TextMarker | null;
+  constructor(props: Props) {
     super(props);
     this.textArea = React.createRef();
     this.editor = null;
@@ -36,29 +57,32 @@ export default class CodeMirrorTag extends React.Component {
       this.props.trueLiteral,
       this.props.falseLiteral
     );
-    this.editor = CodeMirror.fromTextArea(this.textArea.current, {
+    const editor = CodeMirror.fromTextArea(this.textArea.current, {
       lineNumbers: true,
       matchBrackets: true,
       styleActiveLine: true,
       mode: "langplz",
     });
-    this.editor.on("change", () => {
-      this.props.onChange(this.editor.getValue());
+    editor.on("change", () => {
+      this.props.onChange(editor.getValue());
     });
+    this.editor = editor;
     this.setMarker(this.props.errorRange);
   }
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (
       prevProps.commentPrefix != this.props.commentPrefix ||
       prevProps.trueLiteral != this.props.trueLiteral ||
       prevProps.falseLiteral != this.props.falseLiteral
     ) {
-      defineLangplzMode(
-        this.props.commentPrefix,
-        this.props.trueLiteral,
-        this.props.falseLiteral
-      );
-      this.editor.setOption("mode", "langplz");
+      if (this.editor !== null) {
+        defineLangplzMode(
+          this.props.commentPrefix,
+          this.props.trueLiteral,
+          this.props.falseLiteral
+        );
+        this.editor.setOption("mode", "langplz");
+      }
     }
     if (!equal(prevProps.errorRange, this.props.errorRange)) {
       this.setMarker(this.props.errorRange);
@@ -68,17 +92,18 @@ export default class CodeMirrorTag extends React.Component {
     // hasn't modified it.
     if (
       prevProps.initialValue != this.props.initialValue &&
+      this.editor !== null &&
       this.editor.getValue() == prevProps.initialValue
     ) {
       this.editor.setValue(this.props.initialValue);
     }
   }
-  setMarker(errorRange) {
+  setMarker(errorRange: any) {
     if (this.marker !== null) {
       this.marker.clear();
       this.marker = null;
     }
-    if (errorRange !== null) {
+    if (this.editor !== null && errorRange !== null) {
       this.marker = this.editor.markText(errorRange[0], errorRange[1], {
         className: "syntax-error",
         title: "foo",

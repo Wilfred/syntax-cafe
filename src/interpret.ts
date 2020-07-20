@@ -57,7 +57,7 @@ type AssignExpr = {
 
 type IfExpr = {
   name: "If";
-  value: Array<Expr>;
+  value: { condition: Expr; then: Expr; else: Expr };
 };
 
 type WhileExpr = {
@@ -207,7 +207,7 @@ function evalExpr(ctx: Context, expr: Expr): Value {
     return NULL_VALUE;
   }
   if (expr.name == "If") {
-    const condition = evalExpr(ctx, expr.value[0]);
+    const condition = evalExpr(ctx, expr.value.condition);
 
     if (condition.name != "Bool") {
       error("If conditions must be bool, but got " + condition.name);
@@ -215,9 +215,9 @@ function evalExpr(ctx: Context, expr: Expr): Value {
 
     let nextExpr;
     if (condition.value) {
-      nextExpr = expr.value[1];
+      nextExpr = expr.value.then;
     } else {
-      nextExpr = expr.value[2];
+      nextExpr = expr.value.else;
     }
 
     return evalExpr(ctx, nextExpr);

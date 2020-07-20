@@ -101,17 +101,12 @@ export function buildParser(opts: {
       return blockParser.node("Block");
     },
     IfExpression: (r) => {
-      return P.seq(
-        // condition
-        P.string("(")
-          .skip(r._)
-          .skip(P.string("if"))
-          .skip(r._)
-          .then(r.Expression),
-        // then
-        r.Expression,
-        // else (required)
-        r.Expression.skip(P.string(")"))
+      return P.seqObj<{ condition: any; then: any; else: any }>(
+        P.string("(").skip(r._).skip(P.string("if")).skip(r._),
+        ["condition", r.Expression],
+        ["then", r.Expression],
+        ["else", r.Expression],
+        P.string(")")
       ).node("If");
     },
     Assign: (r) => {

@@ -36,7 +36,7 @@ const App: React.FC = () => {
     sampleProgram(commentPrefix, trueLiteral, falseLiteral)
   );
 
-  const parser = buildParser(commentPrefix, trueLiteral, falseLiteral);
+  const parser = buildParser({ commentPrefix, trueLiteral, falseLiteral });
 
   const result = parser.Program.parse(src);
 

@@ -12,12 +12,12 @@ export function wordRegexp(content: string): RegExp {
   return new RegExp("\\b" + regexpEscape(content) + "\\b");
 }
 
-export function buildParser(
-  commentPrefix: string,
-  trueLiteral: string,
-  falseLiteral: string
-): P.Language {
-  const commentPattern = commentRegexp(commentPrefix);
+export function buildParser(opts: {
+  commentPrefix: string;
+  trueLiteral: string;
+  falseLiteral: string;
+}): P.Language {
+  const commentPattern = commentRegexp(opts.commentPrefix);
 
   return P.createLanguage({
     Program: (r) => r.Expression.sepBy(r._).trim(r._),
@@ -43,10 +43,10 @@ export function buildParser(
     },
     BoolLiteral: function () {
       return P.alt(
-        P.regexp(wordRegexp(trueLiteral)),
-        P.regexp(wordRegexp(falseLiteral))
+        P.regexp(wordRegexp(opts.trueLiteral)),
+        P.regexp(wordRegexp(opts.falseLiteral))
       )
-        .map((s) => s == trueLiteral)
+        .map((s) => s == opts.trueLiteral)
         .desc("bool literal")
         .node("Bool");
     },

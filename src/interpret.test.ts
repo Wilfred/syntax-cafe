@@ -2,7 +2,11 @@ import type { Context } from "./interpret";
 import { run } from "./interpret";
 import { buildParser } from "./parsing";
 
-const PARSER = buildParser(";", "true", "false");
+const PARSER = buildParser({
+  commentPrefix: ";",
+  trueLiteral: "true",
+  falseLiteral: "false",
+});
 
 function parseAndRun(src: string): Context {
   const parseResult = PARSER.Program.parse(src);

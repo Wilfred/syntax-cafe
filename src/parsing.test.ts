@@ -2,7 +2,11 @@ import P from "parsimmon";
 
 import { buildParser } from "./parsing";
 
-const PARSER = buildParser(";", "true", "false");
+const PARSER = buildParser({
+  commentPrefix: ";",
+  trueLiteral: "true",
+  falseLiteral: "false",
+});
 
 function expectParseSuccess(result: P.Result<any>): void {
   expect(result.status).toBe(true);
@@ -75,7 +79,11 @@ test("Whitespace inside list", () => {
 });
 
 test("Comments with ( should take precedence", () => {
-  const parser = buildParser("(", "true", "false");
+  const parser = buildParser({
+    commentPrefix: "(",
+    trueLiteral: "true",
+    falseLiteral: "false",
+  });
   const result = parser.Program.parse("(foo true)\n(foo bar)");
 
   expectParseSuccess(result);

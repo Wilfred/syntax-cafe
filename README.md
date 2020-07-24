@@ -1,4 +1,4 @@
-# The Language Diner 👨‍🍳
+# Syntax Café 👨‍🍳
 
 [![Build Status](https://travis-ci.org/Wilfred/language-diner.svg?branch=master)](https://travis-ci.org/Wilfred/language-diner)
 

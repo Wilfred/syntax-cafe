@@ -36,7 +36,9 @@ module.exports = {
     "object-shorthand": ["warn", "properties"],
     "prefer-arrow-callback": "error",
     "prefer-const": ["warn", { destructuring: "all" }],
-    "react/prop-types": "warn",
+    // Prop types are runtime checks, but we already have compiletime
+    // checks with typescript.
+    "react/prop-types": "off",
     "simple-import-sort/sort": "warn",
     semi: ["error", "always"],
     "@typescript-eslint/no-explicit-any": "off",

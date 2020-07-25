@@ -4,7 +4,7 @@
   "description": "a programmable programming language",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint . --ext .ts --ext .js --ext .jsx --ignore-pattern 'dist/*.js' -f codeframe --fix",
+    "lint": "eslint . --ext .ts --ext .js --ext .jsx --ignore-pattern 'dist/*.js' --ignore-pattern '*.d.ts' -f codeframe --fix",
     "tsc": "tsc --noEmit",
     "start": "parcel index.html",
     "build": "parcel build index.html",

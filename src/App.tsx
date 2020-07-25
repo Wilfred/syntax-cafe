@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 
-import { Record } from "immutable";
-
 import CodeMirrorTag from "./CodeMirrorTag";
 import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
-import type { LangOpts } from "./options";
+import { DEFAULT_LANG_OPTS } from "./options";
 import Result from "./Result";
 
 function sampleProgram(
@@ -55,29 +53,16 @@ ${commentPrefix} For the main, a classic fizzbuzz dish.
   }
 }
 
-const DEFAULT_LANG_OPTS = Record<LangOpts>({
-  commentPrefix: ";",
-  trueKeyword: "true",
-  falseKeyword: "false",
-})({});
-
 const App: React.FC = () => {
   const [opts, setOpts] = useState(DEFAULT_LANG_OPTS);
-  const [whileKeyword, setWhileKeyword] = useState("while");
 
   const [blockStyle, setBlockStyle] = useState("do");
 
   const [src, setSrc] = useState(
-    sampleProgram(opts.commentPrefix, whileKeyword, blockStyle)
+    sampleProgram(opts.commentPrefix, opts.whileKeyword, blockStyle)
   );
 
-  const parser = buildParser({
-    commentPrefix: opts.commentPrefix,
-    trueKeyword: opts.trueKeyword,
-    falseKeyword: opts.falseKeyword,
-    whileKeyword,
-    blockStyle,
-  });
+  const parser = buildParser(opts, blockStyle);
 
   const result = parser.Program.parse(src);
 
@@ -98,21 +83,20 @@ const App: React.FC = () => {
         setFalseKeyword={(s: string) => setOpts(opts.set("falseKeyword", s))}
         blockStyle={blockStyle}
         setBlockStyle={setBlockStyle}
-        whileKeyword={whileKeyword}
-        setWhileKeyword={setWhileKeyword}
+        setWhileKeyword={(s: string) => setOpts(opts.set("whileKeyword", s))}
       />
       <div className="box">
         <h2 className="title">Write Code 🍳</h2>
         <CodeMirrorTag
           initialValue={sampleProgram(
             opts.commentPrefix,
-            whileKeyword,
+            opts.whileKeyword,
             blockStyle
           )}
           commentPrefix={opts.commentPrefix}
           trueKeyword={opts.trueKeyword}
           falseKeyword={opts.falseKeyword}
-          whileKeyword={whileKeyword}
+          whileKeyword={opts.whileKeyword}
           onChange={setSrc}
           errorRange={errorRange}
         />

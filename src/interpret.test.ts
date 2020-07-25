@@ -1,13 +1,9 @@
 import type { Context } from "./interpret";
 import { run } from "./interpret";
+import { DEFAULT_LANG_OPTS } from "./options";
 import { buildParser } from "./parsing";
 
-const PARSER = buildParser({
-  commentPrefix: ";",
-  trueKeyword: "true",
-  falseKeyword: "false",
-  whileKeyword: "while",
-});
+const PARSER = buildParser(DEFAULT_LANG_OPTS, "do");
 
 function parseAndRun(src: string): Context {
   const parseResult = PARSER.Program.parse(src);

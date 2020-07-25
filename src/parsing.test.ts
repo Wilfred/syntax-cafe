@@ -1,13 +1,9 @@
 import P from "parsimmon";
 
+import { DEFAULT_LANG_OPTS } from "./options";
 import { buildParser } from "./parsing";
 
-const PARSER = buildParser({
-  commentPrefix: ";",
-  trueKeyword: "true",
-  falseKeyword: "false",
-  whileKeyword: "while",
-});
+const PARSER = buildParser(DEFAULT_LANG_OPTS, "do");
 
 function expectParseSuccess(result: P.Result<any>): void {
   expect(result.status).toBe(true);
@@ -59,13 +55,7 @@ describe("Blocks", () => {
     }
   });
   it("Should parse { ... } curly blocks", () => {
-    const parser = buildParser({
-      commentPrefix: ";",
-      trueKeyword: "true",
-      falseKeyword: "false",
-      whileKeyword: "while",
-      blockStyle: "curly",
-    });
+    const parser = buildParser(DEFAULT_LANG_OPTS, "curly");
     const result = parser.Program.parse("{ (foo) (bar) }");
 
     if (!result.status) {
@@ -102,12 +92,10 @@ test("Whitespace inside list", () => {
 });
 
 test("Comments with ( should take precedence", () => {
-  const parser = buildParser({
-    commentPrefix: "(",
-    trueKeyword: "true",
-    falseKeyword: "false",
-    whileKeyword: "while",
-  });
+  const parser = buildParser(
+    DEFAULT_LANG_OPTS.set("commentPrefix", "("),
+    "curly"
+  );
   const result = parser.Program.parse("(foo true)\n(foo bar)");
 
   expectParseSuccess(result);
@@ -127,13 +115,7 @@ describe("If expression", () => {
     }
   });
   it("should parse if {...} else {...}", () => {
-    const parser = buildParser({
-      commentPrefix: ";",
-      trueKeyword: "true",
-      falseKeyword: "false",
-      whileKeyword: "while",
-      blockStyle: "curly",
-    });
+    const parser = buildParser(DEFAULT_LANG_OPTS, "curly");
     const result = parser.Program.parse("if true { (foo) } else { (bar) }");
 
     expectParseSuccess(result);

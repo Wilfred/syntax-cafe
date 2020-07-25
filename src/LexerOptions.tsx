@@ -10,7 +10,6 @@ const LexerOptions: React.FC<{
   setFalseKeyword: (_: string) => void;
   blockStyle: string;
   setBlockStyle: (_: string) => void;
-  whileKeyword: string;
   setWhileKeyword: (_: string) => void;
 }> = ({
   opts,
@@ -19,7 +18,6 @@ const LexerOptions: React.FC<{
   setFalseKeyword,
   blockStyle,
   setBlockStyle,
-  whileKeyword,
   setWhileKeyword,
 }) => {
   return (
@@ -68,7 +66,7 @@ const LexerOptions: React.FC<{
           </select>
           <div className="field">
             <RequiredTextInput
-              value={whileKeyword}
+              value={opts.whileKeyword}
               onChange={setWhileKeyword}
               placeholder="E.g. while"
             />

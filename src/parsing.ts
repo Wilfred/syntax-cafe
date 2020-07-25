@@ -2,6 +2,8 @@ import includes from "array-includes";
 import P from "parsimmon";
 import regexpEscape from "regexp.escape";
 
+import type { LangOpts } from "./options";
+
 export const SYMBOL_REGEXP = /[a-zA-Z]+/;
 
 export function commentRegexp(prefix: string): RegExp {
@@ -12,13 +14,11 @@ export function wordRegexp(content: string): RegExp {
   return new RegExp("\\b" + regexpEscape(content) + "\\b");
 }
 
-export function buildParser(opts: {
-  commentPrefix: string;
-  trueKeyword: string;
-  falseKeyword: string;
-  whileKeyword: string;
-  blockStyle?: "curly" | "do" | string;
-}): P.Language {
+export function buildParser(
+  opts: LangOpts,
+  // TODO: Make this type more precise
+  blockStyle: "curly" | "do" | string
+): P.Language {
   const commentPattern = commentRegexp(opts.commentPrefix);
 
   return P.createLanguage({
@@ -87,7 +87,7 @@ export function buildParser(opts: {
     Block: (r) => {
       let blockParser: P.Parser<{ body: Array<any> }>;
 
-      if (opts.blockStyle == "curly") {
+      if (blockStyle == "curly") {
         blockParser = P.seqObj(
           P.string("{").skip(r._),
           ["body", r.Expression.many()],
@@ -107,7 +107,7 @@ export function buildParser(opts: {
     IfExpression: (r) => {
       let ifParser: P.Parser<{ condition: any; then: any; else: any }>;
 
-      if (opts.blockStyle == "curly") {
+      if (blockStyle == "curly") {
         ifParser = P.seqObj(
           P.string("if").skip(r._),
           ["condition", r.Expression],

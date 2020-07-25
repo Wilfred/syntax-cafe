@@ -1,9 +1,10 @@
 import React from "react";
 
+import type { LangOpts } from "./options";
 import RequiredTextInput from "./RequiredTextInput";
 
 const LexerOptions: React.FC<{
-  commentPrefix: string;
+  commentPrefix: LangOpts;
   setCommentPrefix: (_: string) => void;
   trueLiteral: string;
   setTrueLiteral: (_: string) => void;
@@ -33,7 +34,7 @@ const LexerOptions: React.FC<{
         <label className="field-label">Comment Prefix</label>
         <div className="field-body">
           <RequiredTextInput
-            value={commentPrefix}
+            value={commentPrefix.commentPrefix}
             onChange={setCommentPrefix}
             placeholder="E.g. #"
           />

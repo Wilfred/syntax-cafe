@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 
+import { Record } from "immutable";
+
 import CodeMirrorTag from "./CodeMirrorTag";
 import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
+import type { LangOpts } from "./options";
 import Result from "./Result";
 
 function sampleProgram(
@@ -52,8 +55,10 @@ ${commentPrefix} For the main, a classic fizzbuzz dish.
   }
 }
 
+const DEFAULT_LANG_OPTS = Record<LangOpts>({ commentPrefix: ";" })({});
+
 const App: React.FC = () => {
-  const [commentPrefix, setCommentPrefix] = useState(";");
+  const [opts, setOpts] = useState(DEFAULT_LANG_OPTS);
   const [trueLiteral, setTrueLiteral] = useState("true");
   const [falseLiteral, setFalseLiteral] = useState("false");
   const [whileKeyword, setWhileKeyword] = useState("while");
@@ -61,11 +66,11 @@ const App: React.FC = () => {
   const [blockStyle, setBlockStyle] = useState("do");
 
   const [src, setSrc] = useState(
-    sampleProgram(commentPrefix, whileKeyword, blockStyle)
+    sampleProgram(opts.commentPrefix, whileKeyword, blockStyle)
   );
 
   const parser = buildParser({
-    commentPrefix,
+    commentPrefix: opts.commentPrefix,
     trueLiteral,
     falseLiteral,
     whileKeyword,
@@ -85,8 +90,8 @@ const App: React.FC = () => {
   return (
     <div>
       <LexerOptions
-        commentPrefix={commentPrefix}
-        setCommentPrefix={setCommentPrefix}
+        commentPrefix={opts}
+        setCommentPrefix={(s: string) => setOpts(opts.set("commentPrefix", s))}
         trueLiteral={trueLiteral}
         setTrueLiteral={setTrueLiteral}
         falseLiteral={falseLiteral}
@@ -99,8 +104,12 @@ const App: React.FC = () => {
       <div className="box">
         <h2 className="title">Write Code 🍳</h2>
         <CodeMirrorTag
-          initialValue={sampleProgram(commentPrefix, whileKeyword, blockStyle)}
-          commentPrefix={commentPrefix}
+          initialValue={sampleProgram(
+            opts.commentPrefix,
+            whileKeyword,
+            blockStyle
+          )}
+          commentPrefix={opts.commentPrefix}
           trueLiteral={trueLiteral}
           falseLiteral={falseLiteral}
           whileKeyword={whileKeyword}

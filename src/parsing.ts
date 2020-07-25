@@ -54,21 +54,17 @@ export function buildParser(opts: {
     },
     Symbol: function () {
       return P.regexp(SYMBOL_REGEXP)
-        .assert(
-          // TODO: Submit PR for typing for parsimmon to allow .assert.
-          (s: string) => {
-            const keywords = [
-              "if",
-              opts.whileKeyword,
-              "set",
-              "do",
-              "true",
-              "false",
-            ];
-            return !includes(keywords, s);
-          },
-          "a symbol, not a reserved word"
-        )
+        .assert((s: string) => {
+          const keywords = [
+            "if",
+            opts.whileKeyword,
+            "set",
+            "do",
+            "true",
+            "false",
+          ];
+          return !includes(keywords, s);
+        }, "a symbol, not a reserved word")
         .desc("symbol")
         .node("Symbol");
     },

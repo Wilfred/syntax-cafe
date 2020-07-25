@@ -1,5 +1,6 @@
 import Parsimmon from "parsimmon";
 
+// TODO: Submit PR for typing for parsimmon to allow .assert.
 declare module "parsimmon" {
   interface Parser<T> {
     /**

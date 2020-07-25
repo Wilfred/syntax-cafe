@@ -11,6 +11,8 @@ const LexerOptions: React.FC<{
   setFalseLiteral: (_: string) => void;
   blockStyle: string;
   setBlockStyle: (_: string) => void;
+  whileKeyword: string;
+  setWhileKeyword: (_: string) => void;
 }> = ({
   commentPrefix,
   setCommentPrefix,
@@ -20,6 +22,8 @@ const LexerOptions: React.FC<{
   setFalseLiteral,
   blockStyle,
   setBlockStyle,
+  whileKeyword,
+  setWhileKeyword,
 }) => {
   return (
     <div className="box">
@@ -64,7 +68,14 @@ const LexerOptions: React.FC<{
           >
             <option value="do">(do ... )</option>
             <option value="curly">{"{ ... }"}</option>
-          </select>{" "}
+          </select>
+          <div className="field">
+            <RequiredTextInput
+              value={whileKeyword}
+              onChange={setWhileKeyword}
+              placeholder="E.g. while"
+            />
+          </div>
         </div>
       </div>
     </div>

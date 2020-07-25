@@ -16,6 +16,7 @@ export function buildParser(opts: {
   commentPrefix: string;
   trueLiteral: string;
   falseLiteral: string;
+  whileKeyword: string;
   blockStyle?: "curly" | "do" | string;
 }): P.Language {
   const commentPattern = commentRegexp(opts.commentPrefix);
@@ -56,7 +57,14 @@ export function buildParser(opts: {
         .assert(
           // TODO: Submit PR for typing for parsimmon to allow .assert.
           (s: string) => {
-            const keywords = ["if", "while", "set", "do", "true", "false"];
+            const keywords = [
+              "if",
+              opts.whileKeyword,
+              "set",
+              "do",
+              "true",
+              "false",
+            ];
             return !includes(keywords, s);
           },
           "a symbol, not a reserved word"
@@ -139,7 +147,7 @@ export function buildParser(opts: {
         // condition
         P.string("(")
           .skip(r._)
-          .skip(P.string("while"))
+          .skip(P.string(opts.whileKeyword))
           .skip(r._)
           .then(r.Expression),
         // body

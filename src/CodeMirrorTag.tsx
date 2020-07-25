@@ -11,7 +11,8 @@ import { commentRegexp, SYMBOL_REGEXP, wordRegexp } from "./parsing";
 function defineLangplzMode(
   commentPrefix: string,
   trueLiteral: string,
-  falseLiteral: string
+  falseLiteral: string,
+  whileKeyword: string
 ): void {
   CodeMirror.defineSimpleMode("langplz", {
     start: [
@@ -19,7 +20,8 @@ function defineLangplzMode(
       { regex: commentRegexp(commentPrefix), token: "comment" },
       { regex: wordRegexp(trueLiteral), token: "atom" },
       { regex: wordRegexp(falseLiteral), token: "atom" },
-      { regex: /(?:if|while|set)\b/, token: "keyword" },
+      { regex: wordRegexp(whileKeyword), token: "keyword" },
+      { regex: /(?:if|set)\b/, token: "keyword" },
       { regex: SYMBOL_REGEXP, token: "variable" },
     ],
   });
@@ -35,6 +37,7 @@ type Props = {
   commentPrefix: string;
   trueLiteral: string;
   falseLiteral: string;
+  whileKeyword: string;
   onChange: (_: string) => void;
   errorRange: Array<Position> | null;
 };
@@ -55,7 +58,8 @@ export default class CodeMirrorTag extends React.Component<Props> {
     defineLangplzMode(
       this.props.commentPrefix,
       this.props.trueLiteral,
-      this.props.falseLiteral
+      this.props.falseLiteral,
+      this.props.whileKeyword
     );
     const editor = CodeMirror.fromTextArea(this.textArea.current, {
       lineNumbers: true,
@@ -73,13 +77,15 @@ export default class CodeMirrorTag extends React.Component<Props> {
     if (
       prevProps.commentPrefix != this.props.commentPrefix ||
       prevProps.trueLiteral != this.props.trueLiteral ||
-      prevProps.falseLiteral != this.props.falseLiteral
+      prevProps.falseLiteral != this.props.falseLiteral ||
+      prevProps.whileKeyword != this.props.whileKeyword
     ) {
       if (this.editor !== null) {
         defineLangplzMode(
           this.props.commentPrefix,
           this.props.trueLiteral,
-          this.props.falseLiteral
+          this.props.falseLiteral,
+          this.props.whileKeyword
         );
         this.editor.setOption("mode", "langplz");
       }

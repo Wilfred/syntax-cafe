@@ -6,6 +6,7 @@ const PARSER = buildParser({
   commentPrefix: ";",
   trueLiteral: "true",
   falseLiteral: "false",
+  whileKeyword: "while",
 });
 
 function expectParseSuccess(result: P.Result<any>): void {
@@ -62,6 +63,7 @@ describe("Blocks", () => {
       commentPrefix: ";",
       trueLiteral: "true",
       falseLiteral: "false",
+      whileKeyword: "while",
       blockStyle: "curly",
     });
     const result = parser.Program.parse("{ (foo) (bar) }");
@@ -104,6 +106,7 @@ test("Comments with ( should take precedence", () => {
     commentPrefix: "(",
     trueLiteral: "true",
     falseLiteral: "false",
+    whileKeyword: "while",
   });
   const result = parser.Program.parse("(foo true)\n(foo bar)");
 
@@ -128,6 +131,7 @@ describe("If expression", () => {
       commentPrefix: ";",
       trueLiteral: "true",
       falseLiteral: "false",
+      whileKeyword: "while",
       blockStyle: "curly",
     });
     const result = parser.Program.parse("if true { (foo) } else { (bar) }");

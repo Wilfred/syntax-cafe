@@ -6,6 +6,7 @@ const PARSER = buildParser({
   commentPrefix: ";",
   trueLiteral: "true",
   falseLiteral: "false",
+  whileKeyword: "while",
 });
 
 function parseAndRun(src: string): Context {

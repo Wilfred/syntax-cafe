@@ -5,14 +5,18 @@ import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
 import Result from "./Result";
 
-function sampleProgram(commentPrefix: string, blockStyle: string): string {
+function sampleProgram(
+  commentPrefix: string,
+  whileKeyword: string,
+  blockStyle: string
+): string {
   if (blockStyle == "curly") {
     return `${commentPrefix} A starter to whet your appetite.
 (print "hello world\\n")
 
 ${commentPrefix} For the main, a classic fizzbuzz dish.
 (set i 1)
-(while (lte i 20) {
+(${whileKeyword} (lte i 20) {
   if (equal (mod i 15) 0) {
     (print "FizzBuzz\\n")
   } else {
@@ -35,7 +39,7 @@ ${commentPrefix} For the main, a classic fizzbuzz dish.
 
 ${commentPrefix} For the main, a classic fizzbuzz dish.
 (set i 1)
-(while (lte i 20)
+(${whileKeyword} (lte i 20)
   (do
     (if (equal (mod i 15) 0)
         (print "FizzBuzz\\n")
@@ -52,15 +56,19 @@ const App: React.FC = () => {
   const [commentPrefix, setCommentPrefix] = useState(";");
   const [trueLiteral, setTrueLiteral] = useState("true");
   const [falseLiteral, setFalseLiteral] = useState("false");
+  const [whileKeyword, setWhileKeyword] = useState("while");
 
   const [blockStyle, setBlockStyle] = useState("do");
 
-  const [src, setSrc] = useState(sampleProgram(commentPrefix, blockStyle));
+  const [src, setSrc] = useState(
+    sampleProgram(commentPrefix, whileKeyword, blockStyle)
+  );
 
   const parser = buildParser({
     commentPrefix,
     trueLiteral,
     falseLiteral,
+    whileKeyword,
     blockStyle,
   });
 
@@ -85,14 +93,17 @@ const App: React.FC = () => {
         setFalseLiteral={setFalseLiteral}
         blockStyle={blockStyle}
         setBlockStyle={setBlockStyle}
+        whileKeyword={whileKeyword}
+        setWhileKeyword={setWhileKeyword}
       />
       <div className="box">
         <h2 className="title">Write Code 🍳</h2>
         <CodeMirrorTag
-          initialValue={sampleProgram(commentPrefix, blockStyle)}
+          initialValue={sampleProgram(commentPrefix, whileKeyword, blockStyle)}
           commentPrefix={commentPrefix}
           trueLiteral={trueLiteral}
           falseLiteral={falseLiteral}
+          whileKeyword={whileKeyword}
           onChange={setSrc}
           errorRange={errorRange}
         />

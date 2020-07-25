@@ -15,7 +15,6 @@
   "repository": "https://github.com/Wilfred/language-diner",
   "license": "ISC",
   "dependencies": {
-    "@types/react": "^16.9.43",
     "array-includes": "^3.1.1",
     "bulma": "^0.9.0",
     "codemirror": "^5.55.0",
@@ -35,6 +34,7 @@
     "@types/codemirror": "0.0.97",
     "@types/jest": "^26.0.5",
     "@types/parsimmon": "^1.10.2",
+    "@types/react": "^16.9.43",
     "@typescript-eslint/eslint-plugin": "^3.6.0",
     "@typescript-eslint/parser": "^3.6.0",
     "babel-jest": "^26.1.0",

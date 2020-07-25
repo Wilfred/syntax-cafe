@@ -4,8 +4,8 @@ import { buildParser } from "./parsing";
 
 const PARSER = buildParser({
   commentPrefix: ";",
-  trueLiteral: "true",
-  falseLiteral: "false",
+  trueKeyword: "true",
+  falseKeyword: "false",
   whileKeyword: "while",
 });
 
@@ -61,8 +61,8 @@ describe("Blocks", () => {
   it("Should parse { ... } curly blocks", () => {
     const parser = buildParser({
       commentPrefix: ";",
-      trueLiteral: "true",
-      falseLiteral: "false",
+      trueKeyword: "true",
+      falseKeyword: "false",
       whileKeyword: "while",
       blockStyle: "curly",
     });
@@ -104,8 +104,8 @@ test("Whitespace inside list", () => {
 test("Comments with ( should take precedence", () => {
   const parser = buildParser({
     commentPrefix: "(",
-    trueLiteral: "true",
-    falseLiteral: "false",
+    trueKeyword: "true",
+    falseKeyword: "false",
     whileKeyword: "while",
   });
   const result = parser.Program.parse("(foo true)\n(foo bar)");
@@ -129,8 +129,8 @@ describe("If expression", () => {
   it("should parse if {...} else {...}", () => {
     const parser = buildParser({
       commentPrefix: ";",
-      trueLiteral: "true",
-      falseLiteral: "false",
+      trueKeyword: "true",
+      falseKeyword: "false",
       whileKeyword: "while",
       blockStyle: "curly",
     });

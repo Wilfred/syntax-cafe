@@ -4,8 +4,8 @@ import { buildParser } from "./parsing";
 
 const PARSER = buildParser({
   commentPrefix: ";",
-  trueLiteral: "true",
-  falseLiteral: "false",
+  trueKeyword: "true",
+  falseKeyword: "false",
   whileKeyword: "while",
 });
 

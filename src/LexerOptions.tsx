@@ -4,23 +4,19 @@ import type { LangOpts } from "./options";
 import RequiredTextInput from "./RequiredTextInput";
 
 const LexerOptions: React.FC<{
-  commentPrefix: LangOpts;
+  opts: LangOpts;
   setCommentPrefix: (_: string) => void;
-  trueLiteral: string;
-  setTrueLiteral: (_: string) => void;
-  falseLiteral: string;
-  setFalseLiteral: (_: string) => void;
+  setTrueKeyword: (_: string) => void;
+  setFalseKeyword: (_: string) => void;
   blockStyle: string;
   setBlockStyle: (_: string) => void;
   whileKeyword: string;
   setWhileKeyword: (_: string) => void;
 }> = ({
-  commentPrefix,
+  opts,
   setCommentPrefix,
-  trueLiteral,
-  setTrueLiteral,
-  falseLiteral,
-  setFalseLiteral,
+  setTrueKeyword,
+  setFalseKeyword,
   blockStyle,
   setBlockStyle,
   whileKeyword,
@@ -34,7 +30,7 @@ const LexerOptions: React.FC<{
         <label className="field-label">Comment Prefix</label>
         <div className="field-body">
           <RequiredTextInput
-            value={commentPrefix.commentPrefix}
+            value={opts.commentPrefix}
             onChange={setCommentPrefix}
             placeholder="E.g. #"
           />
@@ -46,15 +42,15 @@ const LexerOptions: React.FC<{
         <div className="field-body">
           <div className="field">
             <RequiredTextInput
-              value={trueLiteral}
-              onChange={setTrueLiteral}
+              value={opts.trueKeyword}
+              onChange={setTrueKeyword}
               placeholder="E.g. true"
             />
           </div>
           <div className="field">
             <RequiredTextInput
-              value={falseLiteral}
-              onChange={setFalseLiteral}
+              value={opts.falseKeyword}
+              onChange={setFalseKeyword}
               placeholder="E.g. false"
             />
           </div>

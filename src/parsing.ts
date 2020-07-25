@@ -14,8 +14,8 @@ export function wordRegexp(content: string): RegExp {
 
 export function buildParser(opts: {
   commentPrefix: string;
-  trueLiteral: string;
-  falseLiteral: string;
+  trueKeyword: string;
+  falseKeyword: string;
   whileKeyword: string;
   blockStyle?: "curly" | "do" | string;
 }): P.Language {
@@ -45,10 +45,10 @@ export function buildParser(opts: {
     },
     BoolLiteral: function () {
       return P.alt(
-        P.regexp(wordRegexp(opts.trueLiteral)),
-        P.regexp(wordRegexp(opts.falseLiteral))
+        P.regexp(wordRegexp(opts.trueKeyword)),
+        P.regexp(wordRegexp(opts.falseKeyword))
       )
-        .map((s) => s == opts.trueLiteral)
+        .map((s) => s == opts.trueKeyword)
         .desc("bool literal")
         .node("Bool");
     },

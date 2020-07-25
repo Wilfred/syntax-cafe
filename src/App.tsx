@@ -55,12 +55,14 @@ ${commentPrefix} For the main, a classic fizzbuzz dish.
   }
 }
 
-const DEFAULT_LANG_OPTS = Record<LangOpts>({ commentPrefix: ";" })({});
+const DEFAULT_LANG_OPTS = Record<LangOpts>({
+  commentPrefix: ";",
+  trueKeyword: "true",
+  falseKeyword: "false",
+})({});
 
 const App: React.FC = () => {
   const [opts, setOpts] = useState(DEFAULT_LANG_OPTS);
-  const [trueLiteral, setTrueLiteral] = useState("true");
-  const [falseLiteral, setFalseLiteral] = useState("false");
   const [whileKeyword, setWhileKeyword] = useState("while");
 
   const [blockStyle, setBlockStyle] = useState("do");
@@ -71,8 +73,8 @@ const App: React.FC = () => {
 
   const parser = buildParser({
     commentPrefix: opts.commentPrefix,
-    trueLiteral,
-    falseLiteral,
+    trueKeyword: opts.trueKeyword,
+    falseKeyword: opts.falseKeyword,
     whileKeyword,
     blockStyle,
   });
@@ -90,12 +92,10 @@ const App: React.FC = () => {
   return (
     <div>
       <LexerOptions
-        commentPrefix={opts}
+        opts={opts}
         setCommentPrefix={(s: string) => setOpts(opts.set("commentPrefix", s))}
-        trueLiteral={trueLiteral}
-        setTrueLiteral={setTrueLiteral}
-        falseLiteral={falseLiteral}
-        setFalseLiteral={setFalseLiteral}
+        setTrueKeyword={(s: string) => setOpts(opts.set("trueKeyword", s))}
+        setFalseKeyword={(s: string) => setOpts(opts.set("falseKeyword", s))}
         blockStyle={blockStyle}
         setBlockStyle={setBlockStyle}
         whileKeyword={whileKeyword}
@@ -110,8 +110,8 @@ const App: React.FC = () => {
             blockStyle
           )}
           commentPrefix={opts.commentPrefix}
-          trueLiteral={trueLiteral}
-          falseLiteral={falseLiteral}
+          trueKeyword={opts.trueKeyword}
+          falseKeyword={opts.falseKeyword}
           whileKeyword={whileKeyword}
           onChange={setSrc}
           errorRange={errorRange}

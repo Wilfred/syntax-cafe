@@ -6,23 +6,18 @@ import CodeMirror from "codemirror";
 import equal from "fast-deep-equal";
 import React from "react";
 
+import type { LangOpts } from "./options";
 import { commentRegexp, SYMBOL_REGEXP, wordRegexp } from "./parsing";
 
-function defineLangplzMode(
-  commentPrefix: string,
-  trueKeyword: string,
-  falseKeyword: string,
-  whileKeyword: string,
-  ifKeyword: string
-): void {
+function defineLangplzMode(opts: LangOpts): void {
   CodeMirror.defineSimpleMode("langplz", {
     start: [
       { regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string" },
-      { regex: commentRegexp(commentPrefix), token: "comment" },
-      { regex: wordRegexp(trueKeyword), token: "atom" },
-      { regex: wordRegexp(falseKeyword), token: "atom" },
-      { regex: wordRegexp(whileKeyword), token: "keyword" },
-      { regex: wordRegexp(ifKeyword), token: "keyword" },
+      { regex: commentRegexp(opts.commentPrefix), token: "comment" },
+      { regex: wordRegexp(opts.trueKeyword), token: "atom" },
+      { regex: wordRegexp(opts.falseKeyword), token: "atom" },
+      { regex: wordRegexp(opts.whileKeyword), token: "keyword" },
+      { regex: wordRegexp(opts.ifKeyword), token: "keyword" },
       { regex: wordRegexp("set"), token: "keyword" },
       { regex: SYMBOL_REGEXP, token: "variable" },
     ],
@@ -36,11 +31,7 @@ type Position = {
 
 type Props = {
   initialValue: string;
-  commentPrefix: string;
-  trueKeyword: string;
-  falseKeyword: string;
-  whileKeyword: string;
-  ifKeyword: string;
+  options: LangOpts;
   onChange: (_: string) => void;
   errorRange: Array<Position> | null;
 };
@@ -58,13 +49,7 @@ export default class CodeMirrorTag extends React.Component<Props> {
     this.marker = null;
   }
   componentDidMount() {
-    defineLangplzMode(
-      this.props.commentPrefix,
-      this.props.trueKeyword,
-      this.props.falseKeyword,
-      this.props.whileKeyword,
-      this.props.ifKeyword
-    );
+    defineLangplzMode(this.props.options);
     const editor = CodeMirror.fromTextArea(this.textArea.current, {
       lineNumbers: true,
       matchBrackets: true,
@@ -78,22 +63,9 @@ export default class CodeMirrorTag extends React.Component<Props> {
     this.setMarker(this.props.errorRange);
   }
   componentDidUpdate(prevProps: Props) {
-    // TODO
-    if (
-      prevProps.commentPrefix != this.props.commentPrefix ||
-      prevProps.trueKeyword != this.props.trueKeyword ||
-      prevProps.falseKeyword != this.props.falseKeyword ||
-      prevProps.whileKeyword != this.props.whileKeyword ||
-      prevProps.ifKeyword != this.props.ifKeyword
-    ) {
+    if (!prevProps.options.equals(this.props.options)) {
       if (this.editor !== null) {
-        defineLangplzMode(
-          this.props.commentPrefix,
-          this.props.trueKeyword,
-          this.props.falseKeyword,
-          this.props.whileKeyword,
-          this.props.ifKeyword
-        );
+        defineLangplzMode(this.props.options);
         this.editor.setOption("mode", "langplz");
       }
     }

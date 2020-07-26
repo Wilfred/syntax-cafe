@@ -100,11 +100,7 @@ const App: React.FC = () => {
             opts.ifKeyword,
             blockStyle
           )}
-          commentPrefix={opts.commentPrefix}
-          trueKeyword={opts.trueKeyword}
-          falseKeyword={opts.falseKeyword}
-          whileKeyword={opts.whileKeyword}
-          ifKeyword={opts.ifKeyword}
+          options={opts}
           onChange={setSrc}
           errorRange={errorRange}
         />

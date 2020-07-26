@@ -1,6 +1,6 @@
-import { Record } from "immutable";
+import { Record, RecordOf } from "immutable";
 
-export type LangOpts = {
+type LangOptsObj = {
   commentPrefix: string;
   whileKeyword: string;
   ifKeyword: string;
@@ -8,10 +8,14 @@ export type LangOpts = {
   falseKeyword: string;
 };
 
-export const DEFAULT_LANG_OPTS = Record<LangOpts>({
+export type LangOpts = RecordOf<LangOptsObj>;
+
+const LangOptsFactory = Record<LangOptsObj>({
   commentPrefix: ";",
   whileKeyword: "while",
   ifKeyword: "if",
   trueKeyword: "true",
   falseKeyword: "false",
-})({});
+});
+
+export const DEFAULT_LANG_OPTS: LangOpts = LangOptsFactory({});

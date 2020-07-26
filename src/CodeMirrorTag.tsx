@@ -62,6 +62,10 @@ export default class CodeMirrorTag extends React.Component<Props> {
     this.editor = editor;
     this.setMarker(this.props.errorRange);
   }
+  componentWillUnmount() {
+    this.editor?.toTextArea();
+    this.editor = null;
+  }
   componentDidUpdate(prevProps: Props) {
     if (!prevProps.options.equals(this.props.options)) {
       if (this.editor !== null) {

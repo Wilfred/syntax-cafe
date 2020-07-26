@@ -93,6 +93,17 @@ const App: React.FC = () => {
       />
       <div className="box">
         <h2 className="title">Enjoy 🍽️</h2>
+        <div className="tabs">
+          <ul>
+            <li className="is-active">
+              <a>Source</a>
+            </li>
+            <li>
+              <a>Parse Tree 🌹 🥀</a>
+            </li>
+          </ul>
+        </div>
+
         <CodeMirrorTag
           initialValue={sampleProgram(
             opts.commentPrefix,

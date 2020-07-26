@@ -26,7 +26,6 @@ export function buildParser(
     Expression: (r) => {
       return P.alt(
         r.Number,
-        // Bools and keywords must come before general symbols.
         r.BoolLiteral,
         r.Symbol,
         r.StringLiteral,
@@ -60,8 +59,8 @@ export function buildParser(
             opts.whileKeyword,
             "set",
             "do",
-            "true", // TODO
-            "false",
+            opts.trueKeyword,
+            opts.falseKeyword,
           ];
           return !includes(keywords, s);
         }, "a symbol, not a reserved word")

@@ -12,7 +12,8 @@ function defineLangplzMode(
   commentPrefix: string,
   trueKeyword: string,
   falseKeyword: string,
-  whileKeyword: string
+  whileKeyword: string,
+  ifKeyword: string
 ): void {
   CodeMirror.defineSimpleMode("langplz", {
     start: [
@@ -21,7 +22,8 @@ function defineLangplzMode(
       { regex: wordRegexp(trueKeyword), token: "atom" },
       { regex: wordRegexp(falseKeyword), token: "atom" },
       { regex: wordRegexp(whileKeyword), token: "keyword" },
-      { regex: /(?:if|set)\b/, token: "keyword" },
+      { regex: wordRegexp(ifKeyword), token: "keyword" },
+      { regex: wordRegexp("set"), token: "keyword" },
       { regex: SYMBOL_REGEXP, token: "variable" },
     ],
   });
@@ -38,6 +40,7 @@ type Props = {
   trueKeyword: string;
   falseKeyword: string;
   whileKeyword: string;
+  ifKeyword: string;
   onChange: (_: string) => void;
   errorRange: Array<Position> | null;
 };
@@ -59,7 +62,8 @@ export default class CodeMirrorTag extends React.Component<Props> {
       this.props.commentPrefix,
       this.props.trueKeyword,
       this.props.falseKeyword,
-      this.props.whileKeyword
+      this.props.whileKeyword,
+      this.props.ifKeyword
     );
     const editor = CodeMirror.fromTextArea(this.textArea.current, {
       lineNumbers: true,
@@ -74,18 +78,21 @@ export default class CodeMirrorTag extends React.Component<Props> {
     this.setMarker(this.props.errorRange);
   }
   componentDidUpdate(prevProps: Props) {
+    // TODO
     if (
       prevProps.commentPrefix != this.props.commentPrefix ||
       prevProps.trueKeyword != this.props.trueKeyword ||
       prevProps.falseKeyword != this.props.falseKeyword ||
-      prevProps.whileKeyword != this.props.whileKeyword
+      prevProps.whileKeyword != this.props.whileKeyword ||
+      prevProps.ifKeyword != this.props.ifKeyword
     ) {
       if (this.editor !== null) {
         defineLangplzMode(
           this.props.commentPrefix,
           this.props.trueKeyword,
           this.props.falseKeyword,
-          this.props.whileKeyword
+          this.props.whileKeyword,
+          this.props.ifKeyword
         );
         this.editor.setOption("mode", "langplz");
       }

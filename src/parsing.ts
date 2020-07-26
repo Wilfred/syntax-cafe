@@ -56,11 +56,11 @@ export function buildParser(
       return P.regexp(SYMBOL_REGEXP)
         .assert((s: string) => {
           const keywords = [
-            "if",
+            opts.ifKeyword,
             opts.whileKeyword,
             "set",
             "do",
-            "true",
+            "true", // TODO
             "false",
           ];
           return !includes(keywords, s);
@@ -109,7 +109,7 @@ export function buildParser(
 
       if (blockStyle == "curly") {
         ifParser = P.seqObj(
-          P.string("if").skip(r._),
+          P.string(opts.ifKeyword).skip(r._),
           ["condition", r.Expression],
           // TODO: require explicit blocks for then/else.
           ["then", r.Expression],
@@ -119,7 +119,7 @@ export function buildParser(
         );
       } else {
         ifParser = P.seqObj(
-          P.string("(").skip(r._).skip(P.string("if")).skip(r._),
+          P.string("(").skip(r._).skip(P.string(opts.ifKeyword)).skip(r._),
           ["condition", r.Expression],
           ["then", r.Expression],
           ["else", r.Expression],

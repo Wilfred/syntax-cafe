@@ -11,6 +11,7 @@ const LexerOptions: React.FC<{
   blockStyle: string;
   setBlockStyle: (_: string) => void;
   setWhileKeyword: (_: string) => void;
+  setIfKeyword: (_: string) => void;
 }> = ({
   opts,
   setCommentPrefix,
@@ -19,6 +20,7 @@ const LexerOptions: React.FC<{
   blockStyle,
   setBlockStyle,
   setWhileKeyword,
+  setIfKeyword,
 }) => {
   return (
     <div className="box">
@@ -69,6 +71,13 @@ const LexerOptions: React.FC<{
               value={opts.whileKeyword}
               onChange={setWhileKeyword}
               placeholder="E.g. while"
+            />
+          </div>
+          <div className="field">
+            <RequiredTextInput
+              value={opts.ifKeyword}
+              onChange={setIfKeyword}
+              placeholder="E.g. if"
             />
           </div>
         </div>

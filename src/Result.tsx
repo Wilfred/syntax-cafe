@@ -2,6 +2,7 @@ import P, { formatError } from "parsimmon";
 
 import React, { useState } from "react";
 
+import type { LangOpts } from "./options";
 import { run } from "./interpret";
 import type { Context } from "./interpret";
 

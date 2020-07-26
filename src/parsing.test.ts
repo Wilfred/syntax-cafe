@@ -114,6 +114,19 @@ describe("If expression", () => {
       expect(firstExpr).toMatchObject({ name: "If" });
     }
   });
+  it("should parse (customkeyword ...)", () => {
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("ifKeyword", "custom"),
+      "do"
+    );
+    const result = parser.Program.parse("(custom true 1 2)");
+
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "If" });
+    }
+  });
   it("should parse if {...} else {...}", () => {
     const parser = buildParser(DEFAULT_LANG_OPTS, "curly");
     const result = parser.Program.parse("if true { (foo) } else { (bar) }");

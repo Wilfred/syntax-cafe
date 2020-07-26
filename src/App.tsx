@@ -9,6 +9,7 @@ import Result from "./Result";
 function sampleProgram(
   commentPrefix: string,
   whileKeyword: string,
+  ifKeyword: string,
   blockStyle: string
 ): string {
   if (blockStyle == "curly") {
@@ -18,13 +19,13 @@ function sampleProgram(
 ${commentPrefix} For the main, a classic fizzbuzz dish.
 (set i 1)
 (${whileKeyword} (lte i 20) {
-  if (equal (mod i 15) 0) {
+  ${ifKeyword} (equal (mod i 15) 0) {
     (print "FizzBuzz\\n")
   } else {
-    if (equal (mod i 5) 0) {
+    ${ifKeyword} (equal (mod i 5) 0) {
       (print "Buzz\\n")
     } else {
-      if (equal (mod i 3) 0) {
+      ${ifKeyword} (equal (mod i 3) 0) {
         (print "Fizz\\n")
       } else {
         (print i)
@@ -42,11 +43,11 @@ ${commentPrefix} For the main, a classic fizzbuzz dish.
 (set i 1)
 (${whileKeyword} (lte i 20)
   (do
-    (if (equal (mod i 15) 0)
+    (${ifKeyword} (equal (mod i 15) 0)
         (print "FizzBuzz\\n")
-      (if (equal (mod i 5) 0)
+      (${ifKeyword} (equal (mod i 5) 0)
           (print "Buzz\\n")
-        (if (equal (mod i 3) 0)
+        (${ifKeyword} (equal (mod i 3) 0)
             (print "Fizz\\n")
           (do (print i) (print "\\n")))))
     (set i (add i 1))))`;
@@ -59,11 +60,15 @@ const App: React.FC = () => {
   const [blockStyle, setBlockStyle] = useState("do");
 
   const [src, setSrc] = useState(
-    sampleProgram(opts.commentPrefix, opts.whileKeyword, blockStyle)
+    sampleProgram(
+      opts.commentPrefix,
+      opts.whileKeyword,
+      opts.ifKeyword,
+      blockStyle
+    )
   );
 
   const parser = buildParser(opts, blockStyle);
-
   const result = parser.Program.parse(src);
 
   let errorRange = null;
@@ -84,6 +89,7 @@ const App: React.FC = () => {
         blockStyle={blockStyle}
         setBlockStyle={setBlockStyle}
         setWhileKeyword={(s: string) => setOpts(opts.set("whileKeyword", s))}
+        setIfKeyword={(s: string) => setOpts(opts.set("ifKeyword", s))}
       />
       <div className="box">
         <h2 className="title">Write Code 🍳</h2>
@@ -91,12 +97,14 @@ const App: React.FC = () => {
           initialValue={sampleProgram(
             opts.commentPrefix,
             opts.whileKeyword,
+            opts.ifKeyword,
             blockStyle
           )}
           commentPrefix={opts.commentPrefix}
           trueKeyword={opts.trueKeyword}
           falseKeyword={opts.falseKeyword}
           whileKeyword={opts.whileKeyword}
+          ifKeyword={opts.ifKeyword}
           onChange={setSrc}
           errorRange={errorRange}
         />

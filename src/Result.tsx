@@ -69,7 +69,7 @@ const Result: React.FC<{ src: string; parser: P.Language }> = ({
 
   return (
     <div className="box">
-      <h2 className="title">Enjoy 🍽️</h2>
+      <h2 className="title">Result</h2>
 
       <div className="tabs">
         <ul>

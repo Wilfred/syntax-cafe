@@ -92,7 +92,7 @@ const App: React.FC = () => {
         setIfKeyword={(s: string) => setOpts(opts.set("ifKeyword", s))}
       />
       <div className="box">
-        <h2 className="title">Write Code 🍳</h2>
+        <h2 className="title">Enjoy 🍽️</h2>
         <CodeMirrorTag
           initialValue={sampleProgram(
             opts.commentPrefix,

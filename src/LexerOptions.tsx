@@ -5,23 +5,10 @@ import RequiredTextInput from "./RequiredTextInput";
 
 const LexerOptions: React.FC<{
   opts: LangOpts;
-  setCommentPrefix: (_: string) => void;
-  setTrueKeyword: (_: string) => void;
-  setFalseKeyword: (_: string) => void;
+  setOpts: (_: LangOpts) => void;
   blockStyle: string;
   setBlockStyle: (_: string) => void;
-  setWhileKeyword: (_: string) => void;
-  setIfKeyword: (_: string) => void;
-}> = ({
-  opts,
-  setCommentPrefix,
-  setTrueKeyword,
-  setFalseKeyword,
-  blockStyle,
-  setBlockStyle,
-  setWhileKeyword,
-  setIfKeyword,
-}) => {
+}> = ({ opts, setOpts, blockStyle, setBlockStyle }) => {
   return (
     <div className="box">
       <h2 className="title">Menu 📃</h2>
@@ -42,7 +29,7 @@ const LexerOptions: React.FC<{
         <div className="field-body">
           <RequiredTextInput
             value={opts.commentPrefix}
-            onChange={setCommentPrefix}
+            onChange={(s: string) => setOpts(opts.set("commentPrefix", s))}
             placeholder="E.g. #"
           />
         </div>
@@ -54,14 +41,14 @@ const LexerOptions: React.FC<{
           <div className="field">
             <RequiredTextInput
               value={opts.trueKeyword}
-              onChange={setTrueKeyword}
+              onChange={(s: string) => setOpts(opts.set("trueKeyword", s))}
               placeholder="E.g. true"
             />
           </div>
           <div className="field">
             <RequiredTextInput
               value={opts.falseKeyword}
-              onChange={setFalseKeyword}
+              onChange={(s: string) => setOpts(opts.set("falseKeyword", s))}
               placeholder="E.g. false"
             />
           </div>
@@ -80,14 +67,14 @@ const LexerOptions: React.FC<{
           <div className="field">
             <RequiredTextInput
               value={opts.whileKeyword}
-              onChange={setWhileKeyword}
+              onChange={(s: string) => setOpts(opts.set("whileKeyword", s))}
               placeholder="E.g. while"
             />
           </div>
           <div className="field">
             <RequiredTextInput
               value={opts.ifKeyword}
-              onChange={setIfKeyword}
+              onChange={(s: string) => setOpts(opts.set("ifKeyword", s))}
               placeholder="E.g. if"
             />
           </div>

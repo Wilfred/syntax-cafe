@@ -83,13 +83,9 @@ const App: React.FC = () => {
     <div>
       <LexerOptions
         opts={opts}
-        setCommentPrefix={(s: string) => setOpts(opts.set("commentPrefix", s))}
-        setTrueKeyword={(s: string) => setOpts(opts.set("trueKeyword", s))}
-        setFalseKeyword={(s: string) => setOpts(opts.set("falseKeyword", s))}
+        setOpts={setOpts}
         blockStyle={blockStyle}
         setBlockStyle={setBlockStyle}
-        setWhileKeyword={(s: string) => setOpts(opts.set("whileKeyword", s))}
-        setIfKeyword={(s: string) => setOpts(opts.set("ifKeyword", s))}
       />
       <div className="box">
         <h2 className="title">Enjoy 🍽️</h2>

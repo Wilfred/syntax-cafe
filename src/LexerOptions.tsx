@@ -24,7 +24,18 @@ const LexerOptions: React.FC<{
 }) => {
   return (
     <div className="box">
-      <h2 className="title">Choose Ingredients 🥚</h2>
+      <h2 className="title">Menu 📃</h2>
+
+      <div className="tabs">
+        <ul>
+          <li>
+            <a>Set Menu 🍲</a>
+          </li>
+          <li className="is-active">
+            <a>à la carte 🌶️</a>
+          </li>
+        </ul>
+      </div>
 
       <div className="field is-horizontal">
         <label className="field-label">Comment Prefix</label>

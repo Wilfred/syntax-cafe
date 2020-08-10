@@ -56,6 +56,32 @@ describe("String literals", () => {
 
     expectParseError(result);
   });
+  it("Should parse |foo| if | is the delimiter", () => {
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("stringDelimiter", "|"),
+      "curly"
+    );
+    const result = parser.Program.parse("|foo|");
+
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "String", value: "foo" });
+    }
+  });
+  it("Should parse escapes if | is the delimiter", () => {
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("stringDelimiter", "|"),
+      "curly"
+    );
+    const result = parser.Program.parse("|foo\\|bar|");
+
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "String", value: "foo|bar" });
+    }
+  });
 });
 
 describe("Blocks", () => {

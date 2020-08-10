@@ -68,8 +68,31 @@ export function buildParser(
         .node("Symbol");
     },
     StringLiteral: function () {
-      return P.regexp(/"(\\n|\\\"|[^\\])*?"/)
-        .map((s) => s.slice(1, -1).replace(/\\n/g, "\n").replace(/\\\"/g, '"'))
+      const delimPattern = regexpEscape(opts.stringDelimiter);
+      const literalPattern =
+        // opening delimiter, e.g. "
+        delimPattern +
+        // A group of all the things that can occur inside a string.
+        "(" +
+        // Any single character that isn't a backslash.
+        "[^\\\\]" +
+        "|" +
+        // An escaped newline \n
+        "\\\\n" +
+        "|" +
+        // An escaped delimiter \"
+        ("\\\\" + delimPattern) +
+        ")" +
+        // Strings may be empty.
+        "*?" +
+        delimPattern;
+      return P.regexp(new RegExp(literalPattern))
+        .map((s) =>
+          s
+            .slice(1, -1)
+            .replace(/\\n/g, "\n")
+            .replace(new RegExp("\\\\" + delimPattern), opts.stringDelimiter)
+        )
         .desc("string literal")
         .node("String");
     },

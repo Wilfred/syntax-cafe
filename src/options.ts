@@ -6,6 +6,7 @@ type LangOptsObj = {
   ifKeyword: string;
   trueKeyword: string;
   falseKeyword: string;
+  stringDelimiter: string;
 };
 
 export type LangOpts = RecordOf<LangOptsObj>;
@@ -16,6 +17,7 @@ const LangOptsFactory = Record<LangOptsObj>({
   ifKeyword: "if",
   trueKeyword: "true",
   falseKeyword: "false",
+  stringDelimiter: '"',
 });
 
 export const DEFAULT_LANG_OPTS: LangOpts = LangOptsFactory({});

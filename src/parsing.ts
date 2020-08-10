@@ -69,8 +69,8 @@ export function buildParser(
     },
     StringLiteral: function () {
       // TODO: Only handle specific escapes, not arbitrary \x \y.
-      return P.regexp(/"((?:\\.|.)*?)"/, 1)
-        .map((s) => s.replace(/\\n/g, "\n"))
+      return P.regexp(/"(\\.|.)*?"/)
+        .map((s) => s.slice(1, -1).replace(/\\n/g, "\n"))
         .desc("string literal")
         .node("String");
     },

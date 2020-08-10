@@ -36,7 +36,7 @@ const LexerOptions: React.FC<{
       </div>
 
       <div className="field is-horizontal">
-        <label className="field-label">Booleans</label>
+        <label className="field-label">Boolean Literals</label>
         <div className="field-body">
           <div className="field">
             <RequiredTextInput
@@ -54,6 +54,18 @@ const LexerOptions: React.FC<{
           </div>
         </div>
       </div>
+
+      <div className="field is-horizontal">
+        <label className="field-label">String Literals</label>
+        <div className="field-body">
+          <RequiredTextInput
+            value={opts.stringDelimiter}
+            onChange={(s: string) => setOpts(opts.set("stringDelimiter", s))}
+            placeholder="E.g. '"
+          />
+        </div>
+      </div>
+
       <div className="field is-horizontal">
         <label className="field-label">Blocks</label>
         <div className="field-body">
@@ -78,17 +90,6 @@ const LexerOptions: React.FC<{
               placeholder="E.g. if"
             />
           </div>
-        </div>
-      </div>
-
-      <div className="field is-horizontal">
-        <label className="field-label">String Literals</label>
-        <div className="field-body">
-          <RequiredTextInput
-            value={opts.stringDelimiter}
-            onChange={(s: string) => setOpts(opts.set("stringDelimiter", s))}
-            placeholder="E.g. '"
-          />
         </div>
       </div>
     </div>

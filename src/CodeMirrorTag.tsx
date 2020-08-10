@@ -7,12 +7,17 @@ import equal from "fast-deep-equal";
 import React from "react";
 
 import type { LangOpts } from "./options";
-import { commentRegexp, SYMBOL_REGEXP, wordRegexp } from "./parsing";
+import {
+  SYMBOL_REGEXP,
+  commentRegexp,
+  wordRegexp,
+  stringLiteralRegexp,
+} from "./parsing";
 
 function defineLangplzMode(opts: LangOpts): void {
   CodeMirror.defineSimpleMode("langplz", {
     start: [
-      { regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string" },
+      { regex: stringLiteralRegexp(opts.stringDelimiter), token: "string" },
       { regex: commentRegexp(opts.commentPrefix), token: "comment" },
       { regex: wordRegexp(opts.trueKeyword), token: "atom" },
       { regex: wordRegexp(opts.falseKeyword), token: "atom" },

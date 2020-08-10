@@ -14,6 +14,28 @@ export function wordRegexp(content: string): RegExp {
   return new RegExp("\\b" + regexpEscape(content) + "\\b");
 }
 
+export function stringLiteralRegexp(delimiter: string): RegExp {
+  const delimPattern = regexpEscape(delimiter);
+  const literalPattern =
+    // opening delimiter, e.g. "
+    delimPattern +
+    // A group of all the things that can occur inside a string.
+    "(" +
+    // Any single character that isn't a backslash.
+    "[^\\\\]" +
+    "|" +
+    // An escaped newline \n
+    "\\\\n" +
+    "|" +
+    // An escaped delimiter \"
+    ("\\\\" + delimPattern) +
+    ")" +
+    // Strings may be empty.
+    "*?" +
+    delimPattern;
+  return new RegExp(literalPattern);
+}
+
 export function buildParser(
   opts: LangOpts,
   // TODO: Make this type more precise
@@ -48,7 +70,7 @@ export function buildParser(
         P.regexp(wordRegexp(opts.falseKeyword))
       )
         .map((s) => s == opts.trueKeyword)
-        .desc("bool literal")
+        .desc("bool literal") // x
         .node("Bool");
     },
     Symbol: function () {
@@ -68,30 +90,15 @@ export function buildParser(
         .node("Symbol");
     },
     StringLiteral: function () {
-      const delimPattern = regexpEscape(opts.stringDelimiter);
-      const literalPattern =
-        // opening delimiter, e.g. "
-        delimPattern +
-        // A group of all the things that can occur inside a string.
-        "(" +
-        // Any single character that isn't a backslash.
-        "[^\\\\]" +
-        "|" +
-        // An escaped newline \n
-        "\\\\n" +
-        "|" +
-        // An escaped delimiter \"
-        ("\\\\" + delimPattern) +
-        ")" +
-        // Strings may be empty.
-        "*?" +
-        delimPattern;
-      return P.regexp(new RegExp(literalPattern))
+      return P.regexp(stringLiteralRegexp(opts.stringDelimiter))
         .map((s) =>
           s
             .slice(1, -1)
             .replace(/\\n/g, "\n")
-            .replace(new RegExp("\\\\" + delimPattern), opts.stringDelimiter)
+            .replace(
+              new RegExp("\\\\" + regexpEscape(opts.stringDelimiter)),
+              opts.stringDelimiter
+            )
         )
         .desc("string literal")
         .node("String");

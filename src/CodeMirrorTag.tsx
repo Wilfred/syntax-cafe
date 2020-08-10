@@ -100,7 +100,8 @@ export default class CodeMirrorTag extends React.Component<Props> {
     if (this.editor !== null && errorRange !== null) {
       this.marker = this.editor.markText(errorRange[0], errorRange[1], {
         className: "syntax-error",
-        title: "foo",
+        // TODO: Make this more specific
+        title: "Syntax Error",
         css: "border-bottom: 2px dotted red;",
       });
     }

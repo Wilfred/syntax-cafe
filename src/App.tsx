@@ -11,26 +11,27 @@ function sampleProgram(
   commentPrefix: string,
   whileKeyword: string,
   ifKeyword: string,
+  stringDelimiter: string,
   blockStyle: string
 ): string {
   if (blockStyle == "curly") {
     return `${commentPrefix} A starter to whet your appetite.
-(print "hello world\\n")
+(print ${stringDelimiter}hello world\\n${stringDelimiter})
 
 ${commentPrefix} For the main, a classic fizzbuzz dish.
 (set i 1)
 (${whileKeyword} (lte i 20) {
   ${ifKeyword} (equal (mod i 15) 0) {
-    (print "FizzBuzz\\n")
+    (print ${stringDelimiter}FizzBuzz\\n${stringDelimiter})
   } else {
     ${ifKeyword} (equal (mod i 5) 0) {
-      (print "Buzz\\n")
+      (print ${stringDelimiter}Buzz\\n${stringDelimiter})
     } else {
       ${ifKeyword} (equal (mod i 3) 0) {
-        (print "Fizz\\n")
+        (print ${stringDelimiter}Fizz\\n${stringDelimiter})
       } else {
         (print i)
-        (print "\\n")
+        (print ${stringDelimiter}\\n${stringDelimiter})
       }
     }
   }
@@ -38,19 +39,19 @@ ${commentPrefix} For the main, a classic fizzbuzz dish.
 })`;
   } else {
     return `${commentPrefix} A starter to whet your appetite.
-(print "hello world\\n")
+(print ${stringDelimiter}hello world\\n${stringDelimiter})
 
 ${commentPrefix} For the main, a classic fizzbuzz dish.
 (set i 1)
 (${whileKeyword} (lte i 20)
   (do
     (${ifKeyword} (equal (mod i 15) 0)
-        (print "FizzBuzz\\n")
+        (print ${stringDelimiter}FizzBuzz\\n${stringDelimiter})
       (${ifKeyword} (equal (mod i 5) 0)
-          (print "Buzz\\n")
+          (print ${stringDelimiter}Buzz\\n${stringDelimiter})
         (${ifKeyword} (equal (mod i 3) 0)
-            (print "Fizz\\n")
-          (do (print i) (print "\\n")))))
+            (print ${stringDelimiter}Fizz\\n${stringDelimiter})
+          (do (print i) (print ${stringDelimiter}\\n${stringDelimiter})))))
     (set i (add i 1))))`;
   }
 }
@@ -66,6 +67,7 @@ const App: React.FC = () => {
       opts.commentPrefix,
       opts.whileKeyword,
       opts.ifKeyword,
+      opts.stringDelimiter,
       blockStyle
     )
   );
@@ -111,6 +113,7 @@ const App: React.FC = () => {
                 opts.commentPrefix,
                 opts.whileKeyword,
                 opts.ifKeyword,
+                opts.stringDelimiter,
                 blockStyle
               )}
               options={opts}

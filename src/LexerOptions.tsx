@@ -80,6 +80,17 @@ const LexerOptions: React.FC<{
           </div>
         </div>
       </div>
+
+      <div className="field is-horizontal">
+        <label className="field-label">String Literals</label>
+        <div className="field-body">
+          <RequiredTextInput
+            value={opts.stringDelimiter}
+            onChange={(s: string) => setOpts(opts.set("stringDelimiter", s))}
+            placeholder="E.g. '"
+          />
+        </div>
+      </div>
     </div>
   );
 };

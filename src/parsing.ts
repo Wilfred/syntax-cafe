@@ -68,9 +68,8 @@ export function buildParser(
         .node("Symbol");
     },
     StringLiteral: function () {
-      // TODO: Only handle specific escapes, not arbitrary \x \y.
-      return P.regexp(/"(\\.|.)*?"/)
-        .map((s) => s.slice(1, -1).replace(/\\n/g, "\n"))
+      return P.regexp(/"(\\n|\\\"|[^\\])*?"/)
+        .map((s) => s.slice(1, -1).replace(/\\n/g, "\n").replace(/\\\"/g, '"'))
         .desc("string literal")
         .node("String");
     },

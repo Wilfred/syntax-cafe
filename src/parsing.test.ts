@@ -42,6 +42,20 @@ describe("String literals", () => {
       expect(firstExpr).toMatchObject({ name: "String", value: "\n" });
     }
   });
+  it("Should parse escaped doublequotes", () => {
+    const result = PARSER.Program.parse('"\\""');
+
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "String", value: '"' });
+    }
+  });
+  it("Should not parse arbitrary escapes", () => {
+    const result = PARSER.Program.parse('"\\g"');
+
+    expectParseError(result);
+  });
 });
 
 describe("Blocks", () => {

@@ -70,7 +70,7 @@ export function buildParser(
         P.regexp(wordRegexp(opts.falseKeyword))
       )
         .map((s) => s == opts.trueKeyword)
-        .desc("bool literal") // x
+        .desc(`${opts.trueKeyword}, ${opts.falseKeyword}`)
         .node("Bool");
     },
     Symbol: function () {
@@ -100,7 +100,9 @@ export function buildParser(
               opts.stringDelimiter
             )
         )
-        .desc("string literal")
+        .desc(
+          `string literal ${opts.stringDelimiter}...${opts.stringDelimiter}`
+        )
         .node("String");
     },
     FunctionCall: (r) => {

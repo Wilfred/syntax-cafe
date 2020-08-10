@@ -56,6 +56,19 @@ describe("String literals", () => {
 
     expectParseError(result);
   });
+  it("Should parse qfooq if q is the delimiter", () => {
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("stringDelimiter", "q"),
+      "curly"
+    );
+    const result = parser.Program.parse("qfooq");
+
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "String", value: "foo" });
+    }
+  });
   it("Should parse |foo| if | is the delimiter", () => {
     const parser = buildParser(
       DEFAULT_LANG_OPTS.set("stringDelimiter", "|"),

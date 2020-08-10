@@ -49,8 +49,8 @@ export function buildParser(
       return P.alt(
         r.Number,
         r.BoolLiteral,
-        r.Symbol,
         r.StringLiteral,
+        r.Symbol,
         r.Assign,
         r.IfExpression,
         r.WhileLoop,

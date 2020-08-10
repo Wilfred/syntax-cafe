@@ -92,7 +92,7 @@ export default class CodeMirrorTag extends React.Component<Props> {
       this.editor.setValue(this.props.initialValue);
     }
   }
-  setMarker(errorRange: any) {
+  setMarker(errorRange: Array<Position> | null) {
     if (this.marker !== null) {
       this.marker.clear();
       this.marker = null;

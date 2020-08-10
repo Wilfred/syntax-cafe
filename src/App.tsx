@@ -6,52 +6,47 @@ import { buildParser } from "./parsing";
 import { DEFAULT_LANG_OPTS } from "./options";
 import Result from "./Result";
 import ParseTree from "./ParseTree";
+import type { LangOpts } from "./options";
 
-function sampleProgram(
-  commentPrefix: string,
-  whileKeyword: string,
-  ifKeyword: string,
-  stringDelimiter: string,
-  blockStyle: string
-): string {
+function sampleProgram(opts: LangOpts, blockStyle: string): string {
   if (blockStyle == "curly") {
-    return `${commentPrefix} A starter to whet your appetite.
-(print ${stringDelimiter}hello world\\n${stringDelimiter})
+    return `${opts.commentPrefix} A starter to whet your appetite.
+(print ${opts.stringDelimiter}hello world\\n${opts.stringDelimiter})
 
-${commentPrefix} For the main, a classic fizzbuzz dish.
+${opts.commentPrefix} For the main, a classic fizzbuzz dish.
 (set i 1)
-(${whileKeyword} (lte i 20) {
-  ${ifKeyword} (equal (mod i 15) 0) {
-    (print ${stringDelimiter}FizzBuzz\\n${stringDelimiter})
+(${opts.whileKeyword} (lte i 20) {
+  ${opts.ifKeyword} (equal (mod i 15) 0) {
+    (print ${opts.stringDelimiter}FizzBuzz\\n${opts.stringDelimiter})
   } else {
-    ${ifKeyword} (equal (mod i 5) 0) {
-      (print ${stringDelimiter}Buzz\\n${stringDelimiter})
+    ${opts.ifKeyword} (equal (mod i 5) 0) {
+      (print ${opts.stringDelimiter}Buzz\\n${opts.stringDelimiter})
     } else {
-      ${ifKeyword} (equal (mod i 3) 0) {
-        (print ${stringDelimiter}Fizz\\n${stringDelimiter})
+      ${opts.ifKeyword} (equal (mod i 3) 0) {
+        (print ${opts.stringDelimiter}Fizz\\n${opts.stringDelimiter})
       } else {
         (print i)
-        (print ${stringDelimiter}\\n${stringDelimiter})
+        (print ${opts.stringDelimiter}\\n${opts.stringDelimiter})
       }
     }
   }
   (set i (add i 1))
 })`;
   } else {
-    return `${commentPrefix} A starter to whet your appetite.
-(print ${stringDelimiter}hello world\\n${stringDelimiter})
+    return `${opts.commentPrefix} A starter to whet your appetite.
+(print ${opts.stringDelimiter}hello world\\n${opts.stringDelimiter})
 
-${commentPrefix} For the main, a classic fizzbuzz dish.
+${opts.commentPrefix} For the main, a classic fizzbuzz dish.
 (set i 1)
-(${whileKeyword} (lte i 20)
+(${opts.whileKeyword} (lte i 20)
   (do
-    (${ifKeyword} (equal (mod i 15) 0)
-        (print ${stringDelimiter}FizzBuzz\\n${stringDelimiter})
-      (${ifKeyword} (equal (mod i 5) 0)
-          (print ${stringDelimiter}Buzz\\n${stringDelimiter})
-        (${ifKeyword} (equal (mod i 3) 0)
-            (print ${stringDelimiter}Fizz\\n${stringDelimiter})
-          (do (print i) (print ${stringDelimiter}\\n${stringDelimiter})))))
+    (${opts.ifKeyword} (equal (mod i 15) 0)
+        (print ${opts.stringDelimiter}FizzBuzz\\n${opts.stringDelimiter})
+      (${opts.ifKeyword} (equal (mod i 5) 0)
+          (print ${opts.stringDelimiter}Buzz\\n${opts.stringDelimiter})
+        (${opts.ifKeyword} (equal (mod i 3) 0)
+            (print ${opts.stringDelimiter}Fizz\\n${opts.stringDelimiter})
+          (do (print i) (print ${opts.stringDelimiter}\\n${opts.stringDelimiter})))))
     (set i (add i 1))))`;
   }
 }
@@ -62,15 +57,7 @@ const App: React.FC = () => {
   const [blockStyle, setBlockStyle] = useState("do");
   const [enjoyTab, setEnjoyTab] = useState("source");
 
-  const [src, setSrc] = useState(
-    sampleProgram(
-      opts.commentPrefix,
-      opts.whileKeyword,
-      opts.ifKeyword,
-      opts.stringDelimiter,
-      blockStyle
-    )
-  );
+  const [src, setSrc] = useState(sampleProgram(opts, blockStyle));
 
   const parser = buildParser(opts, blockStyle);
   const result = parser.Program.parse(src);
@@ -109,13 +96,7 @@ const App: React.FC = () => {
         {enjoyTab == "source" ? (
           <>
             <CodeMirrorTag
-              initialValue={sampleProgram(
-                opts.commentPrefix,
-                opts.whileKeyword,
-                opts.ifKeyword,
-                opts.stringDelimiter,
-                blockStyle
-              )}
+              initialValue={sampleProgram(opts, blockStyle)}
               options={opts}
               onChange={setSrc}
               errorRange={errorRange}

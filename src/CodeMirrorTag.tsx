@@ -7,12 +7,7 @@ import equal from "fast-deep-equal";
 import React from "react";
 
 import type { LangOpts } from "./options";
-import {
-  SYMBOL_REGEXP,
-  commentRegexp,
-  wordRegexp,
-  stringLiteralRegexp,
-} from "./parsing";
+import { commentRegexp, wordRegexp, stringLiteralRegexp } from "./parsing";
 
 function defineLangplzMode(opts: LangOpts): void {
   CodeMirror.defineSimpleMode("langplz", {
@@ -24,7 +19,7 @@ function defineLangplzMode(opts: LangOpts): void {
       { regex: wordRegexp(opts.whileKeyword), token: "keyword" },
       { regex: wordRegexp(opts.ifKeyword), token: "keyword" },
       { regex: wordRegexp("set"), token: "keyword" },
-      { regex: SYMBOL_REGEXP, token: "variable" },
+      { regex: opts.symbolRegexp, token: "variable" },
     ],
   });
 }

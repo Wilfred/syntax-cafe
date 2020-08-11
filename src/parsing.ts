@@ -4,8 +4,6 @@ import regexpEscape from "regexp.escape";
 
 import type { LangOpts } from "./options";
 
-export const SYMBOL_REGEXP = /[a-zA-Z]+/;
-
 export function commentRegexp(prefix: string): RegExp {
   return new RegExp("\\s*" + regexpEscape(prefix) + "[^\n]*\\s*");
 }
@@ -74,7 +72,7 @@ export function buildParser(
         .node("Bool");
     },
     Symbol: function () {
-      return P.regexp(SYMBOL_REGEXP)
+      return P.regexp(opts.symbolRegexp)
         .assert((s: string) => {
           const keywords = [
             opts.ifKeyword,

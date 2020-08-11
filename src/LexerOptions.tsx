@@ -67,6 +67,19 @@ const LexerOptions: React.FC<{
       </div>
 
       <div className="field is-horizontal">
+        <label className="field-label">Symbols</label>
+        <div className="field-body">
+          <RequiredTextInput
+            value={opts.symbolRegexp.source}
+            onChange={(s: string) =>
+              setOpts(opts.set("symbolRegexp", new RegExp(s)))
+            }
+            placeholder="E.g. '"
+          />
+        </div>
+      </div>
+
+      <div className="field is-horizontal">
         <label className="field-label">Blocks</label>
         <div className="field-body">
           <select

@@ -8,11 +8,17 @@ const RequiredTextInput: React.FC<{
   value: string;
   placeholder: string;
   onChange: (_: string) => void;
-}> = ({ value, placeholder, onChange }) => {
+  validator?: (_: string) => boolean;
+}> = ({ value, placeholder, onChange, validator }) => {
   const [actualValue, setActualValue] = useState(value);
 
+  let isValid = (s: string) => s != "";
+  if (validator) {
+    isValid = validator;
+  }
+
   let className = "input";
-  if (actualValue.length < MIN_LENGTH) {
+  if (!isValid(actualValue)) {
     className += " is-danger";
   }
 
@@ -25,7 +31,7 @@ const RequiredTextInput: React.FC<{
       onChange={(e) => {
         const value = e.target.value;
         setActualValue(value);
-        if (value.length >= MIN_LENGTH) {
+        if (isValid(value)) {
           onChange(value);
         }
       }}

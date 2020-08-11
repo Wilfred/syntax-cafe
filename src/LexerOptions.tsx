@@ -3,6 +3,19 @@ import React from "react";
 import type { LangOpts } from "./options";
 import RequiredTextInput from "./RequiredTextInput";
 
+function validSymbolPattern(s: string): boolean {
+  if (s == "") {
+    return false;
+  }
+
+  try {
+    new RegExp(s);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
 const LexerOptions: React.FC<{
   opts: LangOpts;
   setOpts: (_: LangOpts) => void;
@@ -70,6 +83,7 @@ const LexerOptions: React.FC<{
         <label className="field-label">Symbols</label>
         <div className="field-body">
           <RequiredTextInput
+            validator={validSymbolPattern}
             value={opts.symbolRegexp.source}
             onChange={(s: string) =>
               setOpts(opts.set("symbolRegexp", new RegExp(s)))

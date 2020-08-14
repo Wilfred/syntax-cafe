@@ -10,10 +10,10 @@ import type { LangOpts } from "./options";
 
 function sampleProgram(opts: LangOpts, blockStyle: string): string {
   if (blockStyle == "curly") {
-    return `${opts.commentPrefix} A starter to whet your appetite.
+    return `${opts.commentPrefix} Fancy a lighter meal?
 (print ${opts.stringDelimiter}hello world\\n${opts.stringDelimiter})
 
-${opts.commentPrefix} For the main, a classic fizzbuzz dish.
+${opts.commentPrefix} Something a little more filling? How about fizzbuzz, today's special?
 (set i 1)
 (${opts.whileKeyword} (lte i 20) {
   ${opts.ifKeyword} (equal (mod i 15) 0) {
@@ -31,12 +31,15 @@ ${opts.commentPrefix} For the main, a classic fizzbuzz dish.
     }
   }
   (set i (add i 1))
-})`;
+})
+
+${opts.commentPrefix} Something sweet? We serve a mean quine.
+`;
   } else {
-    return `${opts.commentPrefix} A starter to whet your appetite.
+    return `${opts.commentPrefix} Fancy a lighter meal?
 (print ${opts.stringDelimiter}hello world\\n${opts.stringDelimiter})
 
-${opts.commentPrefix} For the main, a classic fizzbuzz dish.
+${opts.commentPrefix} Something a little more filling? How about fizzbuzz, today's special?
 (set i 1)
 (${opts.whileKeyword} (lte i 20)
   (do
@@ -47,7 +50,10 @@ ${opts.commentPrefix} For the main, a classic fizzbuzz dish.
         (${opts.ifKeyword} (equal (mod i 3) 0)
             (print ${opts.stringDelimiter}Fizz\\n${opts.stringDelimiter})
           (do (print i) (print ${opts.stringDelimiter}\\n${opts.stringDelimiter})))))
-    (set i (add i 1))))`;
+    (set i (add i 1))))
+
+${opts.commentPrefix} Something sweet? We serve a mean quine.
+`;
   }
 }
 

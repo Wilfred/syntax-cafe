@@ -160,6 +160,20 @@ describe("equal", () => {
   });
 });
 
+describe("repr", () => {
+  it("should wrap in double quotes", () => {
+    const ctx = parseAndRun('(repr "foo")');
+
+    expectResult(ctx, '"foo"');
+  });
+
+  it("should escape double quotes", () => {
+    const ctx = parseAndRun('(repr "foo\\"bar")');
+
+    expectResult(ctx, '"foo\\"bar"');
+  });
+});
+
 test("Do", () => {
   const ctx = parseAndRun("(do 1 2)");
 

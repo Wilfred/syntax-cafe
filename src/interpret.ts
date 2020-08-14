@@ -128,6 +128,20 @@ function equal(_ctx: Context, args: Array<Value>): BoolValue {
   return firstArg === secondArg ? TRUE_VALUE : FALSE_VALUE;
 }
 
+function repr(_ctx: Context, args: Array<Value>): StringValue {
+  if (args.length != 1) {
+    error("repr takes 1 argument, but got: " + args.length);
+  }
+
+  const arg = args[0];
+  if (arg.name != "String") {
+    error("repr takes a string argument, but got: " + arg.name);
+  }
+
+  const value = '"' + arg.value.replace(/"/, '\\"') + '"';
+  return { name: "String", value };
+}
+
 function mod(_ctx: Context, args: Array<Value>): NumberValue {
   if (args.length != 2) {
     error("mod takes 2 arguments, but got: " + args.length);
@@ -284,6 +298,7 @@ export function run(exprs: Array<Value>): Context {
       lte: { name: "Function", value: lte },
       mod: { name: "Function", value: mod },
       equal: { name: "Function", value: equal },
+      repr: { name: "Function", value: repr },
     },
   };
   try {

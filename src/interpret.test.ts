@@ -130,6 +130,9 @@ describe("concat", () => {
   it("concatenates two strings", () => {
     expectEvalTo('(concat "foo" "bar")', "foobar");
   });
+  it("concatenates three strings", () => {
+    expectEvalTo('(concat "foo" "bar" "baz")', "foobarbaz");
+  });
 });
 
 describe("repr", () => {

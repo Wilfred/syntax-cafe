@@ -126,6 +126,12 @@ describe("equal", () => {
   });
 });
 
+describe("concat", () => {
+  it("concatenates two strings", () => {
+    expectEvalTo('(concat "foo" "bar")', "foobar");
+  });
+});
+
 describe("repr", () => {
   it("should wrap in double quotes", () => {
     expectEvalTo('(repr "foo")', '"foo"');

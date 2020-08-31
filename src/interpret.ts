@@ -131,6 +131,23 @@ function equal(_ctx: Context, args: Array<Value>): BoolValue {
   return firstArg === secondArg ? TRUE_VALUE : FALSE_VALUE;
 }
 
+function concat(_ctx: Context, args: Array<Value>): StringValue {
+  if (args.length != 2) {
+    error("concat takes 2 arguments, but got: " + args.length);
+  }
+
+  const firstArg = args[0];
+  const secondArg = args[1];
+
+  if (firstArg.name == "String" && secondArg.name == "String") {
+    return { name: "String", value: firstArg.value + secondArg.value };
+  }
+
+  error(
+    `Expected string arguments to concat, but got ${firstArg.name} and ${secondArg.name}`
+  );
+}
+
 function repr(ctx: Context, args: Array<Value>): StringValue {
   if (args.length != 1) {
     error("repr takes 1 argument, but got: " + args.length);
@@ -303,6 +320,7 @@ export function run(exprs: Array<Value>, opts: LangOpts): Context {
       lte: { name: "Function", value: lte },
       mod: { name: "Function", value: mod },
       equal: { name: "Function", value: equal },
+      concat: { name: "Function", value: concat},
       repr: { name: "Function", value: repr },
     },
   };

@@ -19,7 +19,7 @@ const LangOptsFactory = Record<LangOptsObj>({
   trueKeyword: "true",
   falseKeyword: "false",
   stringDelimiter: '"',
-  symbolRegexp: /[a-zA-Z]+/,
+  symbolRegexp: /[a-zA-Z]+[a-zA-Z0-9]*/,
 });
 
 export const DEFAULT_LANG_OPTS: LangOpts = LangOptsFactory({});

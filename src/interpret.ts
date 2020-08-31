@@ -1,3 +1,5 @@
+import type { LangOpts } from "./options";
+
 class EvalError extends Error {
   constructor(message: string) {
     super(message);
@@ -84,6 +86,7 @@ export type Context = {
   env: Record<string, Value>;
   result: Value;
   error: null | string;
+  opts: LangOpts;
 };
 
 const NULL_VALUE: NullValue = { name: "null", value: null };
@@ -287,8 +290,9 @@ function evalExprs(ctx: Context, exprs: Array<Expr>): Value {
   return result;
 }
 
-export function run(exprs: Array<Value>): Context {
+export function run(exprs: Array<Value>, opts: LangOpts): Context {
   const ctx: Context = {
+    opts,
     result: NULL_VALUE,
     stdout: null,
     error: null,

@@ -107,7 +107,7 @@ const App: React.FC = () => {
               onChange={setSrc}
               errorRange={errorRange}
             />
-            <Result src={src} parser={parser} />
+            <Result src={src} parser={parser} opts={opts} />
           </>
         ) : (
           <ParseTree src={src} result={result} />

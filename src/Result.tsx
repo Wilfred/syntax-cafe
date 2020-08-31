@@ -4,9 +4,11 @@ import React, { useState } from "react";
 
 import { run } from "./interpret";
 import type { Context } from "./interpret";
+import type { LangOpts } from "./options";
 
-const Result: React.FC<{ src: string; parser: P.Language }> = ({
+const Result: React.FC<{ src: string; opts: LangOpts; parser: P.Language }> = ({
   src,
+  opts,
   parser,
 }) => {
   const [evalResult, setEvalResult] = useState<Context | null>(null);
@@ -35,7 +37,7 @@ const Result: React.FC<{ src: string; parser: P.Language }> = ({
       <button
         onClick={() => {
           if (result.status) {
-            const ctx = run(result.value);
+            const ctx = run(result.value, opts);
             setEvalResult(ctx);
           }
         }}

@@ -8,7 +8,7 @@ const PARSER = buildParser(DEFAULT_LANG_OPTS, "do");
 function parseAndRun(src: string): Context {
   const parseResult = PARSER.Program.parse(src);
   if (parseResult.status) {
-    return run(parseResult.value);
+    return run(parseResult.value, DEFAULT_LANG_OPTS);
   } else {
     expect(parseResult.status).toBe(true);
     // Jest will have terminated on the previous line, make tsc happy.

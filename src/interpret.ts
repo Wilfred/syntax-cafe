@@ -131,7 +131,7 @@ function equal(_ctx: Context, args: Array<Value>): BoolValue {
   return firstArg === secondArg ? TRUE_VALUE : FALSE_VALUE;
 }
 
-function repr(_ctx: Context, args: Array<Value>): StringValue {
+function repr(ctx: Context, args: Array<Value>): StringValue {
   if (args.length != 1) {
     error("repr takes 1 argument, but got: " + args.length);
   }
@@ -141,7 +141,8 @@ function repr(_ctx: Context, args: Array<Value>): StringValue {
     error("repr takes a string argument, but got: " + arg.name);
   }
 
-  const value = '"' + arg.value.replace(/"/, '\\"') + '"';
+  const delim = ctx.opts.stringDelimiter;
+  const value = delim + arg.value.replace(delim, "\\" + delim) + delim;
   return { name: "String", value };
 }
 

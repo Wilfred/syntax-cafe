@@ -172,6 +172,21 @@ describe("repr", () => {
 
     expectResult(ctx, '"foo\\"bar"');
   });
+
+  it("should escape alternative quotes", () => {
+    const langOpts = DEFAULT_LANG_OPTS.set("stringDelimiter", "q");
+    const parser = buildParser(langOpts, "curly");
+    const parseResult = parser.Program.parse("(repr qfoo\\qbarq)");
+
+    if (parseResult.status) {
+      const result = run(parseResult.value, langOpts);
+      expectResult(result, "qfoo\\qbarq");
+    } else {
+      expect(parseResult.status).toBe(true);
+      // Jest will have terminated on the previous line, make tsc happy.
+      throw Error("Assertion failed");
+    }
+  });
 });
 
 test("Do", () => {

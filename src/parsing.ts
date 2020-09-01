@@ -25,6 +25,9 @@ export function stringLiteralRegexp(delimiter: string): RegExp {
     // An escaped newline \n
     "\\\\n" +
     "|" +
+    // An escaped backslash \\
+    "\\\\\\\\" +
+    "|" +
     // An escaped delimiter \"
     ("\\\\" + delimPattern) +
     ")" +
@@ -89,15 +92,31 @@ export function buildParser(
     },
     StringLiteral: function () {
       return P.regexp(stringLiteralRegexp(opts.stringDelimiter))
-        .map((s) =>
-          s
-            .slice(1, -1)
-            .replace(/\\n/g, "\n")
-            .replace(
-              new RegExp("\\\\" + regexpEscape(opts.stringDelimiter)),
-              opts.stringDelimiter
-            )
-        )
+        .map((s) => {
+          const inner = s.slice(1, -1);
+
+          const chars: Array<string> = [];
+          let i = 0;
+          while (i < inner.length) {
+            const rest = inner.slice(i);
+
+            if (rest.startsWith("\\n")) {
+              chars.push("\n");
+              i += 2;
+            } else if (rest.startsWith("\\\\")) {
+              chars.push("\\");
+              i += 2;
+            } else if (rest.startsWith("\\" + opts.stringDelimiter)) {
+              chars.push(opts.stringDelimiter);
+              i += opts.stringDelimiter.length + 1;
+            } else {
+              chars.push(inner[i]);
+              i++;
+            }
+          }
+
+          return chars.join("");
+        })
         .desc(
           `string literal ${opts.stringDelimiter}...${opts.stringDelimiter}`
         )

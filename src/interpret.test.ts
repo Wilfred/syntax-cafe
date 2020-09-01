@@ -114,6 +114,12 @@ describe("mod", () => {
   });
 });
 
+describe("print", () => {
+  it("should error on too many arguments", () => {
+    expectEvalError('(print "foo" "bar")');
+  });
+});
+
 describe("equal", () => {
   it('should treat "foo" === "foo" as true', () => {
     expectEvalTo('(equal "foo" "foo")', true);

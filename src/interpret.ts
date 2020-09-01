@@ -94,6 +94,10 @@ const TRUE_VALUE: BoolValue = { name: "Bool", value: true };
 const FALSE_VALUE: BoolValue = { name: "Bool", value: false };
 
 function print(ctx: Context, args: Array<Value>): NullValue {
+  if (args.length != 1) {
+    error("print takes 2 argument, but got: " + args.length);
+  }
+
   if (ctx.stdout === null) {
     ctx.stdout = "";
   }

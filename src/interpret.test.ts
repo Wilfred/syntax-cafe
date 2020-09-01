@@ -144,6 +144,18 @@ describe("repr", () => {
     expectEvalTo('(repr "foo\\"bar")', '"foo\\"bar"');
   });
 
+  it("should escape backslashes", () => {
+    expectEvalTo('(repr "\\\\")', '"\\\\"');
+  });
+
+  it("should escape multiple double quotes", () => {
+    expectEvalTo('(repr "foo\\"\\"bar")', '"foo\\"\\"bar"');
+  });
+
+  it("should escape newlines", () => {
+    expectEvalTo('(repr "\\n")', '"\\n"');
+  });
+
   it("should escape alternative quotes", () => {
     const langOpts = DEFAULT_LANG_OPTS.set("stringDelimiter", "q");
     const parser = buildParser(langOpts, "curly");

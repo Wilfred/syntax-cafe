@@ -156,8 +156,23 @@ function repr(ctx: Context, args: Array<Value>): StringValue {
   }
 
   const delim = ctx.opts.stringDelimiter;
-  const value = delim + arg.value.replace(delim, "\\" + delim) + delim;
-  return { name: "String", value };
+  const inner = arg.value
+    .split("")
+    .map((c) => {
+      if (c == "\n") {
+        return "\\n";
+      } else if (c == "\\") {
+        return "\\\\";
+      } else if (c == delim) {
+        // TODO: handle string delimiters of more than one character.
+        return "\\" + delim;
+      } else {
+        return c;
+      }
+    })
+    .join("");
+
+  return { name: "String", value: delim + inner + delim };
 }
 
 function mod(_ctx: Context, args: Array<Value>): NumberValue {

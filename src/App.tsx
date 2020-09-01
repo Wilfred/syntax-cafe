@@ -11,22 +11,21 @@ import type { LangOpts } from "./options";
 function sampleProgram(opts: LangOpts, blockStyle: string): string {
   if (blockStyle == "curly") {
     return `${opts.commentPrefix} Fancy a lighter meal?
-(print ${opts.stringDelimiter}hello world\\n${opts.stringDelimiter})
+(print ${opts.stringDelimiter}hello world${opts.stringDelimiter})
 
 ${opts.commentPrefix} Something a little more filling? How about fizzbuzz, today's special?
 (set i 1)
 (${opts.whileKeyword} (lte i 20) {
   ${opts.ifKeyword} (equal (mod i 15) 0) {
-    (print ${opts.stringDelimiter}FizzBuzz\\n${opts.stringDelimiter})
+    (print ${opts.stringDelimiter}FizzBuzz${opts.stringDelimiter})
   } else {
     ${opts.ifKeyword} (equal (mod i 5) 0) {
-      (print ${opts.stringDelimiter}Buzz\\n${opts.stringDelimiter})
+      (print ${opts.stringDelimiter}Buzz${opts.stringDelimiter})
     } else {
       ${opts.ifKeyword} (equal (mod i 3) 0) {
-        (print ${opts.stringDelimiter}Fizz\\n${opts.stringDelimiter})
+        (print ${opts.stringDelimiter}Fizz${opts.stringDelimiter})
       } else {
         (print i)
-        (print ${opts.stringDelimiter}\\n${opts.stringDelimiter})
       }
     }
   }
@@ -37,19 +36,19 @@ ${opts.commentPrefix} Something sweet? We serve a mean quine.
 `;
   } else {
     return `${opts.commentPrefix} Fancy a lighter meal?
-(print ${opts.stringDelimiter}hello world\\n${opts.stringDelimiter})
+(print ${opts.stringDelimiter}hello world${opts.stringDelimiter})
 
 ${opts.commentPrefix} Something a little more filling? How about fizzbuzz, today's special?
 (set i 1)
 (${opts.whileKeyword} (lte i 20)
   (do
     (${opts.ifKeyword} (equal (mod i 15) 0)
-        (print ${opts.stringDelimiter}FizzBuzz\\n${opts.stringDelimiter})
+        (print ${opts.stringDelimiter}FizzBuzz${opts.stringDelimiter})
       (${opts.ifKeyword} (equal (mod i 5) 0)
-          (print ${opts.stringDelimiter}Buzz\\n${opts.stringDelimiter})
+          (print ${opts.stringDelimiter}Buzz${opts.stringDelimiter})
         (${opts.ifKeyword} (equal (mod i 3) 0)
-            (print ${opts.stringDelimiter}Fizz\\n${opts.stringDelimiter})
-          (do (print i) (print ${opts.stringDelimiter}\\n${opts.stringDelimiter})))))
+            (print ${opts.stringDelimiter}Fizz${opts.stringDelimiter})
+          (print i))))
     (set i (add i 1))))
 
 ${opts.commentPrefix} Something sweet? We serve a mean quine.

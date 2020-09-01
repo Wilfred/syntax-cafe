@@ -100,6 +100,7 @@ function print(ctx: Context, args: Array<Value>): NullValue {
 
   // TODO: Check arity.
   ctx.stdout += args[0].value;
+  ctx.stdout += "\n";
   return NULL_VALUE;
 }
 

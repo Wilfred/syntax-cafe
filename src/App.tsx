@@ -13,7 +13,7 @@ function sampleProgram(opts: LangOpts, blockStyle: string): string {
     return `${opts.commentPrefix} Fancy a lighter meal?
 (print ${opts.stringDelimiter}hello world${opts.stringDelimiter})
 
-${opts.commentPrefix} Something a little more filling? How about fizzbuzz, today's special?
+${opts.commentPrefix} Something a little more filling? How about fizzbuzz, a hearty loop?
 (set i 1)
 (${opts.whileKeyword} (lte i 20) {
   ${opts.ifKeyword} (equal (mod i 15) 0) {
@@ -32,13 +32,15 @@ ${opts.commentPrefix} Something a little more filling? How about fizzbuzz, today
   (set i (add i 1))
 })
 
-${opts.commentPrefix} Something sweet? We serve a mean quine.
-`;
+${opts.commentPrefix} Something sweet? Chef's Special is a quine.
+(set w ${opts.stringDelimiter}(print (concat \\${opts.stringDelimiter}(set w \\${opts.stringDelimiter} (repr w) \\${opts.stringDelimiter})\\${opts.stringDelimiter}))\\n(print w)${opts.stringDelimiter})
+(print (concat ${opts.stringDelimiter}(set w ${opts.stringDelimiter} (repr w) ${opts.stringDelimiter})${opts.stringDelimiter}))
+(print w)`;
   } else {
     return `${opts.commentPrefix} Fancy a lighter meal?
 (print ${opts.stringDelimiter}hello world${opts.stringDelimiter})
 
-${opts.commentPrefix} Something a little more filling? How about fizzbuzz, today's special?
+${opts.commentPrefix} Something a little more filling? How about fizzbuzz, a hearty loop?
 (set i 1)
 (${opts.whileKeyword} (lte i 20)
   (do
@@ -51,8 +53,10 @@ ${opts.commentPrefix} Something a little more filling? How about fizzbuzz, today
           (print i))))
     (set i (add i 1))))
 
-${opts.commentPrefix} Something sweet? We serve a mean quine.
-`;
+${opts.commentPrefix} Something sweet? Chef's Special is a quine.
+(set w ${opts.stringDelimiter}(print (concat \\${opts.stringDelimiter}(set w \\${opts.stringDelimiter} (repr w) \\${opts.stringDelimiter})\\${opts.stringDelimiter}))\\n(print w)${opts.stringDelimiter})
+(print (concat ${opts.stringDelimiter}(set w ${opts.stringDelimiter} (repr w) ${opts.stringDelimiter})${opts.stringDelimiter}))
+(print w)`;
   }
 }
 

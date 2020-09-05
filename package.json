@@ -8,7 +8,7 @@
     "tsc": "tsc --noEmit",
     "start": "parcel index.html",
     "build": "parcel build index.html",
-    "deploy": "surge dist pl-diner.surge.sh",
+    "deploy": "surge dist syntax-cafe.surge.sh",
     "test": "jest src"
   },
   "author": "Wilfred Hughes",

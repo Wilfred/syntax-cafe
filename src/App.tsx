@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import CodeMirrorTag from "./CodeMirrorTag";
+import ProgramPicker from "./ProgramPicker";
 import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
 import { DEFAULT_LANG_OPTS } from "./options";
@@ -100,6 +101,7 @@ const App: React.FC = () => {
           </li>
         </ul>
       </div>
+      <ProgramPicker />
       <LexerOptions
         opts={opts}
         setOpts={setOpts}

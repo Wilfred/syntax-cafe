@@ -43,7 +43,7 @@ const Result: React.FC<{ src: string; opts: LangOpts; parser: P.Language }> = ({
         }}
         className="button"
       >
-        Run It
+        🍽️ Run
       </button>
     </>
   );

@@ -23,20 +23,7 @@ const LexerOptions: React.FC<{
   setBlockStyle: (_: string) => void;
 }> = ({ opts, setOpts, blockStyle, setBlockStyle }) => {
   return (
-    <div className="box">
-      <h2 className="title">Menu 📃</h2>
-
-      <div className="tabs">
-        <ul>
-          <li>
-            <a>Set Menu 🍲</a>
-          </li>
-          <li className="is-active">
-            <a>à la carte 🌶️</a>
-          </li>
-        </ul>
-      </div>
-
+    <div>
       <div className="field is-horizontal">
         <label className="field-label">Comment Prefix</label>
         <div className="field-body">

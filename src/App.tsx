@@ -81,27 +81,33 @@ const App: React.FC = () => {
 
   return (
     <div>
+      <div className="tabs is-boxed">
+        <ul>
+          <li className="is-active">
+            <a>
+              <span>📃 Menu</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>🌶️ Special Requests</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>🔪 About</span>
+            </a>
+          </li>
+        </ul>
+      </div>
       <LexerOptions
         opts={opts}
         setOpts={setOpts}
         blockStyle={blockStyle}
         setBlockStyle={setBlockStyle}
       />
-      <div className="box">
-        <h2 className="title">Enjoy 🍽️</h2>
-        <div className="tabs">
-          <ul>
-            <li className={enjoyTab == "source" ? "is-active" : ""}>
-              <a onClick={() => setEnjoyTab("source")}>Source</a>
-            </li>
-            <li className={enjoyTab == "parse-tree" ? "is-active" : ""}>
-              <a onClick={() => setEnjoyTab("parse-tree")}>
-                Parse Tree {result.status ? "🌹" : "🥀"}
-              </a>
-            </li>
-          </ul>
-        </div>
 
+      <div className="">
         {enjoyTab == "source" ? (
           <>
             <CodeMirrorTag

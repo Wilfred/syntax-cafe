@@ -137,7 +137,7 @@ function equal(_ctx: Context, args: Array<Value>): BoolValue {
 }
 
 function concat(_ctx: Context, args: Array<Value>): StringValue {
-  let parts: Array<string> = [];
+  const parts: Array<string> = [];
 
   args.forEach((arg) => {
     if (arg.name == "String") {

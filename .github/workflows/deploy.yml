@@ -12,6 +12,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
-      - name: Instal deps
+      - name: Install deps
         run: npm ci
       - run: npm run deploy --token ${{ secrets.SURGE_TOKEN }}

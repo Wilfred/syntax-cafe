@@ -15,7 +15,6 @@ const App: React.FC = () => {
 
   const [blockStyle, setBlockStyle] = useState("do");
 
-  const [enjoyTab, setEnjoyTab] = useState("source");
   const [activeTab, setActiveTab] = useState("menu");
 
   const [menuItem, setMenuItem] = useState("helloworld");
@@ -66,19 +65,13 @@ const App: React.FC = () => {
       )}
 
       <div className="">
-        {enjoyTab == "source" ? (
-          <>
-            <CodeMirrorTag
-              initialValue={helloworld(opts)}
-              options={opts}
-              onChange={setSrc}
-              errorRange={errorRange}
-            />
-            <Result src={src} parser={parser} opts={opts} />
-          </>
-        ) : (
-          <ParseTree src={src} result={result} />
-        )}
+        <CodeMirrorTag
+          initialValue={helloworld(opts)}
+          options={opts}
+          onChange={setSrc}
+          errorRange={errorRange}
+        />
+        <Result src={src} parser={parser} opts={opts} />
       </div>
     </div>
   );

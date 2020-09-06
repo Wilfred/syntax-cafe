@@ -14,3 +14,7 @@ h1.title {
   border: 1px solid #dbdbdb;
   margin: 2rem 0;
 }
+
+.menu-item {
+  margin-bottom: 1rem;
+}

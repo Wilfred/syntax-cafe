@@ -5,38 +5,46 @@ const ProgramPicker: React.FC<{ setItem: (_: string) => void }> = ({
 }) => {
   return (
     <div>
-      <h2>
-        <a
-          onClick={(_: any) => {
-            setItem("helloworld");
-          }}
-        >
-          Hello, World!
-        </a>
-      </h2>
-      <p>Foo.</p>
+      <div className="menu-item">
+        <h2>
+          <a
+            onClick={(_: any) => {
+              setItem("helloworld");
+            }}
+          >
+            Hello, World!
+          </a>
+        </h2>
+        <p>A light introduction to Syntax Café.</p>
+      </div>
 
-      <h2>
-        <a
-          onClick={(_: any) => {
-            setItem("fizzbuzz");
-          }}
-        >
-          FizzBuzz
-        </a>
-      </h2>
-      <p>Foo.</p>
+      <div className="menu-item">
+        <h2>
+          <a
+            onClick={(_: any) => {
+              setItem("fizzbuzz");
+            }}
+          >
+            FizzBuzz
+          </a>
+        </h2>
+        <p>A drinking problem? An interview exercise? You be the judge.</p>
+      </div>
 
-      <h2>
-        <a
-          onClick={(_: any) => {
-            setItem("quine");
-          }}
-        >
-          Quine
-        </a>
-      </h2>
-      <p>Foo.</p>
+      <div className="menu-item">
+        <h2>
+          <a
+            onClick={(_: any) => {
+              setItem("quine");
+            }}
+          >
+            Quine
+          </a>
+        </h2>
+        <p>
+          A program that prints it own source code. Not as easy as it sounds.
+        </p>
+      </div>
     </div>
   );
 };

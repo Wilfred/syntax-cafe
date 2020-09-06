@@ -36,7 +36,7 @@ const Result: React.FC<{ src: string; opts: LangOpts; parser: P.Language }> = ({
     <div className="columns">
       <div className="column is-one-quarter">
         <button
-          className="button is-large"
+          className="button is-medium"
           onClick={() => {
             setMode("output");
             if (result.status) {
@@ -49,7 +49,7 @@ const Result: React.FC<{ src: string; opts: LangOpts; parser: P.Language }> = ({
         </button>
         <br />
         <button
-          className="button is-large"
+          className="button is-medium"
           onClick={() => {
             setMode("parse-tree");
           }}
@@ -57,8 +57,12 @@ const Result: React.FC<{ src: string; opts: LangOpts; parser: P.Language }> = ({
           {result.status ? "🧂" : "💥"} Parse Tree
         </button>
         <br />
-        <button className="button is-large" disabled>
-          Reset
+        <button className="button is-medium" disabled>
+          🔄 Reset
+        </button>
+        <br />
+        <button className="button is-medium" disabled>
+          🔗 Share
         </button>
       </div>
       <div className="column">

@@ -31,21 +31,25 @@ const Result: React.FC<{ src: string; opts: LangOpts; parser: P.Language }> = ({
     }
   }
   return (
-    <>
-      {output}
-      {evalError}
-      <button
-        onClick={() => {
-          if (result.status) {
-            const ctx = run(result.value, opts);
-            setEvalResult(ctx);
-          }
-        }}
-        className="button"
-      >
-        🍽️ Run
-      </button>
-    </>
+    <div className="columns">
+      <div className="column is-one-quarter">
+        <button
+          onClick={() => {
+            if (result.status) {
+              const ctx = run(result.value, opts);
+              setEvalResult(ctx);
+            }
+          }}
+          className="button"
+        >
+          🍽️ Run
+        </button>
+      </div>
+      <div className="column">
+        {output}
+        {evalError}
+      </div>
+    </div>
   );
 };
 export default Result;

@@ -24,7 +24,8 @@ export function fizzbuzz(opts: LangOpts, blockStyle: string): string {
   (set i (add i 1))
 })`;
   } else {
-    return `(${opts.whileKeyword} (lte i 20)
+    return `(set i 1)
+(${opts.whileKeyword} (lte i 20)
   (do
     (${opts.ifKeyword} (equal (mod i 15) 0)
         (print ${opts.stringDelimiter}FizzBuzz${opts.stringDelimiter})

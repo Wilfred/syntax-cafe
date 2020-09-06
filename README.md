@@ -4,5 +4,7 @@
 
 Paradigm fusion cuisine, served fresh every day.
 
+Demo site: http://syntax-cafe.surge.sh/
+
 ISC license. Icons are from
 [Twemoji](https://github.com/twitter/twemoji), which is CC-BY 4.0 licensed.

@@ -4,11 +4,9 @@ import CodeMirrorTag from "./CodeMirrorTag";
 import ProgramPicker from "./ProgramPicker";
 import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
-import { helloworld } from "./sample-programs";
+import { helloworld, fizzbuzz, quine } from "./sample-programs";
 import { DEFAULT_LANG_OPTS } from "./options";
 import Result from "./Result";
-import ParseTree from "./ParseTree";
-import type { LangOpts } from "./options";
 
 const App: React.FC = () => {
   const [opts, setOpts] = useState(DEFAULT_LANG_OPTS);
@@ -30,6 +28,15 @@ const App: React.FC = () => {
     const endPos = { line: result.index.line - 1, ch: result.index.column };
 
     errorRange = [pos, endPos];
+  }
+
+  let initialCode;
+  if (menuItem == "helloworld") {
+    initialCode = helloworld(opts);
+  } else if (menuItem == "fizzbuzz") {
+    initialCode = fizzbuzz(opts, blockStyle);
+  } else {
+    initialCode = quine(opts);
   }
 
   return (
@@ -54,7 +61,7 @@ const App: React.FC = () => {
         </ul>
       </div>
       {activeTab == "menu" ? (
-        <ProgramPicker />
+        <ProgramPicker setItem={setMenuItem} />
       ) : (
         <LexerOptions
           opts={opts}
@@ -66,7 +73,7 @@ const App: React.FC = () => {
 
       <div className="">
         <CodeMirrorTag
-          initialValue={helloworld(opts)}
+          initialValue={initialCode}
           options={opts}
           onChange={setSrc}
           errorRange={errorRange}

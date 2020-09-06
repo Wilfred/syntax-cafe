@@ -24,9 +24,9 @@ const LexerOptions: React.FC<{
 }> = ({ opts, setOpts, blockStyle, setBlockStyle }) => {
   return (
     <div>
-      <div className="field is-horizontal">
-        <label className="field-label">Comment Prefix</label>
-        <div className="field-body">
+      <div className="field">
+        <label className="label">Comments</label>
+        <div className="control">
           <RequiredTextInput
             value={opts.commentPrefix}
             onChange={(s: string) => setOpts(opts.set("commentPrefix", s))}
@@ -35,29 +35,30 @@ const LexerOptions: React.FC<{
         </div>
       </div>
 
-      <div className="field is-horizontal">
-        <label className="field-label">Boolean Literals</label>
-        <div className="field-body">
-          <div className="field">
-            <RequiredTextInput
-              value={opts.trueKeyword}
-              onChange={(s: string) => setOpts(opts.set("trueKeyword", s))}
-              placeholder="E.g. true"
-            />
-          </div>
-          <div className="field">
-            <RequiredTextInput
-              value={opts.falseKeyword}
-              onChange={(s: string) => setOpts(opts.set("falseKeyword", s))}
-              placeholder="E.g. false"
-            />
-          </div>
+      <div className="field">
+        <label className="label">Booleans</label>
+        <div className="control">
+          <RequiredTextInput
+            value={opts.trueKeyword}
+            onChange={(s: string) => setOpts(opts.set("trueKeyword", s))}
+            placeholder="E.g. true"
+          />
         </div>
       </div>
 
-      <div className="field is-horizontal">
-        <label className="field-label">String Literals</label>
-        <div className="field-body">
+      <div className="field">
+        <div className="control">
+          <RequiredTextInput
+            value={opts.falseKeyword}
+            onChange={(s: string) => setOpts(opts.set("falseKeyword", s))}
+            placeholder="E.g. false"
+          />
+        </div>
+      </div>
+
+      <div className="field">
+        <label className="label">Strings</label>
+        <div className="control">
           <RequiredTextInput
             value={opts.stringDelimiter}
             onChange={(s: string) => setOpts(opts.set("stringDelimiter", s))}

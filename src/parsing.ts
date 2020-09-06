@@ -57,7 +57,9 @@ export function buildParser(
         r.WhileLoop,
         r.Block,
         r.FunctionCall
-      ).skip(r._);
+      )
+        .skip(r._)
+        .desc("expression");
     },
     Number: function () {
       return P.regexp(/[0-9]+/)

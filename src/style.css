@@ -13,6 +13,7 @@ h1.title {
 .CodeMirror {
   border: 1px solid #dbdbdb;
   margin: 2rem 0;
+  height: auto;
 }
 
 .menu-item {

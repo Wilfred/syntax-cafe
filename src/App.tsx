@@ -65,7 +65,9 @@ const App: React.FC = () => {
   const [opts, setOpts] = useState(DEFAULT_LANG_OPTS);
 
   const [blockStyle, setBlockStyle] = useState("do");
+
   const [enjoyTab, setEnjoyTab] = useState("source");
+  const [activeTab, setActiveTab] = useState("menu");
 
   const [src, setSrc] = useState(sampleProgram(opts, blockStyle));
 
@@ -84,30 +86,33 @@ const App: React.FC = () => {
     <div>
       <div className="tabs is-boxed">
         <ul>
-          <li className="is-active">
-            <a>
+          <li className={activeTab == "menu" ? "is-active" : ""}>
+            <a onClick={() => setActiveTab("menu")}>
               <span>📃 Menu</span>
             </a>
           </li>
-          <li>
-            <a>
+          <li className={activeTab == "special" ? "is-active" : ""}>
+            <a onClick={() => setActiveTab("special")}>
               <span>🌶️ Special Requests</span>
             </a>
           </li>
-          <li>
-            <a>
+          <li className={activeTab == "about" ? "is-active" : ""}>
+            <a onClick={() => setActiveTab("about")}>
               <span>🔪 About</span>
             </a>
           </li>
         </ul>
       </div>
-      <ProgramPicker />
-      <LexerOptions
-        opts={opts}
-        setOpts={setOpts}
-        blockStyle={blockStyle}
-        setBlockStyle={setBlockStyle}
-      />
+      {activeTab == "menu" ? (
+        <ProgramPicker />
+      ) : (
+        <LexerOptions
+          opts={opts}
+          setOpts={setOpts}
+          blockStyle={blockStyle}
+          setBlockStyle={setBlockStyle}
+        />
+      )}
 
       <div className="">
         {enjoyTab == "source" ? (

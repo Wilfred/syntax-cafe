@@ -1,7 +1,8 @@
 import type { LangOpts } from "./options";
 
 export function helloworld(opts: LangOpts): string {
-  return `(print ${opts.stringDelimiter}Hello, world!${opts.stringDelimiter})`;
+  return `(print ${opts.stringDelimiter}Hello, world!${opts.stringDelimiter})
+`;
 }
 
 export function fizzbuzz(opts: LangOpts, blockStyle: string): string {
@@ -22,7 +23,8 @@ export function fizzbuzz(opts: LangOpts, blockStyle: string): string {
     }
   }
   (set i (add i 1))
-})`;
+})
+`;
   } else {
     return `(set i 1)
 (${opts.whileKeyword} (lte i 20)
@@ -34,12 +36,14 @@ export function fizzbuzz(opts: LangOpts, blockStyle: string): string {
         (${opts.ifKeyword} (equal (mod i 3) 0)
             (print ${opts.stringDelimiter}Fizz${opts.stringDelimiter})
           (print i))))
-    (set i (add i 1))))`;
+    (set i (add i 1))))
+`;
   }
 }
 
 export function quine(opts: LangOpts): string {
   return `(set w ${opts.stringDelimiter}(print (concat \\${opts.stringDelimiter}(set w \\${opts.stringDelimiter} (repr w) \\${opts.stringDelimiter})\\${opts.stringDelimiter}))\\n(print w)${opts.stringDelimiter})
 (print (concat ${opts.stringDelimiter}(set w ${opts.stringDelimiter} (repr w) ${opts.stringDelimiter})${opts.stringDelimiter}))
-(print w)`;
+(print w)
+`;
 }

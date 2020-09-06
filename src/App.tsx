@@ -4,62 +4,11 @@ import CodeMirrorTag from "./CodeMirrorTag";
 import ProgramPicker from "./ProgramPicker";
 import LexerOptions from "./LexerOptions";
 import { buildParser } from "./parsing";
+import { helloworld } from "./sample-programs";
 import { DEFAULT_LANG_OPTS } from "./options";
 import Result from "./Result";
 import ParseTree from "./ParseTree";
 import type { LangOpts } from "./options";
-
-function sampleProgram(opts: LangOpts, blockStyle: string): string {
-  if (blockStyle == "curly") {
-    return `${opts.commentPrefix} Fancy a lighter meal?
-(print ${opts.stringDelimiter}hello world${opts.stringDelimiter})
-
-${opts.commentPrefix} Something a little more filling? How about fizzbuzz, a hearty loop?
-(set i 1)
-(${opts.whileKeyword} (lte i 20) {
-  ${opts.ifKeyword} (equal (mod i 15) 0) {
-    (print ${opts.stringDelimiter}FizzBuzz${opts.stringDelimiter})
-  } else {
-    ${opts.ifKeyword} (equal (mod i 5) 0) {
-      (print ${opts.stringDelimiter}Buzz${opts.stringDelimiter})
-    } else {
-      ${opts.ifKeyword} (equal (mod i 3) 0) {
-        (print ${opts.stringDelimiter}Fizz${opts.stringDelimiter})
-      } else {
-        (print i)
-      }
-    }
-  }
-  (set i (add i 1))
-})
-
-${opts.commentPrefix} Something sweet? Chef's Special is a quine.
-(set w ${opts.stringDelimiter}(print (concat \\${opts.stringDelimiter}(set w \\${opts.stringDelimiter} (repr w) \\${opts.stringDelimiter})\\${opts.stringDelimiter}))\\n(print w)${opts.stringDelimiter})
-(print (concat ${opts.stringDelimiter}(set w ${opts.stringDelimiter} (repr w) ${opts.stringDelimiter})${opts.stringDelimiter}))
-(print w)`;
-  } else {
-    return `${opts.commentPrefix} Fancy a lighter meal?
-(print ${opts.stringDelimiter}hello world${opts.stringDelimiter})
-
-${opts.commentPrefix} Something a little more filling? How about fizzbuzz, a hearty loop?
-(set i 1)
-(${opts.whileKeyword} (lte i 20)
-  (do
-    (${opts.ifKeyword} (equal (mod i 15) 0)
-        (print ${opts.stringDelimiter}FizzBuzz${opts.stringDelimiter})
-      (${opts.ifKeyword} (equal (mod i 5) 0)
-          (print ${opts.stringDelimiter}Buzz${opts.stringDelimiter})
-        (${opts.ifKeyword} (equal (mod i 3) 0)
-            (print ${opts.stringDelimiter}Fizz${opts.stringDelimiter})
-          (print i))))
-    (set i (add i 1))))
-
-${opts.commentPrefix} Something sweet? Chef's Special is a quine.
-(set w ${opts.stringDelimiter}(print (concat \\${opts.stringDelimiter}(set w \\${opts.stringDelimiter} (repr w) \\${opts.stringDelimiter})\\${opts.stringDelimiter}))\\n(print w)${opts.stringDelimiter})
-(print (concat ${opts.stringDelimiter}(set w ${opts.stringDelimiter} (repr w) ${opts.stringDelimiter})${opts.stringDelimiter}))
-(print w)`;
-  }
-}
 
 const App: React.FC = () => {
   const [opts, setOpts] = useState(DEFAULT_LANG_OPTS);
@@ -69,7 +18,9 @@ const App: React.FC = () => {
   const [enjoyTab, setEnjoyTab] = useState("source");
   const [activeTab, setActiveTab] = useState("menu");
 
-  const [src, setSrc] = useState(sampleProgram(opts, blockStyle));
+  const [menuItem, setMenuItem] = useState("helloworld");
+
+  const [src, setSrc] = useState(helloworld(opts));
 
   const parser = buildParser(opts, blockStyle);
   const result = parser.Program.parse(src);
@@ -118,7 +69,7 @@ const App: React.FC = () => {
         {enjoyTab == "source" ? (
           <>
             <CodeMirrorTag
-              initialValue={sampleProgram(opts, blockStyle)}
+              initialValue={helloworld(opts)}
               options={opts}
               onChange={setSrc}
               errorRange={errorRange}

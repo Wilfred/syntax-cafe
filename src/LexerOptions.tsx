@@ -67,9 +67,9 @@ const LexerOptions: React.FC<{
         </div>
       </div>
 
-      <div className="field is-horizontal">
-        <label className="field-label">Symbols</label>
-        <div className="field-body">
+      <div className="field">
+        <label className="label">Variables</label>
+        <div className="control">
           <RequiredTextInput
             validator={validSymbolPattern}
             value={opts.symbolRegexp.source}

@@ -163,7 +163,7 @@ test("Comments with ( should take precedence", () => {
   }
 });
 
-describe("If expression", () => {
+describe("if", () => {
   it("should parse (if ...)", () => {
     const result = PARSER.Program.parse("(if true 1 2)");
 

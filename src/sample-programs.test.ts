@@ -4,27 +4,27 @@ import { helloworld, fizzbuzz, quine } from "./sample-programs";
 
 import type { LangOpts } from "./options";
 
-function parses(src: string, opts: LangOpts): boolean {
+function expectParseSuccess(src: string, opts: LangOpts): void {
   const parser = buildParser(opts);
   const result = parser.Program.parse(src);
 
-  return result.status;
+  expect(result.status).toBe(true);
 }
 
 describe("hello world", () => {
   it("should produce valid syntax with default options", () => {
-    expect(parses(helloworld(DEFAULT_LANG_OPTS), DEFAULT_LANG_OPTS));
+    expectParseSuccess(helloworld(DEFAULT_LANG_OPTS), DEFAULT_LANG_OPTS);
   });
 });
 
 describe("fizzbuzz", () => {
   it("should produce valid syntax with default options", () => {
-    expect(parses(fizzbuzz(DEFAULT_LANG_OPTS), DEFAULT_LANG_OPTS));
+    expectParseSuccess(fizzbuzz(DEFAULT_LANG_OPTS), DEFAULT_LANG_OPTS);
   });
 });
 
 describe("quine", () => {
   it("should produce valid syntax with default options", () => {
-    expect(parses(quine(DEFAULT_LANG_OPTS), DEFAULT_LANG_OPTS));
+    expectParseSuccess(quine(DEFAULT_LANG_OPTS), DEFAULT_LANG_OPTS);
   });
 });

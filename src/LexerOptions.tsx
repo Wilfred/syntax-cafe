@@ -88,7 +88,7 @@ const LexerOptions: React.FC<{
               setOpts(
                 opts.set(
                   "statementTerminator",
-                  e.target.value === "do" ? null : "."
+                  e.target.value === "do" ? null : ";"
                 )
               )
             }

@@ -201,6 +201,18 @@ describe("if", () => {
   });
 });
 
+describe("while", () => {
+  it("should parse (if ...)", () => {
+    const result = PARSER.Program.parse("(while true 2)");
+
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "While" });
+    }
+  });
+});
+
 describe("Assign", () => {
   it("should parse valid assignments", () => {
     const result = PARSER.Program.parse("(set x 1)");

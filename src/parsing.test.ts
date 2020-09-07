@@ -187,8 +187,12 @@ describe("If expression", () => {
   });
   it("should parse if {...} else {...}", () => {
     const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", "."));
-    const result = parser.Program.parse("if true { (foo) } else { (bar) }");
+    const src = "if true { (foo) } else { (bar) }";
+    const result = parser.Program.parse(src);
 
+    if (!result.status) {
+      console.warn(P.formatError(src, result));
+    }
     expectParseSuccess(result);
     if (result.status) {
       const firstExpr = result.value[0];

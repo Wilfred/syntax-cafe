@@ -6,7 +6,7 @@ export function helloworld(opts: LangOpts): string {
 }
 
 export function fizzbuzz(opts: LangOpts): string {
-  if (opts.expressionOriented) {
+  if (opts.statementTerminator === null) {
     return `(set i 1)
 (${opts.whileKeyword} (lte i 20)
   (do

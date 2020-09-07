@@ -132,7 +132,7 @@ export function buildParser(opts: LangOpts): P.Language {
     Block: (r) => {
       let blockParser: P.Parser<{ body: Array<any> }>;
 
-      if (opts.expressionOriented) {
+      if (opts.statementTerminator === null) {
         blockParser = P.seqObj(
           P.string("(").skip(r._),
           P.string("do").skip(r._),
@@ -152,7 +152,7 @@ export function buildParser(opts: LangOpts): P.Language {
     IfExpression: (r) => {
       let ifParser: P.Parser<{ condition: any; then: any; else: any }>;
 
-      if (opts.expressionOriented) {
+      if (opts.statementTerminator === null) {
         ifParser = P.seqObj(
           P.string("(").skip(r._).skip(P.string(opts.ifKeyword)).skip(r._),
           ["condition", r.Expression],

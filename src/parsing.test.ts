@@ -114,7 +114,7 @@ describe("Blocks", () => {
     }
   });
   it("Should parse { ... } curly blocks", () => {
-    const parser = buildParser(DEFAULT_LANG_OPTS.set("expressionOriented", false));
+    const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", "."));
     const result = parser.Program.parse("{ (foo) (bar) }");
 
     if (!result.status) {
@@ -185,7 +185,7 @@ describe("If expression", () => {
     }
   });
   it("should parse if {...} else {...}", () => {
-    const parser = buildParser(DEFAULT_LANG_OPTS.set("expressionOriented", false));
+    const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", "."));
     const result = parser.Program.parse("if true { (foo) } else { (bar) }");
 
     expectParseSuccess(result);

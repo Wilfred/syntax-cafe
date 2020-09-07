@@ -83,9 +83,14 @@ const LexerOptions: React.FC<{
         <label className="field-label">Blocks</label>
         <div className="field-body">
           <select
-            value={opts.expressionOriented ? "do" : "curly"}
+            value={opts.statementTerminator === null ? "do" : "curly"}
             onChange={(e) =>
-              setOpts(opts.set("expressionOriented", e.target.value == "do"))
+              setOpts(
+                opts.set(
+                  "statementTerminator",
+                  e.target.value === "do" ? null : "."
+                )
+              )
             }
           >
             <option value="do">(do ... )</option>

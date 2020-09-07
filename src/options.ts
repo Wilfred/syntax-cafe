@@ -14,7 +14,7 @@ type LangOptsObj = {
 export type LangOpts = RecordOf<LangOptsObj>;
 
 const LangOptsFactory = Record<LangOptsObj>({
-  commentPrefix: ";",
+  commentPrefix: "#",
   whileKeyword: "while",
   ifKeyword: "if",
   trueKeyword: "true",

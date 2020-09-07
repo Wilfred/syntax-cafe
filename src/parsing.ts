@@ -41,8 +41,7 @@ export function buildParser(opts: LangOpts): P.Language {
   const commentPattern = commentRegexp(opts.commentPrefix);
 
   return P.createLanguage({
-    Program: (r) => r.Statement.sepBy(r._).trim(r._),
-    Statement: (r) => r.Expression,
+    Program: (r) => r.Expression.sepBy(r._).trim(r._),
     Expression: (r) => {
       return P.alt(
         r.Number,

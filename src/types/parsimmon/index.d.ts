@@ -9,6 +9,6 @@ declare module "parsimmon" {
      * a failed parse with the given `message`. Else is returns the
      * original result of `parser`.
      */
-    assert<U>(condition: (result: U) => boolean, message: string): Parser<U>;
+    assert(condition: (result: T) => boolean, message: string): Parser<T>;
   }
 }

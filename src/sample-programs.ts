@@ -5,8 +5,21 @@ export function helloworld(opts: LangOpts): string {
 `;
 }
 
-export function fizzbuzz(opts: LangOpts, blockStyle: string): string {
-  if (blockStyle == "curly") {
+export function fizzbuzz(opts: LangOpts): string {
+  if (opts.expressionOriented) {
+    return `(set i 1)
+(${opts.whileKeyword} (lte i 20)
+  (do
+    (${opts.ifKeyword} (equal (mod i 15) 0)
+        (print ${opts.stringDelimiter}FizzBuzz${opts.stringDelimiter})
+      (${opts.ifKeyword} (equal (mod i 5) 0)
+          (print ${opts.stringDelimiter}Buzz${opts.stringDelimiter})
+        (${opts.ifKeyword} (equal (mod i 3) 0)
+            (print ${opts.stringDelimiter}Fizz${opts.stringDelimiter})
+          (print i))))
+    (set i (add i 1))))
+`;
+  } else {
     return `(set i 1)
 (${opts.whileKeyword} (lte i 20) {
   ${opts.ifKeyword} (equal (mod i 15) 0) {
@@ -24,19 +37,6 @@ export function fizzbuzz(opts: LangOpts, blockStyle: string): string {
   }
   (set i (add i 1))
 })
-`;
-  } else {
-    return `(set i 1)
-(${opts.whileKeyword} (lte i 20)
-  (do
-    (${opts.ifKeyword} (equal (mod i 15) 0)
-        (print ${opts.stringDelimiter}FizzBuzz${opts.stringDelimiter})
-      (${opts.ifKeyword} (equal (mod i 5) 0)
-          (print ${opts.stringDelimiter}Buzz${opts.stringDelimiter})
-        (${opts.ifKeyword} (equal (mod i 3) 0)
-            (print ${opts.stringDelimiter}Fizz${opts.stringDelimiter})
-          (print i))))
-    (set i (add i 1))))
 `;
   }
 }

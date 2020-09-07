@@ -37,15 +37,12 @@ export function stringLiteralRegexp(delimiter: string): RegExp {
   return new RegExp(literalPattern);
 }
 
-export function buildParser(
-  opts: LangOpts,
-  // TODO: Make this type more precise
-  blockStyle: "curly" | "do" | string
-): P.Language {
+export function buildParser(opts: LangOpts): P.Language {
   const commentPattern = commentRegexp(opts.commentPrefix);
 
   return P.createLanguage({
-    Program: (r) => r.Expression.sepBy(r._).trim(r._),
+    Program: (r) => r.Statement.sepBy(r._).trim(r._),
+    Statement: (r) => r.Expression,
     Expression: (r) => {
       return P.alt(
         r.Number,
@@ -136,18 +133,18 @@ export function buildParser(
     Block: (r) => {
       let blockParser: P.Parser<{ body: Array<any> }>;
 
-      if (blockStyle == "curly") {
-        blockParser = P.seqObj(
-          P.string("{").skip(r._),
-          ["body", r.Expression.many()],
-          P.string("}")
-        );
-      } else {
+      if (opts.expressionOriented) {
         blockParser = P.seqObj(
           P.string("(").skip(r._),
           P.string("do").skip(r._),
           ["body", r.Expression.many()],
           P.string(")")
+        );
+      } else {
+        blockParser = P.seqObj(
+          P.string("{").skip(r._),
+          ["body", r.Expression.many()],
+          P.string("}")
         );
       }
 
@@ -156,7 +153,15 @@ export function buildParser(
     IfExpression: (r) => {
       let ifParser: P.Parser<{ condition: any; then: any; else: any }>;
 
-      if (blockStyle == "curly") {
+      if (opts.expressionOriented) {
+        ifParser = P.seqObj(
+          P.string("(").skip(r._).skip(P.string(opts.ifKeyword)).skip(r._),
+          ["condition", r.Expression],
+          ["then", r.Expression],
+          ["else", r.Expression],
+          P.string(")")
+        );
+      } else {
         ifParser = P.seqObj(
           P.string(opts.ifKeyword).skip(r._),
           ["condition", r.Expression],
@@ -165,14 +170,6 @@ export function buildParser(
           // TODO: highlight else as a keyword and ban as a variable name.
           P.string("else").skip(r._),
           ["else", r.Expression]
-        );
-      } else {
-        ifParser = P.seqObj(
-          P.string("(").skip(r._).skip(P.string(opts.ifKeyword)).skip(r._),
-          ["condition", r.Expression],
-          ["then", r.Expression],
-          ["else", r.Expression],
-          P.string(")")
         );
       }
 

@@ -8,6 +8,7 @@ type LangOptsObj = {
   falseKeyword: string;
   stringDelimiter: string;
   symbolRegexp: RegExp;
+  expressionOriented: boolean,
 };
 
 export type LangOpts = RecordOf<LangOptsObj>;
@@ -20,6 +21,7 @@ const LangOptsFactory = Record<LangOptsObj>({
   falseKeyword: "false",
   stringDelimiter: '"',
   symbolRegexp: /[a-zA-Z_]+[a-zA-Z0-9_]*/,
+  expressionOriented: true,
 });
 
 export const DEFAULT_LANG_OPTS: LangOpts = LangOptsFactory({});

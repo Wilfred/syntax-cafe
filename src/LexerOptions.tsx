@@ -19,9 +19,7 @@ function validSymbolPattern(s: string): boolean {
 const LexerOptions: React.FC<{
   opts: LangOpts;
   setOpts: (_: LangOpts) => void;
-  blockStyle: string;
-  setBlockStyle: (_: string) => void;
-}> = ({ opts, setOpts, blockStyle, setBlockStyle }) => {
+}> = ({ opts, setOpts }) => {
   return (
     <div>
       <div className="field">
@@ -85,8 +83,10 @@ const LexerOptions: React.FC<{
         <label className="field-label">Blocks</label>
         <div className="field-body">
           <select
-            value={blockStyle}
-            onChange={(e) => setBlockStyle(e.target.value)}
+            value={opts.expressionOriented ? "do" : "curly"}
+            onChange={(e) =>
+              setOpts(opts.set("expressionOriented", e.target.value == "do"))
+            }
           >
             <option value="do">(do ... )</option>
             <option value="curly">{"{ ... }"}</option>

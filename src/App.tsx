@@ -11,15 +11,13 @@ import Result from "./Result";
 const App: React.FC = () => {
   const [opts, setOpts] = useState(DEFAULT_LANG_OPTS);
 
-  const [blockStyle, setBlockStyle] = useState("do");
-
   const [activeTab, setActiveTab] = useState("menu");
 
   const [menuItem, setMenuItem] = useState("helloworld");
 
   const [src, setSrc] = useState(helloworld(opts));
 
-  const parser = buildParser(opts, blockStyle);
+  const parser = buildParser(opts);
   const result = parser.Program.parse(src);
 
   let errorRange = null;
@@ -34,7 +32,7 @@ const App: React.FC = () => {
   if (menuItem == "helloworld") {
     initialCode = helloworld(opts);
   } else if (menuItem == "fizzbuzz") {
-    initialCode = fizzbuzz(opts, blockStyle);
+    initialCode = fizzbuzz(opts);
   } else {
     initialCode = quine(opts);
   }
@@ -63,12 +61,7 @@ const App: React.FC = () => {
       {activeTab == "menu" ? (
         <ProgramPicker setItem={setMenuItem} />
       ) : (
-        <LexerOptions
-          opts={opts}
-          setOpts={setOpts}
-          blockStyle={blockStyle}
-          setBlockStyle={setBlockStyle}
-        />
+        <LexerOptions opts={opts} setOpts={setOpts} />
       )}
 
       <div className="">

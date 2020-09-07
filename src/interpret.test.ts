@@ -3,7 +3,7 @@ import { run } from "./interpret";
 import { DEFAULT_LANG_OPTS } from "./options";
 import { buildParser } from "./parsing";
 
-const PARSER = buildParser(DEFAULT_LANG_OPTS, "do");
+const PARSER = buildParser(DEFAULT_LANG_OPTS);
 
 function expectEvalTo(src: string, value: any): void {
   const parseResult = PARSER.Program.parse(src);
@@ -164,7 +164,7 @@ describe("repr", () => {
 
   it("should escape alternative quotes", () => {
     const langOpts = DEFAULT_LANG_OPTS.set("stringDelimiter", "q");
-    const parser = buildParser(langOpts, "curly");
+    const parser = buildParser(langOpts);
     const parseResult = parser.Program.parse("(repr qfoo\\qbarq)");
 
     if (parseResult.status) {

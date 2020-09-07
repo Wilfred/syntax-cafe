@@ -3,7 +3,7 @@ import P from "parsimmon";
 import { DEFAULT_LANG_OPTS } from "./options";
 import { buildParser } from "./parsing";
 
-const PARSER = buildParser(DEFAULT_LANG_OPTS, "do");
+const PARSER = buildParser(DEFAULT_LANG_OPTS);
 
 function expectParseSuccess(result: P.Result<any>): void {
   expect(result.status).toBe(true);
@@ -68,7 +68,6 @@ describe("String literals", () => {
   it("Should parse qfooq if q is the delimiter", () => {
     const parser = buildParser(
       DEFAULT_LANG_OPTS.set("stringDelimiter", "q"),
-      "curly"
     );
     const result = parser.Program.parse("qfooq");
 
@@ -81,7 +80,6 @@ describe("String literals", () => {
   it("Should parse |foo| if | is the delimiter", () => {
     const parser = buildParser(
       DEFAULT_LANG_OPTS.set("stringDelimiter", "|"),
-      "curly"
     );
     const result = parser.Program.parse("|foo|");
 
@@ -94,7 +92,6 @@ describe("String literals", () => {
   it("Should parse escapes if | is the delimiter", () => {
     const parser = buildParser(
       DEFAULT_LANG_OPTS.set("stringDelimiter", "|"),
-      "curly"
     );
     const result = parser.Program.parse("|foo\\|bar|");
 
@@ -117,7 +114,7 @@ describe("Blocks", () => {
     }
   });
   it("Should parse { ... } curly blocks", () => {
-    const parser = buildParser(DEFAULT_LANG_OPTS, "curly");
+    const parser = buildParser(DEFAULT_LANG_OPTS.set("expressionOriented", false));
     const result = parser.Program.parse("{ (foo) (bar) }");
 
     if (!result.status) {
@@ -156,7 +153,6 @@ test("Whitespace inside list", () => {
 test("Comments with ( should take precedence", () => {
   const parser = buildParser(
     DEFAULT_LANG_OPTS.set("commentPrefix", "("),
-    "curly"
   );
   const result = parser.Program.parse("(foo true)\n(foo bar)");
 
@@ -179,7 +175,6 @@ describe("If expression", () => {
   it("should parse (customkeyword ...)", () => {
     const parser = buildParser(
       DEFAULT_LANG_OPTS.set("ifKeyword", "custom"),
-      "do"
     );
     const result = parser.Program.parse("(custom true 1 2)");
 
@@ -190,7 +185,7 @@ describe("If expression", () => {
     }
   });
   it("should parse if {...} else {...}", () => {
-    const parser = buildParser(DEFAULT_LANG_OPTS, "curly");
+    const parser = buildParser(DEFAULT_LANG_OPTS.set("expressionOriented", false));
     const result = parser.Program.parse("if true { (foo) } else { (bar) }");
 
     expectParseSuccess(result);

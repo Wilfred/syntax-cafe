@@ -115,10 +115,11 @@ describe("Blocks", () => {
   });
   it("Should parse { ... } curly blocks", () => {
     const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", "."));
-    const result = parser.Program.parse("{ (foo) (bar) }");
+    const src = "{ (foo) (bar) }"
+    const result = parser.Program.parse(src);
 
     if (!result.status) {
-      console.warn(P.formatError("{ (foo) (bar) } } ", result));
+      console.warn(P.formatError(src, result));
     }
 
     expectParseSuccess(result);

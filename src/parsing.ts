@@ -46,7 +46,13 @@ export function buildParser(opts: LangOpts): P.Language {
       if (opts.statementTerminator === null) {
         return r.Expression;
       } else {
-        return r.Expression.skip(P.string(opts.statementTerminator));
+        return P.alt(
+          r.Assign,
+          r.IfExpression,
+          r.WhileLoop,
+          r.Block,
+          r.Expression.skip(P.string(opts.statementTerminator))
+        );
       }
     },
     Expression: (r) => {
@@ -191,16 +197,28 @@ export function buildParser(opts: LangOpts): P.Language {
       ).node("Assign");
     },
     WhileLoop: (r) => {
-      return P.seq(
-        // condition
-        P.string("(")
-          .skip(r._)
-          .skip(P.string(opts.whileKeyword))
-          .skip(r._)
-          .then(r.Expression),
-        // body
-        r.Expression.skip(P.string(")"))
-      ).node("While");
+      let parser;
+      if (opts.statementTerminator === null) {
+        parser = P.seq(
+          // condition
+          P.string("(")
+            .skip(r._)
+            .skip(P.string(opts.whileKeyword))
+            .skip(r._)
+            .then(r.Expression),
+          // body
+          r.Expression.skip(P.string(")"))
+        );
+      } else {
+        parser = P.seq(
+          // condition
+          P.string(opts.whileKeyword).skip(r._).then(r.Expression),
+          // body
+          r.Statement
+        );
+      }
+
+      return parser.node("While");
     },
     Comment: () => P.regexp(commentPattern).desc("comment"),
     _: (r) => r.Comment.sepBy(P.optWhitespace).trim(P.optWhitespace),

@@ -115,7 +115,7 @@ describe("Blocks", () => {
   });
   it("Should parse { ... } curly blocks", () => {
     const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", ";"));
-    const src = "{ (foo) (bar) };"
+    const src = "{ (foo) (bar) }"
     const result = parser.Program.parse(src);
 
     if (!result.status) {
@@ -187,7 +187,7 @@ describe("if", () => {
   });
   it("should parse if {...} else {...}", () => {
     const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", ";"));
-    const src = "if true { (foo) } else { (bar) };";
+    const src = "if true { (foo) } else { (bar) }";
     const result = parser.Program.parse(src);
 
     if (!result.status) {
@@ -205,6 +205,21 @@ describe("while", () => {
   it("should parse (if ...)", () => {
     const result = PARSER.Program.parse("(while true 2)");
 
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "While" });
+    }
+  });
+
+  it("should parse while true {}", () => {
+    const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", ";"));
+    const src = "while true {}";
+    const result = parser.Program.parse(src);
+
+    if (!result.status) {
+      console.warn(P.formatError(src, result));
+    }
     expectParseSuccess(result);
     if (result.status) {
       const firstExpr = result.value[0];

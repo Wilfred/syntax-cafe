@@ -198,13 +198,28 @@ export function buildParser(opts: LangOpts): P.Language {
       return ifParser.node("If");
     },
     Assign: (r) => {
-      return P.seqObj<{ sym: any; value: any }>(
-        P.string("(").skip(r._),
-        P.string("set").skip(r._),
-        ["sym", r.Symbol.skip(r._)],
-        ["value", r.Expression],
-        P.string(")")
-      ).node("Assign");
+      let parser: P.Parser<{ sym: any; value: any }>;
+
+      if (opts.statementTerminator === null) {
+        // (set x 1)
+        parser = P.seqObj(
+          P.string("(").skip(r._),
+          P.string("set").skip(r._),
+          ["sym", r.Symbol.skip(r._)],
+          ["value", r.Expression],
+          P.string(")")
+        );
+      } else {
+        // x = 1;
+        parser = P.seqObj(
+          ["sym", r.Symbol.skip(r._)],
+          P.string("=").skip(r._),
+          ["value", r.Expression.skip(r._)],
+          P.string(opts.statementTerminator)
+        );
+      }
+
+      return parser.node("Assign");
     },
     WhileLoop: (r) => {
       let parser;

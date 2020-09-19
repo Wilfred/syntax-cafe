@@ -242,4 +242,17 @@ describe("Assign", () => {
     const result = PARSER.Program.parse("(set true 1)");
     expectParseError(result);
   });
+
+  it("should use infix = with statements", () => {
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("statementTerminator", ";")
+    );
+    const src = "x = 1;";
+    const result = parser.Program.parse(src);
+    expectParseSuccess(result);
+    if (result.status) {
+      const firstExpr = result.value[0];
+      expect(firstExpr).toMatchObject({ name: "Assign" });
+    }
+  });
 });

@@ -1,3 +1,5 @@
+import P from "parsimmon";
+
 import { DEFAULT_LANG_OPTS } from "./options";
 import { buildParser } from "./parsing";
 import { helloworld, fizzbuzz, quine } from "./sample-programs";
@@ -7,6 +9,10 @@ import type { LangOpts } from "./options";
 function expectParseSuccess(src: string, opts: LangOpts): void {
   const parser = buildParser(opts);
   const result = parser.Program.parse(src);
+
+  if (!result.status) {
+    console.warn(P.formatError(src, result));
+  }
 
   expect(result.status).toBe(true);
 }

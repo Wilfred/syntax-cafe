@@ -66,9 +66,7 @@ describe("String literals", () => {
     expectParseError(result);
   });
   it("Should parse qfooq if q is the delimiter", () => {
-    const parser = buildParser(
-      DEFAULT_LANG_OPTS.set("stringDelimiter", "q"),
-    );
+    const parser = buildParser(DEFAULT_LANG_OPTS.set("stringDelimiter", "q"));
     const result = parser.Program.parse("qfooq");
 
     expectParseSuccess(result);
@@ -78,9 +76,7 @@ describe("String literals", () => {
     }
   });
   it("Should parse |foo| if | is the delimiter", () => {
-    const parser = buildParser(
-      DEFAULT_LANG_OPTS.set("stringDelimiter", "|"),
-    );
+    const parser = buildParser(DEFAULT_LANG_OPTS.set("stringDelimiter", "|"));
     const result = parser.Program.parse("|foo|");
 
     expectParseSuccess(result);
@@ -90,9 +86,7 @@ describe("String literals", () => {
     }
   });
   it("Should parse escapes if | is the delimiter", () => {
-    const parser = buildParser(
-      DEFAULT_LANG_OPTS.set("stringDelimiter", "|"),
-    );
+    const parser = buildParser(DEFAULT_LANG_OPTS.set("stringDelimiter", "|"));
     const result = parser.Program.parse("|foo\\|bar|");
 
     expectParseSuccess(result);
@@ -152,9 +146,7 @@ test("Whitespace inside list", () => {
 });
 
 test("Comments with ( should take precedence", () => {
-  const parser = buildParser(
-    DEFAULT_LANG_OPTS.set("commentPrefix", "("),
-  );
+  const parser = buildParser(DEFAULT_LANG_OPTS.set("commentPrefix", "("));
   const result = parser.Program.parse("(foo true)\n(foo bar)");
 
   expectParseSuccess(result);
@@ -174,9 +166,7 @@ describe("if", () => {
     }
   });
   it("should parse (customkeyword ...)", () => {
-    const parser = buildParser(
-      DEFAULT_LANG_OPTS.set("ifKeyword", "custom"),
-    );
+    const parser = buildParser(DEFAULT_LANG_OPTS.set("ifKeyword", "custom"));
     const result = parser.Program.parse("(custom true 1 2)");
 
     expectParseSuccess(result);
@@ -213,7 +203,9 @@ describe("while", () => {
   });
 
   it("should parse while true {}", () => {
-    const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", ";"));
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("statementTerminator", ";")
+    );
     const src = "while true {}";
     const result = parser.Program.parse(src);
 

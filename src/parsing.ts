@@ -213,6 +213,8 @@ export function buildParser(opts: LangOpts): P.Language {
         // x = 1;
         parser = P.seqObj(
           ["sym", r.Symbol.skip(r._)],
+          // TODO: allow an arbitrary string here. := is probably a
+          // nice choise too, for example.
           P.string("=").skip(r._),
           ["value", r.Expression.skip(r._)],
           P.string(opts.statementTerminator)

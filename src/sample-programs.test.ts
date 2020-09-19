@@ -15,6 +15,11 @@ describe("hello world", () => {
   it("should produce valid syntax with default options", () => {
     expectParseSuccess(helloworld(DEFAULT_LANG_OPTS), DEFAULT_LANG_OPTS);
   });
+
+  it("should produce valid syntax with statements", () => {
+    const opts = DEFAULT_LANG_OPTS.set("statementTerminator", ";");
+    expectParseSuccess(helloworld(opts), opts);
+  });
 });
 
 describe("fizzbuzz", () => {

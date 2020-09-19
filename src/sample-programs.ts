@@ -1,8 +1,13 @@
 import type { LangOpts } from "./options";
 
 export function helloworld(opts: LangOpts): string {
-  return `(print ${opts.stringDelimiter}Hello, world!${opts.stringDelimiter})
+  if (opts.statementTerminator === null) {
+    return `(print ${opts.stringDelimiter}Hello, world!${opts.stringDelimiter})
 `;
+  } else {
+    return `(print ${opts.stringDelimiter}Hello, world!${opts.stringDelimiter})${opts.statementTerminator}
+`;
+  }
 }
 
 export function fizzbuzz(opts: LangOpts): string {

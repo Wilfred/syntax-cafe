@@ -52,23 +52,33 @@ export function buildParser(opts: LangOpts): P.Language {
           r.WhileLoop,
           r.Block,
           r.Expression.skip(P.string(opts.statementTerminator))
-        );
+        ).skip(r._);
       }
     },
     Expression: (r) => {
-      return P.alt(
-        r.Number,
-        r.BoolLiteral,
-        r.StringLiteral,
-        r.Symbol,
-        r.Assign,
-        r.IfExpression,
-        r.WhileLoop,
-        r.Block,
-        r.FunctionCall
-      )
-        .skip(r._)
-        .desc("expression");
+      let parser;
+      if (opts.statementTerminator === null) {
+        parser = P.alt(
+          r.Number,
+          r.BoolLiteral,
+          r.StringLiteral,
+          r.Symbol,
+          r.Assign,
+          r.IfExpression,
+          r.WhileLoop,
+          r.Block,
+          r.FunctionCall
+        );
+      } else {
+        return P.alt(
+          r.Number,
+          r.BoolLiteral,
+          r.StringLiteral,
+          r.Symbol,
+          r.FunctionCall
+        );
+      }
+      return parser.skip(r._).desc("expression");
     },
     Number: function () {
       return P.regexp(/[0-9]+/)
@@ -137,7 +147,7 @@ export function buildParser(opts: LangOpts): P.Language {
       return P.seqObj<{ fun: any; args: Array<any> }>(
         P.string("(").skip(r._),
         // 'function' and 'arguments' are both reserved words in JS/TS.
-        ["fun", r.Expression],
+        ["fun", r.Expression.skip(r._)],
         ["args", r.Expression.many()],
         P.string(")")
       ).node("FunctionCall");
@@ -155,7 +165,7 @@ export function buildParser(opts: LangOpts): P.Language {
       } else {
         blockParser = P.seqObj(
           P.string("{").skip(r._),
-          ["body", r.Expression.many()],
+          ["body", r.Statement.many()],
           P.string("}")
         );
       }
@@ -176,12 +186,12 @@ export function buildParser(opts: LangOpts): P.Language {
       } else {
         ifParser = P.seqObj(
           P.string(opts.ifKeyword).skip(r._),
-          ["condition", r.Expression],
+          ["condition", r.Expression.skip(r._)],
           // TODO: require explicit blocks for then/else.
-          ["then", r.Expression],
+          ["then", r.Statement.skip(r._)],
           // TODO: highlight else as a keyword and ban as a variable name.
           P.string("else").skip(r._),
-          ["else", r.Expression]
+          ["else", r.Statement.skip(r._)]
         );
       }
 
@@ -207,12 +217,12 @@ export function buildParser(opts: LangOpts): P.Language {
             .skip(r._)
             .then(r.Expression),
           // body
-          r.Expression.skip(P.string(")"))
+          r.Statement.skip(P.string(")"))
         );
       } else {
         parser = P.seq(
           // condition
-          P.string(opts.whileKeyword).skip(r._).then(r.Expression),
+          P.string(opts.whileKeyword).skip(r._).then(r.Expression).skip(r._),
           // body
           r.Statement
         );

@@ -108,8 +108,10 @@ describe("Blocks", () => {
     }
   });
   it("Should parse { ... } curly blocks", () => {
-    const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", ";"));
-    const src = "{ (foo) (bar) }"
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("statementTerminator", ";")
+    );
+    const src = "{ (foo); (bar); }";
     const result = parser.Program.parse(src);
 
     if (!result.status) {
@@ -176,8 +178,10 @@ describe("if", () => {
     }
   });
   it("should parse if {...} else {...}", () => {
-    const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", ";"));
-    const src = "if true { (foo) } else { (bar) }";
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("statementTerminator", ";")
+    );
+    const src = "if true { (foo); } else { (bar); }";
     const result = parser.Program.parse(src);
 
     if (!result.status) {

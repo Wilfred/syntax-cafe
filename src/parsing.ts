@@ -204,6 +204,7 @@ export function buildParser(opts: LangOpts): P.Language {
         // (set x 1)
         parser = P.seqObj(
           P.string("(").skip(r._),
+          // TODO: Only highlight this as a keyword in expression mode.
           P.string("set").skip(r._),
           ["sym", r.Symbol.skip(r._)],
           ["value", r.Expression],

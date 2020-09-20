@@ -40,6 +40,16 @@ export function stringLiteralRegexp(delimiter: string): RegExp {
 export function buildParser(opts: LangOpts): P.Language {
   const commentPattern = commentRegexp(opts.commentPrefix);
 
+  let keywords = [
+    opts.ifKeyword,
+    opts.whileKeyword,
+    opts.trueKeyword,
+    opts.falseKeyword,
+  ];
+  if (opts.statementTerminator === null) {
+    keywords = keywords.concat(["set", "do"]);
+  }
+
   return P.createLanguage({
     Program: (r) => r.Statement.sepBy(r._).trim(r._),
     Statement: (r) => {
@@ -98,14 +108,6 @@ export function buildParser(opts: LangOpts): P.Language {
     Symbol: function () {
       return P.regexp(opts.symbolRegexp)
         .assert((s: string) => {
-          const keywords = [
-            opts.ifKeyword,
-            opts.whileKeyword,
-            "set",
-            "do",
-            opts.trueKeyword,
-            opts.falseKeyword,
-          ];
           return !includes(keywords, s);
         }, "a symbol, not a reserved word")
         .desc("symbol")

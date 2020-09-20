@@ -10,17 +10,27 @@ import type { LangOpts } from "./options";
 import { commentRegexp, wordRegexp, stringLiteralRegexp } from "./parsing";
 
 function defineLangplzMode(opts: LangOpts): void {
-  CodeMirror.defineSimpleMode("langplz", {
-    start: [
-      { regex: stringLiteralRegexp(opts.stringDelimiter), token: "string" },
-      { regex: commentRegexp(opts.commentPrefix), token: "comment" },
-      { regex: wordRegexp(opts.trueKeyword), token: "atom" },
-      { regex: wordRegexp(opts.falseKeyword), token: "atom" },
-      { regex: wordRegexp(opts.whileKeyword), token: "keyword" },
-      { regex: wordRegexp(opts.ifKeyword), token: "keyword" },
+  let rules = [
+    { regex: stringLiteralRegexp(opts.stringDelimiter), token: "string" },
+    { regex: commentRegexp(opts.commentPrefix), token: "comment" },
+    { regex: wordRegexp(opts.trueKeyword), token: "atom" },
+    { regex: wordRegexp(opts.falseKeyword), token: "atom" },
+    { regex: wordRegexp(opts.whileKeyword), token: "keyword" },
+    { regex: wordRegexp(opts.ifKeyword), token: "keyword" },
+    { regex: opts.symbolRegexp, token: "variable" },
+  ];
+  if (opts.statementTerminator === null) {
+    const exprKeywords = [
       { regex: wordRegexp("set"), token: "keyword" },
-      { regex: opts.symbolRegexp, token: "variable" },
-    ],
+      { regex: wordRegexp("do"), token: "keyword" },
+    ];
+    // Ensure that the symbol regexp is always last.
+    rules = exprKeywords.concat(rules);
+  }
+  console.log(rules);
+
+  CodeMirror.defineSimpleMode("langplz", {
+    start: rules,
   });
 }
 

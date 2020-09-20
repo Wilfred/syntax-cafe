@@ -99,6 +99,13 @@ test("Parse a simple list", () => {
   expectParseSuccess("(foo true)", PARSER);
 });
 
+test("Allow set(); as a normal function", () => {
+  const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", ";"));
+  const exprs = expectParseSuccess("(set 1);", parser);
+
+  expect(exprs[0]).toMatchObject({ name: "FunctionCall" });
+});
+
 test("Whitespace inside list", () => {
   expectParseSuccess("(foo )", PARSER);
 });

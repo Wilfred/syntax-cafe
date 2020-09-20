@@ -32,6 +32,11 @@ describe("fizzbuzz", () => {
   it("should produce valid syntax with default options", () => {
     expectParseSuccess(fizzbuzz(DEFAULT_LANG_OPTS), DEFAULT_LANG_OPTS);
   });
+
+  it("should produce valid syntax with statements", () => {
+    const opts = DEFAULT_LANG_OPTS.set("statementTerminator", ";");
+    expectParseSuccess(fizzbuzz(opts), opts);
+  });
 });
 
 describe("quine", () => {

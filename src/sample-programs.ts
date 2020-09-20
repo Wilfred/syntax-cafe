@@ -25,23 +25,23 @@ export function fizzbuzz(opts: LangOpts): string {
     (set i (add i 1))))
 `;
   } else {
-    return `(set i 1)
-(${opts.whileKeyword} (lte i 20) {
+    return `i = 1${opts.statementTerminator}
+${opts.whileKeyword} (lte i 20) {
   ${opts.ifKeyword} (equal (mod i 15) 0) {
-    (print ${opts.stringDelimiter}FizzBuzz${opts.stringDelimiter})
+    (print ${opts.stringDelimiter}FizzBuzz${opts.stringDelimiter})${opts.statementTerminator}
   } else {
     ${opts.ifKeyword} (equal (mod i 5) 0) {
-      (print ${opts.stringDelimiter}Buzz${opts.stringDelimiter})
+      (print ${opts.stringDelimiter}Buzz${opts.stringDelimiter})${opts.statementTerminator}
     } else {
       ${opts.ifKeyword} (equal (mod i 3) 0) {
-        (print ${opts.stringDelimiter}Fizz${opts.stringDelimiter})
+        (print ${opts.stringDelimiter}Fizz${opts.stringDelimiter})${opts.statementTerminator}
       } else {
-        (print i)
+        (print i)${opts.statementTerminator}
       }
     }
   }
-  (set i (add i 1))
-})
+  i = (add i 1)${opts.statementTerminator}
+}
 `;
   }
 }

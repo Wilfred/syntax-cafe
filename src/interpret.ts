@@ -1,4 +1,12 @@
 import type { LangOpts } from "./options";
+import type {
+  Value,
+  NullValue,
+  BoolValue,
+  StringValue,
+  NumberValue,
+  Expr,
+} from "./ast";
 
 class EvalError extends Error {
   constructor(message: string) {
@@ -10,81 +18,10 @@ class EvalError extends Error {
   }
 }
 
-type NumberValue = {
-  name: "Number";
-  value: number;
-};
-
-type BoolValue = {
-  name: "Bool";
-  value: boolean;
-};
-
-type StringValue = {
-  name: "String";
-  value: string;
-};
-
-type NullValue = {
-  name: "null";
-  value: null;
-};
-
-type FunctionValue = {
-  name: "Function";
-  value: (ctx: Context, exprs: Array<Value>) => Value;
-};
-
-export type Value =
-  | NumberValue
-  | BoolValue
-  | StringValue
-  | NullValue
-  | FunctionValue;
-
-type SymbolExpr = {
-  name: "Symbol";
-  value: string;
-};
-
-type BlockExpr = {
-  name: "Block";
-  value: { body: Array<Expr> };
-};
-
-type AssignExpr = {
-  name: "Assign";
-  value: { sym: SymbolExpr; value: Expr };
-};
-
-type IfExpr = {
-  name: "If";
-  value: { condition: Expr; then: Expr; else: Expr };
-};
-
-type WhileExpr = {
-  name: "While";
-  value: Array<Expr>;
-};
-
-type FunctionCallExpr = {
-  name: "FunctionCall";
-  value: { fun: Expr; args: Array<Expr> };
-};
-
-type Expr =
-  | Value
-  | SymbolExpr
-  | BlockExpr
-  | AssignExpr
-  | IfExpr
-  | WhileExpr
-  | FunctionCallExpr;
-
 export type Context = {
   stdout: null | string;
-  env: Record<string, Value>;
-  result: Value;
+  env: Record<string, Value<Context>>;
+  result: Value<Context>;
   error: null | string;
   opts: LangOpts;
 };
@@ -93,7 +30,7 @@ const NULL_VALUE: NullValue = { name: "null", value: null };
 const TRUE_VALUE: BoolValue = { name: "Bool", value: true };
 const FALSE_VALUE: BoolValue = { name: "Bool", value: false };
 
-function print(ctx: Context, args: Array<Value>): NullValue {
+function print(ctx: Context, args: Array<Value<Context>>): NullValue {
   if (args.length != 1) {
     error("print takes 2 argument, but got: " + args.length);
   }
@@ -108,7 +45,7 @@ function print(ctx: Context, args: Array<Value>): NullValue {
   return NULL_VALUE;
 }
 
-function lte(_ctx: Context, args: Array<Value>): BoolValue {
+function lte(_ctx: Context, args: Array<Value<Context>>): BoolValue {
   if (args.length != 2) {
     error("lte takes 2 arguments, but got: " + args.length);
   }
@@ -125,7 +62,7 @@ function lte(_ctx: Context, args: Array<Value>): BoolValue {
   );
 }
 
-function equal(_ctx: Context, args: Array<Value>): BoolValue {
+function equal(_ctx: Context, args: Array<Value<Context>>): BoolValue {
   if (args.length != 2) {
     error("equal takes 2 arguments, but got: " + args.length);
   }
@@ -136,7 +73,7 @@ function equal(_ctx: Context, args: Array<Value>): BoolValue {
   return firstArg === secondArg ? TRUE_VALUE : FALSE_VALUE;
 }
 
-function concat(_ctx: Context, args: Array<Value>): StringValue {
+function concat(_ctx: Context, args: Array<Value<Context>>): StringValue {
   const parts: Array<string> = [];
 
   args.forEach((arg) => {
@@ -150,7 +87,7 @@ function concat(_ctx: Context, args: Array<Value>): StringValue {
   return { name: "String", value: parts.join("") };
 }
 
-function repr(ctx: Context, args: Array<Value>): StringValue {
+function repr(ctx: Context, args: Array<Value<Context>>): StringValue {
   if (args.length != 1) {
     error("repr takes 1 argument, but got: " + args.length);
   }
@@ -180,7 +117,7 @@ function repr(ctx: Context, args: Array<Value>): StringValue {
   return { name: "String", value: delim + inner + delim };
 }
 
-function mod(_ctx: Context, args: Array<Value>): NumberValue {
+function mod(_ctx: Context, args: Array<Value<Context>>): NumberValue {
   if (args.length != 2) {
     error("mod takes 2 arguments, but got: " + args.length);
   }
@@ -197,7 +134,7 @@ function mod(_ctx: Context, args: Array<Value>): NumberValue {
   );
 }
 
-function add(_ctx: Context, args: Array<Value>): NumberValue {
+function add(_ctx: Context, args: Array<Value<Context>>): NumberValue {
   if (args.length != 2) {
     error("add takes 2 arguments, but got: " + args.length);
   }
@@ -224,7 +161,7 @@ function error(msg: string): never {
   throw new EvalError(msg);
 }
 
-function evalExpr(ctx: Context, expr: Expr): Value {
+function evalExpr(ctx: Context, expr: Expr<Context>): Value<Context> {
   if (expr.name == "String") {
     return expr;
   }
@@ -243,7 +180,7 @@ function evalExpr(ctx: Context, expr: Expr): Value {
     return symVal;
   }
   if (expr.name == "Block") {
-    let result: Value = NULL_VALUE;
+    let result: Value<Context> = NULL_VALUE;
     expr.value.body.forEach((expr) => {
       result = evalExpr(ctx, expr);
     });
@@ -315,8 +252,8 @@ function evalExpr(ctx: Context, expr: Expr): Value {
   const args = expr.value.args.map((rawArg) => evalExpr(ctx, rawArg));
   return fnValue.value(ctx, args);
 }
-function evalExprs(ctx: Context, exprs: Array<Expr>): Value {
-  let result: Value = NULL_VALUE;
+function evalExprs(ctx: Context, exprs: Array<Expr<Context>>): Value<Context> {
+  let result: Value<Context> = NULL_VALUE;
 
   exprs.forEach((expr) => {
     result = evalExpr(ctx, expr);
@@ -325,7 +262,7 @@ function evalExprs(ctx: Context, exprs: Array<Expr>): Value {
   return result;
 }
 
-export function run(exprs: Array<Value>, opts: LangOpts): Context {
+export function run(exprs: Array<Value<Context>>, opts: LangOpts): Context {
   const ctx: Context = {
     opts,
     result: NULL_VALUE,

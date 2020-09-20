@@ -47,8 +47,15 @@ ${opts.whileKeyword} (lte i 20) {
 }
 
 export function quine(opts: LangOpts): string {
-  return `(set w ${opts.stringDelimiter}(print (concat \\${opts.stringDelimiter}(set w \\${opts.stringDelimiter} (repr w) \\${opts.stringDelimiter})\\${opts.stringDelimiter}))\\n(print w)${opts.stringDelimiter})
+  if (opts.statementTerminator === null) {
+    return `(set w ${opts.stringDelimiter}(print (concat \\${opts.stringDelimiter}(set w \\${opts.stringDelimiter} (repr w) \\${opts.stringDelimiter})\\${opts.stringDelimiter}))\\n(print w)${opts.stringDelimiter})
 (print (concat ${opts.stringDelimiter}(set w ${opts.stringDelimiter} (repr w) ${opts.stringDelimiter})${opts.stringDelimiter}))
 (print w)
 `;
+  } else {
+    return `w = ${opts.stringDelimiter}(print (concat \\${opts.stringDelimiter}w = \\${opts.stringDelimiter} (repr w) \\${opts.stringDelimiter}${opts.statementTerminator}\\${opts.stringDelimiter}))${opts.statementTerminator}\\n(print w)${opts.statementTerminator}${opts.stringDelimiter}${opts.statementTerminator}
+(print (concat ${opts.stringDelimiter}w = ${opts.stringDelimiter} (repr w) ${opts.stringDelimiter}${opts.statementTerminator}${opts.stringDelimiter}))${opts.statementTerminator}
+(print w)${opts.statementTerminator}
+`;
+  }
 }

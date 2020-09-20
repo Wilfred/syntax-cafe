@@ -43,4 +43,9 @@ describe("quine", () => {
   it("should produce valid syntax with default options", () => {
     expectParseSuccess(quine(DEFAULT_LANG_OPTS), DEFAULT_LANG_OPTS);
   });
+
+  it("should produce valid syntax with statements", () => {
+    const opts = DEFAULT_LANG_OPTS.set("statementTerminator", ";");
+    expectParseSuccess(quine(opts), opts);
+  });
 });

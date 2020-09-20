@@ -95,15 +95,28 @@ test("Empty list should be a parse error", () => {
   expectParseError("()", PARSER);
 });
 
-test("Parse a simple list", () => {
-  expectParseSuccess("(foo true)", PARSER);
-});
+describe("function calls", () => {
+  it("parse a zero argument call", () => {
+    const exprs = expectParseSuccess("(foo)", PARSER);
+    expect(exprs[0]).toMatchObject({ name: "FunctionCall" });
+  });
 
-test("Allow set(); as a normal function", () => {
-  const parser = buildParser(DEFAULT_LANG_OPTS.set("statementTerminator", ";"));
-  const exprs = expectParseSuccess("(set 1);", parser);
+  it("parse a multiple argument call", () => {
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("statementTerminator", ";")
+    );
+    const exprs = expectParseSuccess("(lte i 20);", parser);
+    expect(exprs[0]).toMatchObject({ name: "FunctionCall" });
+  });
 
-  expect(exprs[0]).toMatchObject({ name: "FunctionCall" });
+  it("should allow set(); as a normal function", () => {
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("statementTerminator", ";")
+    );
+    const exprs = expectParseSuccess("(set 1);", parser);
+
+    expect(exprs[0]).toMatchObject({ name: "FunctionCall" });
+  });
 });
 
 test("Whitespace inside list", () => {

@@ -80,7 +80,7 @@ export function buildParser(opts: LangOpts): P.Language {
           r.FunctionCall
         );
       } else {
-        return P.alt(
+        parser = P.alt(
           r.Number,
           r.BoolLiteral,
           r.StringLiteral,

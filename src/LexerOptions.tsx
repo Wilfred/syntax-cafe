@@ -79,23 +79,28 @@ const LexerOptions: React.FC<{
         </div>
       </div>
 
+      <div className="field">
+        <label className="label">Statement Terminator</label>
+        <div className="control">
+          <input
+            type="text"
+            className="input"
+            value={opts.statementTerminator || ""}
+            onChange={(e) => {
+              let value = null;
+              if (e.target.value !== "") {
+                value = e.target.value;
+              }
+              setOpts(opts.set("statementTerminator", value));
+            }}
+            placeholder="E.g. ;, or leave blank to treat everything as an expression"
+          />
+        </div>
+      </div>
+
       <div className="field is-horizontal">
         <label className="field-label">Blocks</label>
         <div className="field-body">
-          <select
-            value={opts.statementTerminator === null ? "do" : "curly"}
-            onChange={(e) =>
-              setOpts(
-                opts.set(
-                  "statementTerminator",
-                  e.target.value === "do" ? null : ";"
-                )
-              )
-            }
-          >
-            <option value="do">(do ... )</option>
-            <option value="curly">{"{ ... }"}</option>
-          </select>
           <div className="field">
             <RequiredTextInput
               value={opts.whileKeyword}

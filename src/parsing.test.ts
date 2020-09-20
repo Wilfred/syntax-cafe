@@ -192,4 +192,10 @@ describe("Assign", () => {
     const exprs = expectParseSuccess("x = 1;", parser);
     expect(exprs[0]).toMatchObject({ name: "Assign" });
   });
+  it("should reject assigning to keywords", () => {
+    const parser = buildParser(
+      DEFAULT_LANG_OPTS.set("statementTerminator", ";")
+    );
+    expectParseError("else = 1;", parser);
+  });
 });

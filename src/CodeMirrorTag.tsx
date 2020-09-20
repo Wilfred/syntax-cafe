@@ -26,8 +26,10 @@ function defineLangplzMode(opts: LangOpts): void {
     ];
     // Ensure that the symbol regexp is always last.
     rules = exprKeywords.concat(rules);
+  } else {
+    const stmtKeywords = [{ regex: wordRegexp("else"), token: "keyword" }];
+    rules = stmtKeywords.concat(rules);
   }
-  console.log(rules);
 
   CodeMirror.defineSimpleMode("langplz", {
     start: rules,

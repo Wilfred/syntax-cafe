@@ -40,6 +40,8 @@ export function stringLiteralRegexp(delimiter: string): RegExp {
 export function buildParser(opts: LangOpts): P.Language {
   const commentPattern = commentRegexp(opts.commentPrefix);
 
+  // TODO: parameterise
+  const elseKeyword = "else";
   let keywords = [
     opts.ifKeyword,
     opts.whileKeyword,
@@ -48,6 +50,8 @@ export function buildParser(opts: LangOpts): P.Language {
   ];
   if (opts.statementTerminator === null) {
     keywords = keywords.concat(["set", "do"]);
+  } else {
+    keywords = keywords.concat([elseKeyword]);
   }
 
   return P.createLanguage({
@@ -191,8 +195,7 @@ export function buildParser(opts: LangOpts): P.Language {
           ["condition", r.Expression.skip(r._)],
           // TODO: require explicit blocks for then/else.
           ["then", r.Statement.skip(r._)],
-          // TODO: highlight else as a keyword and ban as a variable name.
-          P.string("else").skip(r._),
+          P.string(elseKeyword).skip(r._),
           ["else", r.Statement.skip(r._)]
         );
       }

@@ -4,6 +4,23 @@ import regexpEscape from "regexp.escape";
 
 import type { LangOpts } from "./options";
 
+export function allKeywords(opts: LangOpts): Array<string> {
+  // TODO: parameterise
+  const elseKeyword = "else";
+  let keywords = [
+    opts.ifKeyword,
+    opts.whileKeyword,
+    opts.trueKeyword,
+    opts.falseKeyword,
+  ];
+  if (opts.statementTerminator === null) {
+    keywords = keywords.concat(["set", "do"]);
+  } else {
+    keywords = keywords.concat([elseKeyword]);
+  }
+  return keywords;
+}
+
 export function commentRegexp(prefix: string): RegExp {
   return new RegExp("\\s*" + regexpEscape(prefix) + "[^\n]*\\s*");
 }
@@ -39,20 +56,6 @@ export function stringLiteralRegexp(delimiter: string): RegExp {
 
 export function buildParser(opts: LangOpts): P.Language {
   const commentPattern = commentRegexp(opts.commentPrefix);
-
-  // TODO: parameterise
-  const elseKeyword = "else";
-  let keywords = [
-    opts.ifKeyword,
-    opts.whileKeyword,
-    opts.trueKeyword,
-    opts.falseKeyword,
-  ];
-  if (opts.statementTerminator === null) {
-    keywords = keywords.concat(["set", "do"]);
-  } else {
-    keywords = keywords.concat([elseKeyword]);
-  }
 
   return P.createLanguage({
     Program: (r) => r.Statement.sepBy(r._).trim(r._),
@@ -112,7 +115,7 @@ export function buildParser(opts: LangOpts): P.Language {
     Symbol: function () {
       return P.regexp(opts.symbolRegexp)
         .assert((s: string) => {
-          return !includes(keywords, s);
+          return !includes(allKeywords(opts), s);
         }, "a symbol, not a reserved word")
         .desc("symbol")
         .node("Symbol");
@@ -195,7 +198,8 @@ export function buildParser(opts: LangOpts): P.Language {
           ["condition", r.Expression.skip(r._)],
           // TODO: require explicit blocks for then/else.
           ["then", r.Statement.skip(r._)],
-          P.string(elseKeyword).skip(r._),
+          // TODO: parameterise
+          P.string("else").skip(r._),
           ["else", r.Statement.skip(r._)]
         );
       }

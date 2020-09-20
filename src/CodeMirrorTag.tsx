@@ -7,29 +7,27 @@ import equal from "fast-deep-equal";
 import React from "react";
 
 import type { LangOpts } from "./options";
-import { commentRegexp, wordRegexp, stringLiteralRegexp } from "./parsing";
+import {
+  commentRegexp,
+  wordRegexp,
+  stringLiteralRegexp,
+  allKeywords,
+} from "./parsing";
 
 function defineLangplzMode(opts: LangOpts): void {
-  let rules = [
-    { regex: stringLiteralRegexp(opts.stringDelimiter), token: "string" },
+  const keywords = allKeywords(opts);
+  const keywordRules = keywords.map((keyword) => ({
+    regex: wordRegexp(keyword),
+    token: "keyword",
+  }));
+
+  const rules = [
     { regex: commentRegexp(opts.commentPrefix), token: "comment" },
-    { regex: wordRegexp(opts.trueKeyword), token: "atom" },
-    { regex: wordRegexp(opts.falseKeyword), token: "atom" },
-    { regex: wordRegexp(opts.whileKeyword), token: "keyword" },
-    { regex: wordRegexp(opts.ifKeyword), token: "keyword" },
+    { regex: stringLiteralRegexp(opts.stringDelimiter), token: "string" },
+    ...keywordRules,
+    // The symbol regexp must come last, so keyword highlighting takes precedence.
     { regex: opts.symbolRegexp, token: "variable" },
   ];
-  if (opts.statementTerminator === null) {
-    const exprKeywords = [
-      { regex: wordRegexp("set"), token: "keyword" },
-      { regex: wordRegexp("do"), token: "keyword" },
-    ];
-    // Ensure that the symbol regexp is always last.
-    rules = exprKeywords.concat(rules);
-  } else {
-    const stmtKeywords = [{ regex: wordRegexp("else"), token: "keyword" }];
-    rules = stmtKeywords.concat(rules);
-  }
 
   CodeMirror.defineSimpleMode("langplz", {
     start: rules,

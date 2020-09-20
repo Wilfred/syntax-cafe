@@ -2,10 +2,11 @@ import P from "parsimmon";
 
 import { DEFAULT_LANG_OPTS } from "./options";
 import { buildParser } from "./parsing";
+import type { Expr } from "./ast";
 
 const PARSER = buildParser(DEFAULT_LANG_OPTS);
 
-function expectParseSuccess(src: string, parser: P.Language): Array<any> {
+function expectParseSuccess(src: string, parser: P.Language): Array<Expr<any>> {
   const result = parser.Program.parse(src);
 
   if (!result.status) {

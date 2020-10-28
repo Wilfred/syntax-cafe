@@ -37,6 +37,23 @@ const App: React.FC = () => {
     initialCode = quine(opts);
   }
 
+  let tab;
+  if (activeTab == "menu") {
+    tab = <ProgramPicker setItem={setMenuItem} />;
+  } else if (activeTab == "about") {
+    tab = (
+      <div>
+        For full recipes, check out{" "}
+        <a href="https://github.com/Wilfred/syntax-cafe/">
+          this project on GitHub
+        </a>
+        .
+      </div>
+    );
+  } else {
+    tab = <LexerOptions opts={opts} setOpts={setOpts} />;
+  }
+
   return (
     <div>
       <div className="tabs is-boxed">
@@ -58,21 +75,19 @@ const App: React.FC = () => {
           </li>
         </ul>
       </div>
-      {activeTab == "menu" ? (
-        <ProgramPicker setItem={setMenuItem} />
-      ) : (
-        <LexerOptions opts={opts} setOpts={setOpts} />
-      )}
+      {tab}
 
-      <div className="">
-        <CodeMirrorTag
-          initialValue={initialCode}
-          options={opts}
-          onChange={setSrc}
-          errorRange={errorRange}
-        />
-        <Result src={src} parser={parser} opts={opts} />
-      </div>
+      {activeTab != "about" ? (
+        <div className="">
+          <CodeMirrorTag
+            initialValue={initialCode}
+            options={opts}
+            onChange={setSrc}
+            errorRange={errorRange}
+          />
+          <Result src={src} parser={parser} opts={opts} />
+        </div>
+      ) : null}
     </div>
   );
 };

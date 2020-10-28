@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-const MIN_LENGTH = 1;
-
 // Ensure that inputs are not empty, and only call onChange for valid
 // inputs. Highlight invalid inputs.
 const RequiredTextInput: React.FC<{
